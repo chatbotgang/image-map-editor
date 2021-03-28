@@ -40,7 +40,6 @@
 
 .image-preview-section {
   position: relative;
-  border: 2px solid #dbdce0;
   margin: 37px;
   border-radius: 10px;
 }
@@ -74,8 +73,32 @@
   align-items: center;
   justify-content: center;
 }
+
 .image-upload-section .img {
   width: 20px;
   height: 20px;
   background: no-repeat center/100% url("./assets/insert_photo.png");
+}
+
+.image-upload-container .delete-btn {
+  display: none;
+  background-color: white;
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
+  position: absolute;
+  right: -30px;
+  top: -2px;
+  cursor: pointer;
+}
+
+.image-upload-container .delete-icon {
+  width: 25px;
+  height: 25px;
+  background: no-repeat center/100% url("./assets/delete.png");
+}
+
+.range-selector {
+  border: 2px dashed rgb(57,98,224);
+  position: absolute;
 }

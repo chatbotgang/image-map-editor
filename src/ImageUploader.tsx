@@ -22,7 +22,7 @@ const ImageUploader: React.FC<IImpageUploaderProps> = (
         <div className="image-upload-section">
           <div className="container">
             <div className="img" />
-            <span>Upload Image</span>
+            <span>Upload image</span>
           </div>
           <input
             className="image-upload"
@@ -36,9 +36,6 @@ const ImageUploader: React.FC<IImpageUploaderProps> = (
           <img
             id="uploadImage"
             src={imageFile || ""}
-            draggable="true"
-            onDragStart={(e) => props.handleDragStart(e)}
-            style={{ cursor: "grab" }}
           />
         </div>
       )}
