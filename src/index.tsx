@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+// customer component
+import ImageMapEditor from './ImageMapEditor';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ImageMapEditor />
   </React.StrictMode>,
   document.getElementById('root')
 );
