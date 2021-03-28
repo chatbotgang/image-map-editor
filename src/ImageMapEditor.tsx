@@ -5,6 +5,14 @@ import ImageDetailPreview from "./ImageDetailPreview";
 
 const ImageMapEditor = () => {
   const [imgDetail, setImgDetail] = useState("");
+  const [previewDetail, setPreviewDetail] = useState([
+    {
+      x: "",
+      y: "",
+      width: "",
+      height: "",
+    },
+  ]);
 
   // 取得原始圖檔尺寸
   // const getImageRealSize = (imageEl: any) => {
@@ -20,16 +28,18 @@ const ImageMapEditor = () => {
     document.body.removeEventListener("mousemove", handleMouseMove);
     document.body.removeEventListener("mouseup", handleMouseUp);
 
-    const previewDetail: Object = {};
     const imageElement: any = (global as any).document.getElementById(
       event.target.id
     );
-    Object.assign(previewDetail, {
-      x: imageElement.style.left,
-      y: imageElement.style.top,
-      width: imageElement.style.width,
-      height: imageElement.style.height,
-    });
+    setPreviewDetail([
+      ...previewDetail,
+      {
+        x: imageElement.style.left,
+        y: imageElement.style.top,
+        width: imageElement.style.width,
+        height: imageElement.style.height,
+      },
+    ]);
 
     event.dataTransfer.setData(
       "text/plain",
@@ -49,7 +59,9 @@ const ImageMapEditor = () => {
   let end_y = 0;
 
   const handleMouseUp = (event: any) => {
-    const rangeSelector = (global as any).document.getElementById("rangeSelector");
+    const rangeSelector = (global as any).document.getElementById(
+      "rangeSelector"
+    );
 
     end_x = event.clientX;
     end_y = event.clientY;
@@ -73,7 +85,9 @@ const ImageMapEditor = () => {
   };
 
   const handleMouseMove = (event: any) => {
-    const rangeSelector = (global as any).document.getElementById("rangeSelector");
+    const rangeSelector = (global as any).document.getElementById(
+      "rangeSelector"
+    );
 
     rangeSelector.style.left = Math.min(event.clientX, start_x) + "px";
     rangeSelector.style.top = Math.min(event.clientY, start_y) + "px";
@@ -82,7 +96,9 @@ const ImageMapEditor = () => {
   };
 
   const handleMouseDown = (event: any) => {
-    const rangeSelector = (global as any).document.getElementById("rangeSelector");
+    const rangeSelector = (global as any).document.getElementById(
+      "rangeSelector"
+    );
     rangeSelector.style.backgroundColor = null;
 
     // 點擊在上傳檔案的 tag 上時
