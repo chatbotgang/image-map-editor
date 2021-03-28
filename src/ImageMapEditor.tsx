@@ -1,9 +1,16 @@
 import React, { useState, useRef } from "react";
 import "./App.css";
 
-interface IImpageUploaderProps {}
-interface IImageUploadContainerProps {}
-interface IImageDetailPreviewProps {}
+interface IImpageUploaderProps {
+  handleDragStart: React.MouseEventHandler<HTMLElement>;
+}
+interface IImageUploadContainerProps {
+  handleDragStart: React.MouseEventHandler<HTMLElement>;
+}
+interface IImageDetailPreviewProps {
+  handleDragEnd: any;
+  imgDetail: string;
+}
 
 const Header: React.FC<any> = (): JSX.Element => (
   <div className="header">
@@ -44,6 +51,8 @@ const ImpageUploader: React.FC<IImpageUploaderProps> = (
           <img
             id="uploadImage"
             src={imageFile || ""}
+            draggable="true"
+            onDragStart={(e) => props.handleDragStart(e)}
             style={{ cursor: "grab" }}
           />
         </div>
@@ -58,7 +67,7 @@ const ImageUploadContainer: React.FC<IImageUploadContainerProps> = (
 ): JSX.Element => (
   <div className="image-upload-container">
     <Header />
-    <ImpageUploader />
+    <ImpageUploader handleDragStart={props.handleDragStart} />
   </div>
 );
 
@@ -66,21 +75,61 @@ const ImageUploadContainer: React.FC<IImageUploadContainerProps> = (
 const ImageDetailPreview: React.FC<IImageDetailPreviewProps> = (
   props: IImageDetailPreviewProps
 ): JSX.Element => {
+  // 防止預設行為
+  const cancelDefault = (event: any) => {
+    event.preventDefault();
+    event.stopPropagation();
+    return false;
+  };
 
   return (
     <div
       data-role="drag-drop-container"
       className="image-preview-container"
-    ></div>
+      onDrop={props.handleDragEnd}
+      onDragEnter={(e) => cancelDefault(e)}
+      onDragOver={(e) => cancelDefault(e)}
+    >
+      <pre style={{ color: "white", margin: "20px" }}>{props.imgDetail}</pre>
+    </div>
   );
 };
 
 const ImageMapEditor = () => {
   const [imgDetail, setImgDetail] = useState("");
+
+  // 取得原始圖檔尺寸
+  const getImageRealSize = (imageEl: any) => {
+    const realImg = new Image();
+    realImg.src = imageEl.src;
+    return { width: realImg.width, height: realImg.height };
+  };
+
+  // 拖曳開始
+  const handleDragStart = (event: any) => {
+    const previewDetail: Object = {};
+    const imageElement: any = (global as any).document.getElementById(
+      event.target.id
+    );
+    Object.assign(previewDetail, getImageRealSize(imageElement), {
+      x: "x座標",
+      y: "y座標",
+    });
+    event.dataTransfer.setData(
+      "text/plain",
+      JSON.stringify(previewDetail, null, 2)
+    );
+  };
+
+  // 拖曳結束
+  const handleDragEnd = (event: any) => {
+    setImgDetail(event.dataTransfer.getData("text/plain"));
+  };
+
   return (
     <div className="container">
-      <ImageUploadContainer />
-      <ImageDetailPreview />
+      <ImageUploadContainer handleDragStart={handleDragStart} />
+      <ImageDetailPreview handleDragEnd={handleDragEnd} imgDetail={imgDetail} />
     </div>
   );
 };
