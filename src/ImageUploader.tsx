@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 interface IImpageUploaderProps {
-  handleDragStart: React.MouseEventHandler<HTMLElement>;
+  handleMouseDown: React.MouseEventHandler<HTMLElement>;
 }
 
 const ImageUploader: React.FC<IImpageUploaderProps> = (
@@ -32,10 +32,11 @@ const ImageUploader: React.FC<IImpageUploaderProps> = (
           />
         </div>
       ) : (
-        <div className="image-preview-section">
+        <div className="image-preview-section" onMouseDown={(e) => props.handleMouseDown(e)}>
           <img
             id="uploadImage"
-            src={imageFile || ""}
+            src={imageFile}
+            draggable="false"
           />
         </div>
       )}

@@ -1,18 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import ImageUploadContainer from "./ImageUploadContainer";
 import ImageDetailPreview from "./ImageDetailPreview";
 
 const ImageMapEditor = () => {
-  const [imgDetail, setImgDetail] = useState("");
-  const [previewDetail, setPreviewDetail] = useState([
-    {
-      x: "",
-      y: "",
-      width: "",
-      height: "",
-    },
-  ]);
+  const [previewDetail, setPreviewDetail] = useState([{}]);
 
   // 取得原始圖檔尺寸
   // const getImageRealSize = (imageEl: any) => {
@@ -20,37 +12,6 @@ const ImageMapEditor = () => {
   //   realImg.src = imageEl.src;
   //   return { width: realImg.width, height: realImg.height };
   // };
-
-  // 拖曳開始
-  const handleDragStart = (event: any) => {
-    // 拖曳圖片時，移除滑鼠的點擊移動事件，避免與拖曳範圍選取功能相互影響
-    document.body.removeEventListener("mousedown", handleMouseDown);
-    document.body.removeEventListener("mousemove", handleMouseMove);
-    document.body.removeEventListener("mouseup", handleMouseUp);
-
-    const imageElement: any = (global as any).document.getElementById(
-      event.target.id
-    );
-    setPreviewDetail([
-      ...previewDetail,
-      {
-        x: imageElement.style.left,
-        y: imageElement.style.top,
-        width: imageElement.style.width,
-        height: imageElement.style.height,
-      },
-    ]);
-
-    event.dataTransfer.setData(
-      "text/plain",
-      JSON.stringify(previewDetail, null, 2)
-    );
-  };
-
-  // 拖曳結束
-  const handleDragEnd = (event: any) => {
-    setImgDetail(event.dataTransfer.getData("text/plain"));
-  };
 
   // 處理範圍圈選功能 (點擊開始 & 點擊結束圈選)
   let start_x = 0;
@@ -70,15 +31,30 @@ const ImageMapEditor = () => {
     rangeSelector.style.width = Math.abs(start_x - end_x) + "px";
     rangeSelector.style.height = Math.abs(start_y - end_y) + "px";
 
-    // 圈選範圍為0時，不做事
-    if (rangeSelector.clientWidth === 0) {
-      return;
-    }
-
     // 顯示垃圾桶按鈕
     (global as any).document.getElementById(
       "rangeSelector"
     ).children[0].style.display = "block";
+
+    // 於 preview 區塊顯示圈選範圍的資訊
+    Object.keys(previewDetail[0]).length > 0
+      ? setPreviewDetail([
+          ...previewDetail,
+          {
+            x: rangeSelector.style.left,
+            y: rangeSelector.style.top,
+            width: rangeSelector.style.width,
+            height: rangeSelector.style.height,
+          },
+        ])
+      : setPreviewDetail([
+          {
+            x: rangeSelector.style.left,
+            y: rangeSelector.style.top,
+            width: rangeSelector.style.width,
+            height: rangeSelector.style.height,
+          },
+        ]);
 
     document.body.removeEventListener("mousemove", handleMouseMove);
     document.body.removeEventListener("mouseup", handleMouseUp);
@@ -99,7 +75,14 @@ const ImageMapEditor = () => {
     const rangeSelector = (global as any).document.getElementById(
       "rangeSelector"
     );
+
+    // 圈選範圍初始化
+    (global as any).document.getElementById(
+      "rangeSelector"
+    ).children[0].style.display = "none";
     rangeSelector.style.backgroundColor = null;
+    rangeSelector.style.width = 0;
+    rangeSelector.style.height = 0;
 
     // 點擊在上傳檔案的 tag 上時
     if (event.target.tagName === "INPUT") {
@@ -110,19 +93,11 @@ const ImageMapEditor = () => {
       return;
     }
 
-    // 有圈選出範圍且點擊在圈選範圍中時，就不再接受圈選
-    if (rangeSelector.clientWidth > 0 && event.target.id === "rangeSelector") {
-      return;
-    }
-
     start_x = event.clientX;
     start_y = event.clientY;
     rangeSelector.className = "range-selector";
     rangeSelector.style.left = event.clientX + "px";
     rangeSelector.style.top = event.clientY + "px";
-
-    // 選取開始時，使框線浮出低於圖片
-    rangeSelector.style.zIndex = 1;
 
     document.body.addEventListener("mousemove", handleMouseMove);
     document.body.addEventListener("mouseup", handleMouseUp);
@@ -131,10 +106,9 @@ const ImageMapEditor = () => {
   return (
     <div className="container">
       <ImageUploadContainer
-        handleDragStart={handleDragStart}
         handleMouseDown={handleMouseDown}
       />
-      <ImageDetailPreview handleDragEnd={handleDragEnd} imgDetail={imgDetail} />
+      <ImageDetailPreview previewDetail={previewDetail} />
     </div>
   );
 };

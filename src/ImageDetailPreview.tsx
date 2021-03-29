@@ -1,8 +1,8 @@
 import React from "react";
 
 interface IImageDetailPreviewProps {
-  handleDragEnd: any;
-  imgDetail: string;
+  // handleDragEnd: React.MouseEventHandler<HTMLElement>;
+  previewDetail: Object[];
 }
 
 const ImageDetailPreview: React.FC<IImageDetailPreviewProps> = (
@@ -17,13 +17,12 @@ const ImageDetailPreview: React.FC<IImageDetailPreviewProps> = (
 
   return (
     <div
-      data-role="drag-drop-container"
       className="image-preview-container"
-      onDrop={props.handleDragEnd}
-      onDragEnter={(e) => cancelDefault(e)}
-      onDragOver={(e) => cancelDefault(e)}
     >
-      <pre style={{ color: "white", margin: "20px" }}>{props.imgDetail}</pre>
+      <pre style={{ color: "white", margin: "20px" }}>
+        {Object.keys(props.previewDetail[0]).length > 0 &&
+          JSON.stringify(props.previewDetail, null, 4)}
+      </pre>
     </div>
   );
 };

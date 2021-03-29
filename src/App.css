@@ -54,6 +54,7 @@
   background-color: #2d3647;
   margin: 20px 135px 0;
   border-radius: 5px;
+  overflow: scroll;
 }
 
 .image-upload {

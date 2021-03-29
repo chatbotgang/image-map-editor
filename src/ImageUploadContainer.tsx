@@ -3,7 +3,6 @@ import Header from "./Header";
 import ImageUploader from "./ImageUploader";
 
 interface IImageUploadContainerProps {
-  handleDragStart: React.MouseEventHandler<HTMLElement>;
   handleMouseDown: React.MouseEventHandler<HTMLElement>;
 }
 
@@ -18,15 +17,11 @@ const ImageUploadContainer: React.FC<IImageUploadContainerProps> = (
   return (
     <div
       className="image-upload-container"
-      onMouseDown={(e) => props.handleMouseDown(e)}
     >
       <Header />
-      <ImageUploader handleDragStart={props.handleDragStart} />
+      <ImageUploader handleMouseDown={(e) => props.handleMouseDown(e)} />
       <div
         id="rangeSelector"
-        draggable="true"
-        onDragStart={(e) => props.handleDragStart(e)}
-        style={{ cursor: "grab", position: "absolute" }}
       >
         <div className="delete-btn" onClick={(e) => handleDelete(e)}>
           <div className="delete-icon"  />
