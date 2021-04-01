@@ -81,7 +81,7 @@
   background: no-repeat center/100% url("./assets/insert_photo.png");
 }
 
-.image-upload-container .delete-btn {
+.delete-btn {
   display: none;
   background-color: white;
   width: 25px;
@@ -93,7 +93,7 @@
   cursor: pointer;
 }
 
-.image-upload-container .delete-icon {
+.delete-icon {
   width: 25px;
   height: 25px;
   background: no-repeat center/100% url("./assets/delete.png");

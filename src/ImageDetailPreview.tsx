@@ -1,20 +1,12 @@
 import React from "react";
 
 interface IImageDetailPreviewProps {
-  // handleDragEnd: React.MouseEventHandler<HTMLElement>;
   previewDetail: Object[];
 }
 
 const ImageDetailPreview: React.FC<IImageDetailPreviewProps> = (
   props: IImageDetailPreviewProps
 ): JSX.Element => {
-  // 防止預設行為
-  const cancelDefault = (event: any) => {
-    event.preventDefault();
-    event.stopPropagation();
-    return false;
-  };
-
   return (
     <div
       className="image-preview-container"

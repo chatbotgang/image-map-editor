@@ -20,13 +20,6 @@ const ImageUploadContainer: React.FC<IImageUploadContainerProps> = (
     >
       <Header />
       <ImageUploader handleMouseDown={(e) => props.handleMouseDown(e)} />
-      <div
-        id="rangeSelector"
-      >
-        <div className="delete-btn" onClick={(e) => handleDelete(e)}>
-          <div className="delete-icon"  />
-        </div>
-      </div>
     </div>
   );
 };

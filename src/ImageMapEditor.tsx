@@ -5,6 +5,7 @@ import ImageDetailPreview from "./ImageDetailPreview";
 
 const ImageMapEditor = () => {
   const [previewDetail, setPreviewDetail] = useState([{}]);
+  const [rangeSeletorIndex, setRangeSeletorIndex] = useState(0);
 
   // 取得原始圖檔尺寸
   // const getImageRealSize = (imageEl: any) => {
@@ -19,9 +20,24 @@ const ImageMapEditor = () => {
   let end_x = 0;
   let end_y = 0;
 
+  // 產生範圍圈選區塊
+  const createRangeSelector = () => {
+    const rangeSelector: any = document.createElement("div");
+    const deleteBtn: any = document.createElement("div");
+    const deleteIcon: any = document.createElement("div");
+    rangeSelector.appendChild(deleteBtn);
+    deleteBtn.appendChild(deleteIcon);
+    rangeSelector.setAttribute("id", `rangeSelector_${rangeSeletorIndex}`);
+    rangeSelector.className = "range-selector";
+    deleteBtn.className = "delete-btn";
+    deleteIcon.className = "delete-icon";
+    document.body.appendChild(rangeSelector);
+    return rangeSelector;
+  };
+
   const handleMouseUp = (event: any) => {
     const rangeSelector = (global as any).document.getElementById(
-      "rangeSelector"
+      `rangeSelector_${rangeSeletorIndex}`
     );
 
     end_x = event.clientX;
@@ -33,8 +49,10 @@ const ImageMapEditor = () => {
 
     // 顯示垃圾桶按鈕
     (global as any).document.getElementById(
-      "rangeSelector"
+      `rangeSelector_${rangeSeletorIndex}`
     ).children[0].style.display = "block";
+
+    setRangeSeletorIndex(rangeSeletorIndex + 1);
 
     // 於 preview 區塊顯示圈選範圍的資訊
     Object.keys(previewDetail[0]).length > 0
@@ -62,7 +80,7 @@ const ImageMapEditor = () => {
 
   const handleMouseMove = (event: any) => {
     const rangeSelector = (global as any).document.getElementById(
-      "rangeSelector"
+      `rangeSelector_${rangeSeletorIndex}`
     );
 
     rangeSelector.style.left = Math.min(event.clientX, start_x) + "px";
@@ -72,30 +90,20 @@ const ImageMapEditor = () => {
   };
 
   const handleMouseDown = (event: any) => {
-    const rangeSelector = (global as any).document.getElementById(
-      "rangeSelector"
-    );
-
-    // 圈選範圍初始化
-    (global as any).document.getElementById(
-      "rangeSelector"
-    ).children[0].style.display = "none";
-    rangeSelector.style.backgroundColor = null;
-    rangeSelector.style.width = 0;
-    rangeSelector.style.height = 0;
-
-    // 點擊在上傳檔案的 tag 上時
+    // 點擊在上傳檔案的 tag 上時，不做事
     if (event.target.tagName === "INPUT") {
       return;
     }
-    // 點擊在刪除的 tag 上時
+    // 點擊在刪除的 tag 上時，不做事
     if (event.target.className === "delete-icon") {
       return;
     }
 
+    // 產生範圍圈選區塊
+    const rangeSelector = createRangeSelector();
+
     start_x = event.clientX;
     start_y = event.clientY;
-    rangeSelector.className = "range-selector";
     rangeSelector.style.left = event.clientX + "px";
     rangeSelector.style.top = event.clientY + "px";
 
@@ -105,9 +113,7 @@ const ImageMapEditor = () => {
 
   return (
     <div className="container">
-      <ImageUploadContainer
-        handleMouseDown={handleMouseDown}
-      />
+      <ImageUploadContainer handleMouseDown={handleMouseDown} />
       <ImageDetailPreview previewDetail={previewDetail} />
     </div>
   );
