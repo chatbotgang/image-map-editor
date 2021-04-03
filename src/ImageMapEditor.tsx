@@ -7,12 +7,19 @@ const ImageMapEditor = () => {
   const [previewDetail, setPreviewDetail] = useState([{}]);
   const [rangeSeletorIndex, setRangeSeletorIndex] = useState(0);
 
-  // 取得原始圖檔尺寸
-  // const getImageRealSize = (imageEl: any) => {
-  //   const realImg = new Image();
-  //   realImg.src = imageEl.src;
-  //   return { realWidth: realImg.width, realHeight: realImg.height };
-  // };
+  // 取得圖片相關尺寸與位置資訊
+  const getImageInfo = (imageEl: any) => {
+    const realImg = new Image();
+    realImg.src = imageEl.src;
+    return {
+      width: imageEl.offsetWidth,
+      height: imageEl.offsetHeight,
+      realWidth: realImg.width,
+      realHeight: realImg.height,
+      imgPositionX: imageEl.parentNode.offsetLeft,
+      imgPositionY: imageEl.parentNode.offsetTop,
+    };
+  };
 
   // 處理範圍圈選功能 (點擊開始 & 點擊結束圈選)
   let start_x = 0;
@@ -32,6 +39,7 @@ const ImageMapEditor = () => {
     deleteBtn.className = "delete-btn";
     deleteIcon.className = "delete-icon";
     deleteIcon.setAttribute("id", `trash_${rangeSeletorIndex}`);
+
     // 刪除事件處理
     deleteIcon.onclick = function () {
       rangeSelector.style.backgroundColor = "#f5f9fa";
@@ -48,6 +56,24 @@ const ImageMapEditor = () => {
     const rangeSelector = (global as any).document.getElementById(
       `rangeSelector_${rangeSeletorIndex}`
     );
+
+    const uploadImgEl = (global as any).document.getElementById("uploadImage");
+
+    // 圖片尺寸
+    const imgWidth = getImageInfo(uploadImgEl).width;
+    const imgHeight = getImageInfo(uploadImgEl).height;
+
+    // 原始圖片尺寸
+    const imgRealWidth = getImageInfo(uploadImgEl).realWidth;
+    const imgRealHeight = getImageInfo(uploadImgEl).realHeight;
+    
+    // 原始圖片：載入後圖片的比值
+    const widthRatio = imgRealWidth / imgWidth;
+    const heightRatio = imgRealHeight / imgHeight;
+
+    // 圖片位置
+    const imgPositionX = getImageInfo(uploadImgEl).imgPositionX;
+    const imgPositionY = getImageInfo(uploadImgEl).imgPositionY;
 
     end_x = event.clientX;
     end_y = event.clientY;
@@ -68,18 +94,18 @@ const ImageMapEditor = () => {
       ? setPreviewDetail([
           ...previewDetail,
           {
-            x: rangeSelector.style.left,
-            y: rangeSelector.style.top,
-            width: rangeSelector.style.width,
-            height: rangeSelector.style.height,
+            x: rangeSelector.offsetLeft - imgPositionX,
+            y: rangeSelector.offsetTop - imgPositionY,
+            width: Math.round(rangeSelector.clientWidth * widthRatio),
+            height: Math.round(rangeSelector.clientHeight * heightRatio),
           },
         ])
       : setPreviewDetail([
           {
-            x: rangeSelector.style.left,
-            y: rangeSelector.style.top,
-            width: rangeSelector.style.width,
-            height: rangeSelector.style.height,
+            x: rangeSelector.offsetLeft - imgPositionX,
+            y: rangeSelector.offsetTop - imgPositionY,
+            width: Math.round(rangeSelector.clientWidth * widthRatio),
+            height: Math.round(rangeSelector.clientHeight * heightRatio),
           },
         ]);
 
