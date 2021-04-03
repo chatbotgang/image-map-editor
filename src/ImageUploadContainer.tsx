@@ -9,15 +9,8 @@ interface IImageUploadContainerProps {
 const ImageUploadContainer: React.FC<IImageUploadContainerProps> = (
   props: IImageUploadContainerProps
 ): JSX.Element => {
-  const handleDelete = (event: any) => {
-    const rangeSelector = (global as any).document.getElementById("rangeSelector");
-    rangeSelector.style.backgroundColor = '#f5f9fa';
-  };
-
   return (
-    <div
-      className="image-upload-container"
-    >
+    <div className="image-upload-container">
       <Header />
       <ImageUploader handleMouseDown={(e) => props.handleMouseDown(e)} />
     </div>

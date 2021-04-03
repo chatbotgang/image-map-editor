@@ -32,12 +32,11 @@ const ImageUploader: React.FC<IImpageUploaderProps> = (
           />
         </div>
       ) : (
-        <div className="image-preview-section" onMouseDown={(e) => props.handleMouseDown(e)}>
-          <img
-            id="uploadImage"
-            src={imageFile}
-            draggable="false"
-          />
+        <div
+          className="image-preview-section"
+          onMouseDown={(e) => props.handleMouseDown(e)}
+        >
+          <img id="uploadImage" src={imageFile} draggable="false" />
         </div>
       )}
     </>

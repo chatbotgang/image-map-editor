@@ -11,7 +11,7 @@ const ImageMapEditor = () => {
   // const getImageRealSize = (imageEl: any) => {
   //   const realImg = new Image();
   //   realImg.src = imageEl.src;
-  //   return { width: realImg.width, height: realImg.height };
+  //   return { realWidth: realImg.width, realHeight: realImg.height };
   // };
 
   // 處理範圍圈選功能 (點擊開始 & 點擊結束圈選)
@@ -31,6 +31,15 @@ const ImageMapEditor = () => {
     rangeSelector.className = "range-selector";
     deleteBtn.className = "delete-btn";
     deleteIcon.className = "delete-icon";
+    deleteIcon.setAttribute("id", `trash_${rangeSeletorIndex}`);
+    // 刪除事件處理
+    deleteIcon.onclick = function () {
+      rangeSelector.style.backgroundColor = "#f5f9fa";
+      rangeSelector.style.border = "initial";
+      (global as any).document.getElementById(
+        `rangeSelector_${rangeSeletorIndex}`
+      ).children[0].style.display = "none";
+    };
     document.body.appendChild(rangeSelector);
     return rangeSelector;
   };
@@ -90,15 +99,6 @@ const ImageMapEditor = () => {
   };
 
   const handleMouseDown = (event: any) => {
-    // 點擊在上傳檔案的 tag 上時，不做事
-    if (event.target.tagName === "INPUT") {
-      return;
-    }
-    // 點擊在刪除的 tag 上時，不做事
-    if (event.target.className === "delete-icon") {
-      return;
-    }
-
     // 產生範圍圈選區塊
     const rangeSelector = createRangeSelector();
 
