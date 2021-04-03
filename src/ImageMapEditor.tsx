@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import ImageUploadContainer from "./ImageUploadContainer";
 import ImageDetailPreview from "./ImageDetailPreview";
@@ -29,9 +29,9 @@ const ImageMapEditor = () => {
 
   // 產生範圍圈選區塊
   const createRangeSelector = () => {
-    const rangeSelector: any = document.createElement("div");
-    const deleteBtn: any = document.createElement("div");
-    const deleteIcon: any = document.createElement("div");
+    const rangeSelector: HTMLElement = document.createElement("div");
+    const deleteBtn: HTMLElement = document.createElement("div");
+    const deleteIcon: HTMLElement = document.createElement("div");
     rangeSelector.appendChild(deleteBtn);
     deleteBtn.appendChild(deleteIcon);
     rangeSelector.setAttribute("id", `rangeSelector_${rangeSeletorIndex}`);
@@ -41,7 +41,7 @@ const ImageMapEditor = () => {
     deleteIcon.setAttribute("id", `trash_${rangeSeletorIndex}`);
 
     // 刪除事件處理
-    deleteIcon.onclick = function () {
+    deleteIcon.onclick = (): void => {
       rangeSelector.style.backgroundColor = "#f5f9fa";
       rangeSelector.style.border = "initial";
       (global as any).document.getElementById(
@@ -52,7 +52,34 @@ const ImageMapEditor = () => {
     return rangeSelector;
   };
 
-  const handleMouseUp = (event: any) => {
+  // 滑鼠圈選範圍，是否在圖片範圍內
+  const isInImageRange = (
+    mouseX: number,
+    mouseY: number,
+    uploadImgEl: HTMLElement
+  ) => {
+    if (
+      Math.abs(getImageInfo(uploadImgEl).imgPositionX - mouseX) >
+      getImageInfo(uploadImgEl).width
+    ) {
+      return false;
+    }
+    if (mouseX < getImageInfo(uploadImgEl).imgPositionX) {
+      return false;
+    }
+    if (
+      Math.abs(getImageInfo(uploadImgEl).imgPositionY - mouseY) >
+      getImageInfo(uploadImgEl).height
+    ) {
+      return false;
+    }
+    if (mouseY < getImageInfo(uploadImgEl).imgPositionY) {
+      return false;
+    }
+    return true;
+  };
+
+  const handleMouseUp = (event: MouseEvent) => {
     const rangeSelector = (global as any).document.getElementById(
       `rangeSelector_${rangeSeletorIndex}`
     );
@@ -66,7 +93,7 @@ const ImageMapEditor = () => {
     // 原始圖片尺寸
     const imgRealWidth = getImageInfo(uploadImgEl).realWidth;
     const imgRealHeight = getImageInfo(uploadImgEl).realHeight;
-    
+
     // 原始圖片：載入後圖片的比值
     const widthRatio = imgRealWidth / imgWidth;
     const heightRatio = imgRealHeight / imgHeight;
@@ -77,10 +104,19 @@ const ImageMapEditor = () => {
 
     end_x = event.clientX;
     end_y = event.clientY;
-    rangeSelector.style.left = Math.min(end_x, start_x) + "px";
-    rangeSelector.style.top = Math.min(end_y, start_y) + "px";
-    rangeSelector.style.width = Math.abs(start_x - end_x) + "px";
-    rangeSelector.style.height = Math.abs(start_y - end_y) + "px";
+
+    // 若超出範圍，則移除圈選範圍
+    if (!isInImageRange(end_x, end_y, uploadImgEl)) {
+      document.body.removeEventListener("mousemove", handleMouseMove);
+      document.body.removeEventListener("mouseup", handleMouseUp);
+      rangeSelector.remove();
+      return;
+    } else {
+      rangeSelector.style.left = Math.min(end_x, start_x) + "px";
+      rangeSelector.style.top = Math.min(end_y, start_y) + "px";
+      rangeSelector.style.width = Math.abs(start_x - end_x) + "px";
+      rangeSelector.style.height = Math.abs(start_y - end_y) + "px";
+    }
 
     // 顯示垃圾桶按鈕
     (global as any).document.getElementById(
@@ -113,7 +149,7 @@ const ImageMapEditor = () => {
     document.body.removeEventListener("mouseup", handleMouseUp);
   };
 
-  const handleMouseMove = (event: any) => {
+  const handleMouseMove = (event: MouseEvent) => {
     const rangeSelector = (global as any).document.getElementById(
       `rangeSelector_${rangeSeletorIndex}`
     );
@@ -124,7 +160,7 @@ const ImageMapEditor = () => {
     rangeSelector.style.height = Math.abs(start_y - event.clientY) + "px";
   };
 
-  const handleMouseDown = (event: any) => {
+  const handleMouseDown = (event: React.MouseEvent) => {
     // 產生範圍圈選區塊
     const rangeSelector = createRangeSelector();
 

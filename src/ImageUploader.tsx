@@ -10,7 +10,7 @@ const ImageUploader: React.FC<IImpageUploaderProps> = (
   const [imageFile, setFileChanged] = useState("");
 
   const handleFileChanged = (event: any) => {
-    const files: any = event.target.files[0];
+    const files: Object[] = event.target.files[0];
     if (!files || files.length === 0) return;
     // 設定預覽圖片
     setFileChanged(URL.createObjectURL(files));
