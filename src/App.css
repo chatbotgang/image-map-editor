@@ -12,7 +12,7 @@
 }
 
 .image-block {
-  height: 792px;
+  min-height: 792px;
   width: 433px;
   box-shadow: 0px 5px 5px 5px #D3D3D3;
   border-radius: 5px;
@@ -51,19 +51,7 @@
   border-radius: 50%;
 }
 
-.image-body-upload {
-  height: 156px;
-  width: 355px;
-  border-radius: 5px;
-  border: 2px solid #ECF0F3;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  color: #AAAAAA;
-}
-
-.icon {
-  max-width: 30px;
+.upload-image {
+  max-width: 100%;
+  margin-bottom: 30px;
 }
