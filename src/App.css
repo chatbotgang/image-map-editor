@@ -25,6 +25,9 @@
   background-color: #2D3947;
   margin-left: 135px;
   border-radius: 5px;
+  padding: 30px;
+  color: #FFFFFF;
+  overflow-y: scroll;
 }
 
 .image-header {
@@ -52,8 +55,9 @@
 }
 
 .image-edit-canvas {
-  height: 100%;
   width: 100%;
+  position: relative;
+  cursor: crosshair;
 }
 
 .upload-image {

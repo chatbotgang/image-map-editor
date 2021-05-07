@@ -7,8 +7,6 @@ interface imageUploadProps {
 
 function ImageUploadBlock(props: imageUploadProps) {
 
-  const [image, setImage] = React.useState('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2O4+/z1fwAJAwOv0lhZewAAAABJRU5ErkJggg==');
-
   const handleUpload = function(imgBase64: string) {
     props.uploadNewImage(imgBase64)
   }
@@ -18,9 +16,9 @@ function ImageUploadBlock(props: imageUploadProps) {
       const imgupload = window.document.getElementById("imgupload")!
       imgupload.click();
     }}>
-      <img src={image} />
       <input type="file"
         id="imgupload"
+        accept="image/*"
         style={{display: "none"}}
         onChange={(e) => {
           const target = e.target

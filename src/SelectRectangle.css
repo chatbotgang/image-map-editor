@@ -1,0 +1,37 @@
+.image-select-rect {
+  position: absolute;
+  border: solid 2px #2F63DB;
+  pointer-events: none;
+}
+
+.image-select-rect > button {
+  float: right;
+  margin-right: -35px;
+  width: 30px;
+  height: 30px;
+  pointer-events: auto;
+}
+
+.image-select-rect > button > img {
+  max-width: 24px;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
