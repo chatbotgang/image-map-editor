@@ -1,5 +1,7 @@
 import React from 'react';
 import ImageUploadBlock from './ImageUploadBlock';
+import ImageEditCanvas from './ImageEditCanvas';
+
 import './App.css';
 
 function App() {
@@ -9,7 +11,7 @@ function App() {
   const handleUpload = function(img: string) {
     const imgs = [...images, img]
     setImages(imgs)
-    console.log(images.length)
+    //console.log(images.length)
   }
 
   return (
@@ -22,10 +24,13 @@ function App() {
         <div className="image-body">
           {
             images.map((item, index) => (
-              <img src={item} key={"photo_" + String(index)} className="upload-image" />
+              <ImageEditCanvas key={"photo_" + String(index)} givenImage={item} />
             ))
           }
-          <ImageUploadBlock uploadNewImage={handleUpload} />
+          {
+            images.length > 0 ? "" :
+            <ImageUploadBlock key="upload_block" uploadNewImage={handleUpload} />
+          }
         </div>
       </div>
       <div className="console-block">

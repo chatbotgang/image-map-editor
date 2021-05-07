@@ -34,7 +34,7 @@ function ImageUploadBlock(props: imageUploadProps) {
                   handleUpload(csv);
                 }
               };
-              console.log(reader.readAsDataURL(files[0]));
+              reader.readAsDataURL(files[0]);
             }
           }
         }}
