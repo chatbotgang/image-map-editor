@@ -5,12 +5,10 @@ import {
   MouseEventData,
   Record,
   enhanceRecord,
+  Actions,
 } from '../useAppReducer';
 import RecordItem from './RecordItem';
 import { Image, Container } from './RecordableImage.style';
-
-type OnLoadCallback = (info: ImageInfo) => void;
-type OnRecordCallback = (data: MouseEventData) => void;
 
 export interface Props {
   id: number;
@@ -18,10 +16,13 @@ export interface Props {
   info: ImageInfo | null;
   mouseDownData: MouseEventData | null;
   records: Record[];
-  onLoad: OnLoadCallback;
-  onRecordStart: OnRecordCallback;
-  onRecordEnd: OnRecordCallback;
+  onLoad: Actions['setInfo'];
+  onRecordStart: Actions['setMouseDown'];
+  onRecordEnd: Actions['setMouseUp'];
+  onRecordDelete: Actions['pullRecord'];
 }
+
+const emptyFunc = () => {};
 
 const RecordableImage = ({
   id,
@@ -32,6 +33,7 @@ const RecordableImage = ({
   onLoad,
   onRecordStart,
   onRecordEnd,
+  onRecordDelete,
 }: Props): JSX.Element => {
   const [tempMouseData, setTempMouseData] = useState<MouseEventData | null>(
     null,
@@ -87,13 +89,19 @@ const RecordableImage = ({
   return (
     <Container onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
       <Image onLoad={handleLoadImage} src={src} alt="selected" />
-      {records
-        .filter(({ removed }) => !removed)
-        .map(record => (
-          <RecordItem key={record.id} record={record} />
-        ))}
+      {records.map((record, index) => (
+        <RecordItem
+          key={record.id}
+          position={index + 1}
+          readonly={false}
+          record={record}
+          onDelete={onRecordDelete}
+        />
+      ))}
       {info !== null && mouseDownData !== null && tempMouseData !== null && (
         <RecordItem
+          position={records.length + 1}
+          readonly
           record={enhanceRecord({
             info,
             record: {
@@ -105,6 +113,7 @@ const RecordableImage = ({
               removed: false,
             },
           })}
+          onDelete={emptyFunc}
         />
       )}
     </Container>

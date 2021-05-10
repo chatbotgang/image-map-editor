@@ -1,10 +1,9 @@
 import React, { useRef, useCallback } from 'react';
+import { Actions } from '../useAppReducer';
 import { ImageInput, StyledImageIcon, Button } from './ImageUploader.style';
 
-export type OnChangeCallback = (url: string) => void;
-
 export interface Props {
-  onChange: OnChangeCallback;
+  onChange: Actions['setImage'];
 }
 
 const ImageUploader = ({ onChange }: Props): JSX.Element => {

@@ -9,8 +9,9 @@ import { Outer, Inner } from './App.style';
 const App: React.FC = () => {
   const [
     { id, src, info, mouseDownData, records },
-    { setImage, setInfo, setMouseDown, setMouseUp },
+    { setImage, setInfo, setMouseDown, setMouseUp, pullRecord },
   ] = useAppReducer();
+  const filteredRecords = records.filter(({ removed }) => !removed);
   return (
     <Outer>
       <Inner>
@@ -23,14 +24,15 @@ const App: React.FC = () => {
               src={src}
               info={info}
               mouseDownData={mouseDownData}
-              records={records}
+              records={filteredRecords}
               onLoad={setInfo}
               onRecordStart={setMouseDown}
               onRecordEnd={setMouseUp}
+              onRecordDelete={pullRecord}
             />
           )}
         </Main>
-        <Console info={info} records={records} />
+        <Console info={info} records={filteredRecords} />
       </Inner>
     </Outer>
   );

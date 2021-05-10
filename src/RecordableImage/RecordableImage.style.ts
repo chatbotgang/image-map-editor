@@ -1,11 +1,11 @@
 import styled from 'styled-components';
+import { Trash as TrashIcon } from '../Icons';
 
 export const Container = styled.div`
   width: 355px;
   box-sizing: border-box;
   border: 2px solid blue;
   border-radius: 8px;
-  overflow: hidden;
   margin: 0 auto;
   user-select: none;
   position: relative;
@@ -14,12 +14,14 @@ export const Container = styled.div`
 export const Image = styled.img`
   display: block;
   width: 100%;
+  border-radius: 6px;
   pointer-events: none;
 `;
 
 export const RecordItemContainer = styled.div`
   position: absolute;
   border: 1px solid blue;
+  pointer-events: none;
 
   &::before {
     display: flex;
@@ -40,6 +42,7 @@ export const RecordItemHandlersContainer = styled.div`
   width: calc(100% + 2px);
   height: calc(100% + 2px);
   margin: -1px;
+  pointer-events: none;
 `;
 
 export const RecordItemHandler = styled.div`
@@ -79,4 +82,27 @@ export const RecordItemHandler = styled.div`
     left: -2px;
     top: calc(50% - 2px);
   }
+`;
+
+export const StyledTrashIcon = styled(TrashIcon)`
+  width: 14px;
+  height: 16px;
+`;
+
+export const DeleteButton = styled.div.attrs({
+  role: 'button',
+})`
+  position: absolute;
+  top: -4px;
+  right: -28px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border-radius: 4px;
+  color: rgb(152, 157, 159);
+  cursor: pointer;
+  pointer-events: auto;
 `;

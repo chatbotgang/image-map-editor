@@ -36,6 +36,7 @@ enum AppActionTypes {
   SetInfo = 'SET_INFO',
   SetMouseDown = 'SET_MOUSE_DOWN',
   SetMouseUp = 'SET_MOUSE_UP',
+  PullRecord = 'PULL_RECORD',
 }
 
 interface Action {
@@ -66,11 +67,18 @@ interface SetMouseUpAction extends Action {
   };
 }
 
-interface Actions {
+interface PullRecordAction extends Action {
+  payload: {
+    id: number;
+  };
+}
+
+export interface Actions {
   setImage: (src: string) => void;
   setInfo: (info: ImageInfo) => void;
   setMouseDown: (mouseEventData: MouseEventData) => void;
   setMouseUp: (mouseEventData: MouseEventData) => void;
+  pullRecord: (id: number) => void;
 }
 
 export const initialState: State = {
@@ -95,6 +103,10 @@ function isSetMouseDown(action: Action): action is SetMouseDownAction {
 
 function isSetMouseUp(action: Action): action is SetMouseUpAction {
   return action.type === AppActionTypes.SetMouseUp;
+}
+
+function isPullRecord(action: Action): action is PullRecordAction {
+  return action.type === AppActionTypes.PullRecord;
 }
 
 export function enhanceRecord({
@@ -181,6 +193,20 @@ function reducer(state: State, action: Action) {
       ],
     };
   }
+  if (isPullRecord(action)) {
+    return {
+      ...state,
+      records: state.records.map(record => {
+        if (record.id !== action.payload.id) {
+          return record;
+        }
+        return {
+          ...record,
+          removed: true,
+        };
+      }),
+    };
+  }
   return state;
 }
 
@@ -188,7 +214,11 @@ export default (): [State, Actions] => {
   const [state, dispatch]: [
     State,
     React.Dispatch<
-      SetImageAction | SetInfoAction | SetMouseDownAction | SetMouseUpAction
+      | SetImageAction
+      | SetInfoAction
+      | SetMouseDownAction
+      | SetMouseUpAction
+      | PullRecordAction
     >,
   ] = useReducer(reducer, initialState);
   return [
@@ -223,6 +253,14 @@ export default (): [State, Actions] => {
           type: AppActionTypes.SetMouseUp,
           payload: {
             mouseEventData,
+          },
+        });
+      },
+      pullRecord: (id: number) => {
+        dispatch({
+          type: AppActionTypes.PullRecord,
+          payload: {
+            id,
           },
         });
       },
