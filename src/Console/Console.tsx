@@ -1,15 +1,15 @@
 import React from 'react';
-import { ImageInfo, Record } from '../useAppReducer';
+import { ImageInfo, RectItem } from '../useAppReducer';
 import { Container } from './Console.style';
 
 interface ConsoleProps {
   info: ImageInfo | null;
-  records: Record[];
+  records: RectItem[];
 }
 
 interface DataProps {
   info: ImageInfo;
-  records: Record[];
+  records: RectItem[];
 }
 
 type MappedRecord = {
@@ -23,10 +23,10 @@ const NoData = () => <>No Data</>;
 
 const memoizedRecordMapper = ((map: Map<string, MappedRecord>) => {
   const getKey = (
-    { left, right, top, bottom }: Record,
+    { left, right, top, bottom }: RectItem,
     ratio: number,
   ): string => `${left}-${right}-${top}-${bottom}-${ratio}`;
-  return (record: Record, ratio: number): MappedRecord => {
+  return (record: RectItem, ratio: number): MappedRecord => {
     const key = getKey(record, ratio);
     const cached = map.get(key);
     if (cached) {

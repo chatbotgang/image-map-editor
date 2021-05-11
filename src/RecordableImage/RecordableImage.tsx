@@ -3,7 +3,7 @@ import debounce from 'lodash.debounce';
 import {
   ImageInfo,
   MouseEventData,
-  Record,
+  RectItem,
   enhanceRecord,
   Actions,
 } from '../useAppReducer';
@@ -15,7 +15,7 @@ export interface Props {
   src: string;
   info: ImageInfo | null;
   mouseDownData: MouseEventData | null;
-  records: Record[];
+  records: RectItem[];
   onLoad: Actions['setInfo'];
   onRecordStart: Actions['setMouseDown'];
   onRecordEnd: Actions['setMouseUp'];

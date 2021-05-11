@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Record, Actions } from '../useAppReducer';
+import { RectItem, Actions } from '../useAppReducer';
 import {
   RecordItemHandlersContainer,
   RecordItemHandler,
@@ -11,7 +11,7 @@ import {
 interface Props {
   position: number;
   readonly: boolean;
-  record: Record;
+  record: RectItem;
   onDelete: Actions['pullRecord'];
 }
 

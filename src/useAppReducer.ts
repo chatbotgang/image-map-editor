@@ -14,7 +14,7 @@ export interface MouseEventData {
   pageY: number;
 }
 
-export type Record = {
+export type RectItem = {
   id: number;
   left: number;
   right: number;
@@ -28,7 +28,7 @@ interface State {
   src: string;
   info: ImageInfo | null;
   mouseDownData: MouseEventData | null;
-  records: Record[];
+  records: RectItem[];
 }
 
 enum AppActionTypes {
@@ -113,9 +113,9 @@ export function enhanceRecord({
   record,
   info,
 }: {
-  record: Record;
+  record: RectItem;
   info: ImageInfo;
-}): Record {
+}): RectItem {
   return {
     id: record.id,
     removed: record.removed,
@@ -161,7 +161,7 @@ function reducer(state: State, action: Action) {
         mouseDownData: null,
       };
     }
-    const record: Record = {
+    const record: RectItem = {
       id: state.id + 1,
       left: Math.min(
         state.mouseDownData.pageX,
