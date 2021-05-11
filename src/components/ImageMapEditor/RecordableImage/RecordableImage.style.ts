@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Trash as TrashIcon } from '../Icons';
+import { Trash as TrashIcon } from '../../Icons';
 
 export const Container = styled.div`
   width: 355px;

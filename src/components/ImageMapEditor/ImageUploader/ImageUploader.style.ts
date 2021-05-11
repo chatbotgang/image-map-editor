@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Image as ImageIcon } from '../Icons';
+import { Image as ImageIcon } from '../../Icons';
 
 export const ImageInput = styled.input.attrs({
   type: 'file',
