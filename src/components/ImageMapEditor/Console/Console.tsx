@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageInfo, RectItem } from '../useAppReducer';
+import { ImageInfo, RectItem } from '../useImageMapEditorReducer';
 import { Container } from './Console.style';
 
 interface ConsoleProps {

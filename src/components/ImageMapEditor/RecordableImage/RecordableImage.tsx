@@ -6,7 +6,7 @@ import {
   RectItem,
   enhanceRecord,
   Actions,
-} from '../useAppReducer';
+} from '../useImageMapEditorReducer';
 import RecordItem from './RecordItem';
 import { Image, Container } from './RecordableImage.style';
 

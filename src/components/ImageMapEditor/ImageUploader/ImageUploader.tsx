@@ -1,5 +1,5 @@
 import React, { useRef, useCallback } from 'react';
-import { Actions } from '../useAppReducer';
+import { Actions } from '../useImageMapEditorReducer';
 import { ImageInput, StyledImageIcon, Button } from './ImageUploader.style';
 
 export interface Props {

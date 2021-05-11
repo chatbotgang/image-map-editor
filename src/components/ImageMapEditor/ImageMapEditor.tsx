@@ -1,5 +1,5 @@
 import React from 'react';
-import useAppReducer from './useAppReducer';
+import useImageMapEditorReducer from './useImageMapEditorReducer';
 import Main from './Main';
 import ImageUploader from './ImageUploader';
 import RecordableImage from './RecordableImage';
@@ -9,7 +9,7 @@ const ImageMapEditor = (): JSX.Element => {
   const [
     { id, src, info, mouseDownData, records },
     { setImage, setInfo, setMouseDown, setMouseUp, pullRecord },
-  ] = useAppReducer();
+  ] = useImageMapEditorReducer();
   const filteredRecords = records.filter(({ removed }) => !removed);
   return (
     <>

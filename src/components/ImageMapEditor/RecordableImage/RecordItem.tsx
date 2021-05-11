@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { RectItem, Actions } from '../useAppReducer';
+import { RectItem, Actions } from '../useImageMapEditorReducer';
 import {
   RecordItemHandlersContainer,
   RecordItemHandler,
