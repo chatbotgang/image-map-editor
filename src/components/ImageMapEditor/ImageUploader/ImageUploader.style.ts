@@ -29,5 +29,6 @@ export const Button = styled.div.attrs({
   align-items: center;
   justify-content: center;
   color: rgb(152, 157, 159);
+  background-color: white;
   cursor: pointer;
 `;
