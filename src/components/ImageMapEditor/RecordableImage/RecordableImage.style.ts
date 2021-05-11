@@ -9,6 +9,7 @@ export const Container = styled.div`
   margin: 0 auto;
   user-select: none;
   position: relative;
+  cursor: crosshair;
 `;
 
 export const Image = styled.img`
@@ -53,40 +54,49 @@ export const RecordItemHandler = styled.div`
   &: nth-child(1) {
     left: -2px;
     top: -2px;
+    cursor: nwse-resize;
   }
   &: nth-child(2) {
     right: -2px;
     top: -2px;
+    cursor: nesw-resize;
   }
   &: nth-child(3) {
     left: -2px;
     bottom: -2px;
+    cursor: nwse-resize;
   }
   &: nth-child(4) {
     right: -2px;
     bottom: -2px;
+    cursor: nesw-resize;
   }
   &: nth-child(5) {
     left: calc(50% - 2px);
     top: -2px;
+    cursor: ns-resize;
   }
   &: nth-child(6) {
     right: -2px;
     top: calc(50% - 2px);
+    cursor: ew-resize;
   }
   &: nth-child(7) {
     left: calc(50% - 2px);
     bottom: -2px;
+    cursor: ns-resize;
   }
   &: nth-child(8) {
     left: -2px;
     top: calc(50% - 2px);
+    cursor: ew-resize;
   }
 `;
 
 export const StyledTrashIcon = styled(TrashIcon)`
   width: 14px;
   height: 16px;
+  pointer-events: none;
 `;
 
 export const DeleteButton = styled.div.attrs({
