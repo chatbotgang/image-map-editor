@@ -1,0 +1,18 @@
+#image-uploader-input {
+  visibility: hidden;
+  display: none;
+}
+
+.image-uploader {
+  border: solid rgb(232, 233, 238) 2px;
+  border-radius: 10px;
+  height: 156px;
+  width: 355px;
+  background-color: white;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
