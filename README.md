@@ -54,15 +54,17 @@ type Base64Image = string;
 ### 預計規劃元件
 
 - 畫面左側 `ImageMapEditor`
+  - `ImageUploader`
   - 點擊拖曳產生選取的方塊 `MappingBlock`
 - 畫面右側 `ImageMapDisplayer`
 
 ### 事件
 
 `ImageMapEditor`
+
 1. **UploadImage**
 2. **CreateMapping**
-   
+
 `MappingBlock`
-1. **MoveMapping** (nice to have)
-2. **ResizeMapping** (nice to have)
+
+1. **EditMapping** (nice to have)
