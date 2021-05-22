@@ -10,6 +10,7 @@ const dummyImg600x400 =
 it("should have an img with correct src attribute", async () => {
   render(
     <MappingArea
+      deleteMapping={() => {}}
       createMapping={() => {}}
       editMapping={() => {}}
       mappings={List([])}
@@ -34,6 +35,7 @@ it("should render Mapping component with correct css style", async () => {
 
   render(
     <MappingArea
+      deleteMapping={() => {}}
       createMapping={() => {}}
       editMapping={() => {}}
       mappings={mappings}

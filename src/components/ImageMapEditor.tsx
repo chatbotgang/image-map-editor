@@ -8,6 +8,7 @@ type ImageMapEditorProps = {
   onImageUpload: (img: Base64Image) => void;
   createMapping: (value: Mapping) => void;
   editMapping: (index: number, value: Partial<Mapping>) => void;
+  deleteMapping: (index: number) => void;
   uploadedImage: Base64Image;
   mappings: List<Mapping>;
   originalImageDimensions?: ImageDimensions;
@@ -17,6 +18,7 @@ export default function ImageMapEditor({
   createMapping,
   editMapping,
   onImageUpload,
+  deleteMapping,
   uploadedImage,
   mappings,
   originalImageDimensions,
@@ -40,6 +42,7 @@ export default function ImageMapEditor({
             originalImageDimensions={originalImageDimensions}
             createMapping={createMapping}
             editMapping={editMapping}
+            deleteMapping={deleteMapping}
           />
         )
       )}

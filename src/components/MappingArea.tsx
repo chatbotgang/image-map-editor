@@ -7,6 +7,7 @@ import { useRef, useState } from "react";
 type MappingAreaProps = {
   createMapping: (value: Mapping) => void;
   editMapping: (index: number, value: Partial<Mapping>) => void;
+  deleteMapping: (index: number) => void;
   mappings: List<Mapping>;
   image: Base64Image;
   originalImageDimensions: ImageDimensions;
@@ -53,31 +54,37 @@ function getMouseUIXY(event: React.MouseEvent, boundingClientRect: DOMRect, orig
   }
 }
 
-export default function MappingArea({ mappings, image, originalImageDimensions, createMapping }: MappingAreaProps) {
+export default function MappingArea({
+  mappings,
+  image,
+  originalImageDimensions,
+  createMapping,
+  deleteMapping,
+}: MappingAreaProps) {
   const mappingAreaRef = useRef<HTMLDivElement>(null);
   const [newMapping, setNewMapping] = useState<Mapping | null>(null);
-  const [anchorPoint, setAnchorPoint] = useState<{
-    x: number;
-    y: number;
-  } | null>(null);
+  const [anchorPoint, setAnchorPoint] =
+    useState<{
+      x: number;
+      y: number;
+    } | null>(null);
 
   const createNewMappingBlock = (event: React.MouseEvent) => {
     if (mappingAreaRef.current) {
-      const {
-        uiX,
-        uiY
-      } = getMouseUIXY(event, mappingAreaRef.current.getBoundingClientRect(), originalImageDimensions);
+      const { uiX, uiY } = getMouseUIXY(
+        event,
+        mappingAreaRef.current.getBoundingClientRect(),
+        originalImageDimensions
+      );
 
       setNewMapping({
         width: 0,
         height: 0,
-        ...scaleFromUIToOriginal(uiX, uiY, originalImageDimensions)
-      })
-      setAnchorPoint(
-        scaleFromUIToOriginal(uiX, uiY, originalImageDimensions)
-      );
+        ...scaleFromUIToOriginal(uiX, uiY, originalImageDimensions),
+      });
+      setAnchorPoint(scaleFromUIToOriginal(uiX, uiY, originalImageDimensions));
     }
-  }
+  };
 
   const resizeNewMappingBlock = (event: React.MouseEvent) => {
     if (!newMapping || !mappingAreaRef.current || !anchorPoint) return;
@@ -88,25 +95,26 @@ export default function MappingArea({ mappings, image, originalImageDimensions, 
       originalImageDimensions
     );
 
-    const {
-      x: mouseXInOriginal,
-      y: mouseYInOriginal,
-    } = scaleFromUIToOriginal(uiX, uiY, originalImageDimensions)
+    const { x: mouseXInOriginal, y: mouseYInOriginal } = scaleFromUIToOriginal(
+      uiX,
+      uiY,
+      originalImageDimensions
+    );
 
     setNewMapping({
       x: mouseXInOriginal >= anchorPoint.x ? newMapping.x : mouseXInOriginal,
       y: mouseYInOriginal >= anchorPoint.y ? newMapping.y : mouseYInOriginal,
       width: Math.abs(mouseXInOriginal - anchorPoint.x),
-      height: Math.abs(mouseYInOriginal - anchorPoint.y)
-    })
-  }
+      height: Math.abs(mouseYInOriginal - anchorPoint.y),
+    });
+  };
 
   const commitNewMappingBlock = (event: React.MouseEvent) => {
     if (!newMapping || !mappingAreaRef.current) return;
 
     createMapping(newMapping);
     setNewMapping(null);
-  }
+  };
 
   return (
     <div
@@ -122,26 +130,25 @@ export default function MappingArea({ mappings, image, originalImageDimensions, 
         src={image}
         alt="you uploaded this"
       />
-      { 
-        originalImageDimensions && mappings.map(
-          (mapping, index) =>
+      {originalImageDimensions &&
+        mappings.map((mapping, index) => (
           <MappingBlock
+            onDelete={() => {
+              deleteMapping(index);
+            }}
             mapping={mapping}
             index={index}
             originalImageDimensions={originalImageDimensions}
             key={mapping.toString()}
           />
-        )
-      }
-      {
-        originalImageDimensions && newMapping && 
+        ))}
+      {originalImageDimensions && newMapping && (
         <MappingBlock
           mapping={newMapping}
           index={mappings.size}
           originalImageDimensions={originalImageDimensions}
-          showDeleteButton={false}
         />
-      }
+      )}
     </div>
   );
 }

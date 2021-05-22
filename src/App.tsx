@@ -45,6 +45,10 @@ function App() {
     setMappings(mappings.push(value));
   };
 
+  const deleteMapping = (index: number) => {
+    setMappings(mappings.remove(index));
+  };
+
   return (
     <div className="App">
       <ImageMapEditor
@@ -54,6 +58,7 @@ function App() {
         originalImageDimensions={originalImageDimensions}
         createMapping={createMapping}
         editMapping={editMapping}
+        deleteMapping={deleteMapping}
       />
     </div>
   );

@@ -3,17 +3,17 @@ import "./MappingBlock.css";
 import deleteIcon from "../assets/delete-icon.png";
 
 export type MappingBlockProps = {
+  onDelete?: () => void;
   mapping: Mapping;
   index: number;
   originalImageDimensions: ImageDimensions;
-  showDeleteButton?: boolean;
 };
 
 export default function MappingBlock({
+  onDelete,
   mapping,
   index,
   originalImageDimensions,
-  showDeleteButton = true,
 }: MappingBlockProps) {
   return (
     <div
@@ -32,8 +32,14 @@ export default function MappingBlock({
       }}
     >
       <p className="mapping-block__number">{index + 1}</p>
-      {showDeleteButton && (
-        <button className="mapping-block__delete-button">
+      {onDelete && (
+        <button
+          className="mapping-block__delete-button"
+          onClick={onDelete}
+          onMouseDown={(e) => {
+            e.stopPropagation();
+          }}
+        >
           <img src={deleteIcon} alt={`delete mapping block ${index + 1}`} />
         </button>
       )}
