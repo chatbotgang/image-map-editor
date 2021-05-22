@@ -2,7 +2,7 @@ import "./MappingArea.css";
 import { Mapping, Base64Image, ImageDimensions } from '../types';
 import MappingBlock from "./MappingBlock";
 import { List } from "immutable";
-import { useRef, useState } from "react";
+import { MouseEvent, useCallback, useEffect, useState } from "react";
 
 type MappingAreaProps = {
   createMapping: (value: Mapping) => void;
@@ -32,26 +32,28 @@ function scaleFromUIToOriginal(x: number, y: number, imageDimensions: ImageDimen
   }
 }
 
-// function scaleFromOriginalToUI(x: number, y: number, imageDimensions: ImageDimensions) {
-//   const imageDisplayHeight = getImageDisplayHeight(imageDimensions.height, imageDimensions.width, IMAGE_DISPLAY_WIDTH);
-//   const uiX = x / imageDimensions.width * IMAGE_DISPLAY_WIDTH;
-//   const uiY = y / imageDimensions.height * imageDisplayHeight;
-
-//   return {
-//     x: uiX,
-//     y: uiY
-//   }
-// }
-
-function getMouseUIXY(event: React.MouseEvent, boundingClientRect: DOMRect, originalImageDimensions: ImageDimensions) {
-  const { left: areaLeft, top: areaTop } = boundingClientRect;
+function getMouseUIXY(event: React.MouseEvent | MouseEvent | globalThis.MouseEvent, boundingClientRect: DOMRect, originalImageDimensions: ImageDimensions) {
+  const { left: areaLeft, top: areaTop, right: areaRight, bottom: areaBottom } = boundingClientRect;
   const mouseX = event.clientX;
   const mouseY = event.clientY;
 
-  return {
-    uiX: mouseX - areaLeft,
-    uiY: mouseY - areaTop,
+  let uiX = mouseX - areaLeft;
+  let uiY = mouseY - areaTop;
+
+  if (mouseX <= areaLeft) {
+    uiX = 0;
   }
+  if (mouseX >= areaRight) {
+    uiX = areaRight - areaLeft;
+  }
+  if (mouseY <= areaTop) {
+    uiY = 0;
+  }
+  if (mouseY >= areaBottom) {
+    uiY = areaBottom - areaTop;
+  }
+
+  return { uiX, uiY }
 }
 
 export default function MappingArea({
@@ -61,7 +63,13 @@ export default function MappingArea({
   createMapping,
   deleteMapping,
 }: MappingAreaProps) {
-  const mappingAreaRef = useRef<HTMLDivElement>(null);
+  const [areaRect, setAreaRect] = useState<DOMRect | null>(null);
+  const mappingAreaRef = useCallback((node: HTMLElement | null) => {
+    if (node !== null) {
+      setAreaRect(node.getBoundingClientRect());
+    }
+  }, [])
+
   const [newMapping, setNewMapping] = useState<Mapping | null>(null);
   const [anchorPoint, setAnchorPoint] =
     useState<{
@@ -70,10 +78,10 @@ export default function MappingArea({
     } | null>(null);
 
   const createNewMappingBlock = (event: React.MouseEvent) => {
-    if (mappingAreaRef.current) {
+    if (areaRect) {
       const { uiX, uiY } = getMouseUIXY(
         event,
-        mappingAreaRef.current.getBoundingClientRect(),
+        areaRect,
         originalImageDimensions
       );
 
@@ -86,43 +94,49 @@ export default function MappingArea({
     }
   };
 
-  const resizeNewMappingBlock = (event: React.MouseEvent) => {
-    if (!newMapping || !mappingAreaRef.current || !anchorPoint) return;
+  useEffect(() => {
+    if (newMapping && areaRect && anchorPoint) {
+      const mouseMoveHandler = (event: globalThis.MouseEvent) => {
+        const { uiX, uiY } = getMouseUIXY(event, areaRect, originalImageDimensions);
 
-    const { uiX, uiY } = getMouseUIXY(
-      event,
-      mappingAreaRef.current.getBoundingClientRect(),
-      originalImageDimensions
-    );
+        const { x: mouseXInOriginal, y: mouseYInOriginal } = scaleFromUIToOriginal(
+          uiX,
+          uiY,
+          originalImageDimensions
+        );
 
-    const { x: mouseXInOriginal, y: mouseYInOriginal } = scaleFromUIToOriginal(
-      uiX,
-      uiY,
-      originalImageDimensions
-    );
+        setNewMapping({
+          x: mouseXInOriginal >= anchorPoint.x ? newMapping.x : mouseXInOriginal,
+          y: mouseYInOriginal >= anchorPoint.y ? newMapping.y : mouseYInOriginal,
+          width: Math.abs(mouseXInOriginal - anchorPoint.x),
+          height: Math.abs(mouseYInOriginal - anchorPoint.y),
+        });
+      }
+      document.addEventListener('mousemove', mouseMoveHandler);
+      return () => {
+        document.removeEventListener('mousemove', mouseMoveHandler);
+      }
+    }
+  }, [newMapping, areaRect, anchorPoint, setNewMapping, originalImageDimensions]);
 
-    setNewMapping({
-      x: mouseXInOriginal >= anchorPoint.x ? newMapping.x : mouseXInOriginal,
-      y: mouseYInOriginal >= anchorPoint.y ? newMapping.y : mouseYInOriginal,
-      width: Math.abs(mouseXInOriginal - anchorPoint.x),
-      height: Math.abs(mouseYInOriginal - anchorPoint.y),
-    });
-  };
-
-  const commitNewMappingBlock = (event: React.MouseEvent) => {
-    if (!newMapping || !mappingAreaRef.current) return;
-
-    createMapping(newMapping);
-    setNewMapping(null);
-  };
+  useEffect(() => {
+    if (newMapping) {
+      const mouseUpHander = () => {
+        createMapping(newMapping);
+        setNewMapping(null);
+      }
+      document.addEventListener('mouseup', mouseUpHander);
+      return () => {
+        document.removeEventListener('mouseup', mouseUpHander);
+      }
+    }
+  }, [newMapping, createMapping, setNewMapping])
 
   return (
     <div
       className="mapping-area"
       ref={mappingAreaRef}
       onMouseDown={createNewMappingBlock}
-      onMouseMove={resizeNewMappingBlock}
-      onMouseUp={commitNewMappingBlock}
     >
       <img
         draggable={false}
@@ -139,7 +153,7 @@ export default function MappingArea({
             mapping={mapping}
             index={index}
             originalImageDimensions={originalImageDimensions}
-            key={mapping.toString()}
+            key={JSON.stringify(mapping)}
           />
         ))}
       {originalImageDimensions && newMapping && (
