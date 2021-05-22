@@ -2,19 +2,24 @@ import "./ImageMapEditor.css";
 import ImageUploader from "./ImageUploader";
 import MappingArea from "./MappingArea";
 import { Base64Image, Mapping, ImageDimensions } from '../types';
+import { List } from "immutable";
 
 type ImageMapEditorProps = {
   onImageUpload: (img: Base64Image) => void;
+  createMapping: (value: Mapping) => void;
+  editMapping: (index: number, value: Partial<Mapping>) => void;
   uploadedImage: Base64Image;
-  mappings: Mapping[];
+  mappings: List<Mapping>;
   originalImageDimensions?: ImageDimensions;
 };
 
 export default function ImageMapEditor({
+  createMapping,
+  editMapping,
   onImageUpload,
   uploadedImage,
   mappings,
-  originalImageDimensions
+  originalImageDimensions,
 }: ImageMapEditorProps) {
   return (
     <div className="image-map-editor">
@@ -28,11 +33,15 @@ export default function ImageMapEditor({
           }}
         />
       ) : (
-        <MappingArea
-          image={uploadedImage}
-          mappings={mappings} 
-          originalImageDimensions={originalImageDimensions}
-        />
+        originalImageDimensions && (
+          <MappingArea
+            image={uploadedImage}
+            mappings={mappings}
+            originalImageDimensions={originalImageDimensions}
+            createMapping={createMapping}
+            editMapping={editMapping}
+          />
+        )
       )}
     </div>
   );

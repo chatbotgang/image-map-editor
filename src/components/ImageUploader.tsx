@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import imageIcon from "../assets/image-icon.png";
 import "./ImageUploader.css";
+import { Base64Image } from "../types";
 
 type ImageUploaderProp = {
   onUpload: (img: Base64Image) => void;

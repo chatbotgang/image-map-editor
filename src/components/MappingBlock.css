@@ -1,0 +1,62 @@
+.mapping-block {
+  position: absolute;
+  border: royalblue solid 2px;
+  box-sizing: border-box;
+  z-index: 10;
+  user-select: none;
+}
+
+.mapping-block__delete-button {
+  /* button reset */
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  overflow: visible;
+
+  background: transparent;
+
+  /* inherit font & color from ancestor */
+  color: inherit;
+  font: inherit;
+
+  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+  line-height: normal;
+
+  /* Corrects font smoothing for webkit */
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+
+  /* Corrects inability to style clickable `input` types in iOS */
+  -webkit-appearance: none;
+
+  /* end button reset */
+
+  position: absolute;
+  height: 24px;
+  width: 24px;
+  right: -28px;
+  top: -1px;
+  background-color: white;
+  border-radius: 3px;
+  box-shadow: 2px 2px 4px 4px rgba(0,0,0,.3);
+}
+
+.mapping-block__delete-button > img {
+  width: 24px;
+  height: 24px;
+}
+
+.mapping-block__number {
+  margin: 2px 4px;
+  border-radius: 100%;
+  height: 20px;
+  width: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: rgba(255,255,255, 0.7);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

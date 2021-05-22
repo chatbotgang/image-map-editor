@@ -1,4 +1,9 @@
 .mapping-area {
   width: 355px;
   position: relative;
+  user-select: none;
+}
+
+.mapping-area > img {
+  z-index: 1;
 }

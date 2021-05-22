@@ -49,7 +49,7 @@ type Base64Image = string;
 
 ### 狀態管理
 
-考慮上述，會將 `Base64Image` 以及 `Mapping[]` 都送到 global state ，目前專案小就用上層 App.tsx 傳下去的 state 就好了，沒有使用 context 甚至 redux 等等狀態管理工具的必要。
+考慮上述，會將 `Base64Image` 以及 `List<Mapping>` 都送到 global state ，目前專案小就用上層 App.tsx 傳下去的 state 就好了，沒有使用 context 甚至 redux 等等狀態管理工具的必要。
 
 ### 預計規劃元件
 
