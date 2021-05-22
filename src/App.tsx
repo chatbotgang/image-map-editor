@@ -1,25 +1,39 @@
 import React from 'react';
-import logo from './logo.svg';
+import SelectedBlocks from './container/selectedBlocks'
+import Picture from './container/picture'
 import './App.css';
+import styled from 'styled-components'
+
+
+const AppFrame = styled.div`
+  display: flex;
+  // flex-direction: column;
+  // align-items: center;
+  // border: 1px solid black;
+  justify-content: center;
+`
+
+const ContentSpace = styled.div`
+  display:flex;
+  width:1116px;
+  height:792px;
+  justify-content: space-between;
+  margin: 50px;
+
+`
+
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppFrame>
+      <ContentSpace>
+
+        <Picture></Picture>
+        <SelectedBlocks></SelectedBlocks>
+
+      </ContentSpace>
+    </AppFrame>
   );
 }
 
