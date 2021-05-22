@@ -21,16 +21,7 @@ function App() {
     tempImg.src = uploadedImage;
   }, [uploadedImage]);
 
-  const [mappings, setMappings] = useState<List<Mapping>>(
-    List([
-      {
-        x: 0,
-        y: 0,
-        width: 200,
-        height: 200,
-      },
-    ])
-  );
+  const [mappings, setMappings] = useState<List<Mapping>>(List([]));
 
   const handleImageUpload = (img: Base64Image) => {
     setUploadedImage(img);
@@ -60,6 +51,9 @@ function App() {
         editMapping={editMapping}
         deleteMapping={deleteMapping}
       />
+      <div className="data-displayer">
+        <pre>{JSON.stringify(mappings, null, 2)}</pre>
+      </div>
     </div>
   );
 }

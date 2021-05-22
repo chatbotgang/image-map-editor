@@ -1,4 +1,5 @@
 .image-map-editor {
+  box-sizing: border-box;
   --editor-border-radius: 7px;
 
   background-color: rgb(245, 249, 250);

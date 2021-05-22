@@ -106,10 +106,14 @@ export default function MappingArea({
         );
 
         setNewMapping({
-          x: mouseXInOriginal >= anchorPoint.x ? newMapping.x : mouseXInOriginal,
-          y: mouseYInOriginal >= anchorPoint.y ? newMapping.y : mouseYInOriginal,
-          width: Math.abs(mouseXInOriginal - anchorPoint.x),
-          height: Math.abs(mouseYInOriginal - anchorPoint.y),
+          x: Math.round(
+            mouseXInOriginal >= anchorPoint.x ? newMapping.x : mouseXInOriginal
+          ),
+          y: Math.round(
+            mouseYInOriginal >= anchorPoint.y ? newMapping.y : mouseYInOriginal
+          ),
+          width: Math.round(Math.abs(mouseXInOriginal - anchorPoint.x)),
+          height: Math.round(Math.abs(mouseYInOriginal - anchorPoint.y)),
         });
       }
       document.addEventListener('mousemove', mouseMoveHandler);
