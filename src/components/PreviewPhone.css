@@ -1,0 +1,107 @@
+.phone_screen{
+  position: relative;
+  width: 433px;
+  height: 792px;
+  background: #f2f8f9;
+  margin: 25px 80px;
+  border-radius: 5px;
+  filter: drop-shadow(0px 14px 5px rgba(0, 0, 0, 0.2));
+  text-align: center;
+  overflow-y: hidden;
+}
+
+.navbar {
+  position: relative;
+  width: 100%;
+  height: 56px;
+  background: #e7eef1;
+}
+
+.user_avatar {
+  position: relative;
+  top: 16px;
+  left: 32px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #cdd5d9;
+}
+
+.upload_area {
+  position: relative;
+  margin-top: 50px;
+  margin-left: 39px;
+  width: 355px;
+  height: 156px;
+  border: 2px #d1d3d8 solid;
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+}
+
+.upload_message {
+  margin-top: 50px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #989aa0;
+  user-select: none;
+}
+
+.image_icon {
+  width: 25px;
+  margin-bottom: 5px;
+}
+
+.image_preview_area {
+  position: relative;
+  margin-top: 50px;
+  margin-left: 39px;
+  width: 355px;
+  border: 2px #d1d3d8 solid;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+}
+
+.upload_btn {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
