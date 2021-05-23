@@ -1,9 +1,10 @@
 .phone_screen{
   position: relative;
+  display: inline-block;
   width: 433px;
   height: 792px;
   background: #f2f8f9;
-  margin: 25px 80px;
+  margin: 25px 0 0 80px;
   border-radius: 5px;
   filter: drop-shadow(0px 14px 5px rgba(0, 0, 0, 0.2));
   text-align: center;
@@ -57,7 +58,6 @@
   margin-top: 50px;
   margin-left: 39px;
   width: 355px;
-  border: 2px #d1d3d8 solid;
   border-radius: 10px;
   overflow: hidden;
 }
@@ -74,6 +74,39 @@
   top: 0;
   opacity: 0;
   cursor: pointer;
+}
+
+
+.coordinate_preview {
+  position: relative;
+  display: inline-block;
+  background: #23333f;
+  width: 548px;
+  height: 703px;
+  margin: 25px 0 0 135px;
+  border-radius: 5px;
+  vertical-align: top;
+  color: #edf7ff;
+}
+
+.container {
+  padding: 30px;
+}
+
+.ReactCrop {
+  border: 2px #006ccb solid;
+}
+
+.ReactCrop__crop-selection {
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  border-image-source: none;
+  border-color: #006ccb;
+}
+
+.ReactCrop__drag-handle::after {
+  background: #006ccb;
+  border-color: #006ccb;
 }
 
 @media (prefers-reduced-motion: no-preference) {
