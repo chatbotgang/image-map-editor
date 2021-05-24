@@ -1,12 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
+import App from './App'
+import reportWebVitals from './reportWebVitals'
+import { ImgProvider } from './hooks/useImg'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ImgProvider>
+      <App />
+    </ImgProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

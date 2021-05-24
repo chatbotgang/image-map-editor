@@ -1,8 +1,9 @@
 import React from 'react';
-import SelectedBlocks from './container/selectedBlocks'
-import Picture from './container/picture'
+import SelectedBlock from './containers/selectedBlock'
+import PictureBlock from './containers/pictureBlock'
 import './App.css';
 import styled from 'styled-components'
+
 
 
 const AppFrame = styled.div`
@@ -11,6 +12,7 @@ const AppFrame = styled.div`
   // align-items: center;
   // border: 1px solid black;
   justify-content: center;
+  width: 100%
 `
 
 const ContentSpace = styled.div`
@@ -21,7 +23,9 @@ const ContentSpace = styled.div`
   margin: 50px;
 
 `
-
+const InbetweenDiv = styled.div`
+  width:135px;
+`
 
 
 function App() {
@@ -29,8 +33,9 @@ function App() {
     <AppFrame>
       <ContentSpace>
 
-        <Picture></Picture>
-        <SelectedBlocks></SelectedBlocks>
+        <PictureBlock></PictureBlock>
+        <InbetweenDiv></InbetweenDiv>
+        <SelectedBlock></SelectedBlock>
 
       </ContentSpace>
     </AppFrame>

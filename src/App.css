@@ -1,0 +1,31 @@
+.no{
+    border: 1px solid black;
+    height:auto;
+    display: inline-block;
+    margin-top: 39px;
+    font-weight:
+
+    
+
+}
+
+/* ========================== in  ImgContent ==========================
+
+// const StyledUpload = styled(Upload)`
+//     width:355px;
+//     height:156px;
+//     border-radius: 25px;
+//     margin-top:39px;
+//     display:flex;
+//     justify-content: center;
+//     align-items: center;
+
+//     border: 1px solid gray;
+// `
+
+// const StyledPictureOutlined = styled(PictureOutlined)`
+//     width: 50px;
+//     height: 50px;
+//     display: flex;
+
+// ` */
