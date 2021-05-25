@@ -1,26 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import PhoneScreen from './components/UI/PhoneScreen/PhoneScreen';
+import GeekScreen from './components/UI/GeekScreen/GeekScreen';
+import ImageCrop from './components/ImageCrop/Main/ImageCrop';
+import MultiCropFrames from './components/ImageCrop/MultiCropFrames/MultiCropFrames'
+import { JsonArrayIndent } from './components/Global/JsonIndent'
+import { coordinateType } from './components/ImageCrop/Interface'
+import './App.css'
 
-function App() {
+export default function App() {
+  const [coordinates, setCoordinates] = useState<(coordinateType)[]>([]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="multi_crops_page">
+      <PhoneScreen>
+        <ImageCrop setCoordinates={setCoordinates}>
+          <MultiCropFrames setCoordinates={setCoordinates} coordinates={coordinates} />
+        </ImageCrop>
+      </PhoneScreen>
+      <GeekScreen>
+        <JsonArrayIndent jsonArray={coordinates}/>
+      </GeekScreen>
     </div>
   );
 }
-
-export default App;

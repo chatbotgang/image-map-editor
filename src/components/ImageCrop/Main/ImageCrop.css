@@ -1,38 +1,7 @@
-.phone_screen{
-  position: relative;
-  display: inline-block;
-  width: 433px;
-  height: 792px;
-  background: #f2f8f9;
-  margin: 25px 0 0 80px;
-  border-radius: 5px;
-  filter: drop-shadow(0px 14px 5px rgba(0, 0, 0, 0.2));
-  text-align: center;
-  overflow-y: hidden;
-}
-
-.navbar {
-  position: relative;
-  width: 100%;
-  height: 56px;
-  background: #e7eef1;
-}
-
-.user_avatar {
-  position: relative;
-  top: 16px;
-  left: 32px;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #cdd5d9;
-}
 
 .upload_area {
   position: relative;
-  margin-top: 50px;
-  margin-left: 39px;
-  width: 355px;
+  width: 100%;
   height: 156px;
   border: 2px #d1d3d8 solid;
   border-radius: 10px;
@@ -55,12 +24,8 @@
 
 .image_preview_area {
   position: relative;
-  margin-top: 50px;
-  margin-left: 39px;
-  width: 355px;
-  border-radius: 10px;
+  width: 100%;
   /* overflow: hidden; */
-  border: 2px #006ccb solid;
 }
 
 .image {
@@ -119,27 +84,11 @@
   font-size: 14px;
 }
 
-.coordinate_preview {
-  position: relative;
-  display: inline-block;
-  background: #23333f;
-  width: 548px;
-  height: 703px;
-  margin: 25px 0 0 135px;
-  border-radius: 5px;
-  vertical-align: top;
-  color: #edf7ff;
-  overflow-y: scroll;
-}
-
-.container {
-  padding: 30px;
-  white-space: pre-line;
-  white-space: pre-wrap;
-}
-
 .ReactCrop {
   width: 100%;
+  border: 2px #006ccb solid;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .ReactCrop .ReactCrop__crop-selection {
@@ -167,70 +116,69 @@
 }
 
 .ReactCrop__drag-handle::after {
+  width: 6px;
+  height: 6px;
   background: #006ccb;
   border-color: #006ccb;
+  cursor: pointer;
+}
+
+.ord-n, .ord-e, .ord-s, .ord-w {
+  cursor: pointer;
 }
 
 .ord-nw {
     top: 0;
     left: 0;
-    margin-top: -5px;
-    margin-left: -5px;
-    cursor: nw-resize;
+    margin-top: -3px;
+    margin-left: -3px;
 }
 
 .ord-n {
     top: 0;
     left: 50%;
-    margin-top: -5px;
-    margin-left: -5px;
-    cursor: n-resize;
+    margin-top: -3px;
+    margin-left: -3px;
 }
 
 .ord-ne {
     top: 0;
     right: 0;
-    margin-top: -5px;
-    margin-right: 5px;
-    cursor: ne-resize;
+    margin-top: -3px;
+    margin-right: 3px;
 }
 
 .ord-e {
     top: 50%;
     right: 0;
-    margin-top: -5px;
-    margin-right: 5px;
-    cursor: e-resize;
+    margin-top: -3px;
+    margin-right: 3px;
 }
 
 .ord-se {
     bottom: 0;
     right: 0;
-    margin-bottom: 5px;
-    margin-right: 5px;
-    cursor: se-resize;
+    margin-bottom: 3px;
+    margin-right: 3px;
 }
 
 .ord-s {
     bottom: 0;
     left: 50%;
-    margin-bottom: 5px;
-    margin-left: -5px;
-    cursor: s-resize;
+    margin-bottom: 3px;
+    margin-left: -3px;
 }
 
 .ord-sw {
     bottom: 0;
     left: 0;
-    margin-bottom: 5px;
-    margin-left: -5px;
-    cursor: sw-resize;
+    margin-bottom: 3px;
+    margin-left: -3px;
 }
 
 .ord-w {
     top: 50%;
     left: 0;
-    margin-top: -5px;
-    margin-left: -5px;
-    cursor: w-resize;
+    margin-top: -3px;
+    margin-left: -3px;
 }

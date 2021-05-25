@@ -1,0 +1,18 @@
+.coordinate_preview {
+  position: relative;
+  display: inline-block;
+  background: #23333f;
+  width: 548px;
+  height: 703px;
+  margin: 25px 0 0 135px;
+  border-radius: 5px;
+  vertical-align: top;
+  color: #edf7ff;
+  overflow-y: scroll;
+}
+
+.container {
+  padding: 30px;
+  white-space: pre-line;
+  white-space: pre-wrap;
+}
