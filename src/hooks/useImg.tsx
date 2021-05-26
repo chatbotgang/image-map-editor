@@ -1,35 +1,10 @@
-import React, { useState, useEffect, useContext, FunctionComponent } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 
 export interface Box{
     x: number
     y: number
     width?: number
     height?: number
-}
-
-const deepCopyABoxes = (Boxes:Array<Box>) => {
-    let copyBoxes:Array<Box> = []
-    Boxes.map(box=>{copyBoxes.push(box)})
-    return copyBoxes
-}
-
-const adjustBox = (box:Box, e: MouseEvent) => {
-    box.width = e.pageX-box.x
-    box.height = e.pageY-box.y
-
-    if(e.pageX < box.x){
-        box.width *= -1
-        box.x = e.pageX
-        console.log("useImg.adjustBox.now<x")
-    }
-
-    if(e.pageY < box.y){
-        box.height *= -1
-        box.y = e.pageY
-        console.log("useImg.adjustBox.now<y")
-    }
-
-    return box
 }
 
 const Context:React.Context<any>  = React.createContext({} as any)
@@ -39,10 +14,29 @@ export const useImg = () => {
 }
 
 export const ImgProvider = ({children} : any) => {
-
-    const [ img, setImg ] = useState("../components/IMG_5808.JPG")
+    const [ img, setImg ] = useState<any>()
     const [ boxes, setBoxes ] = useState<Array<Box>>([])
+    const [ imgHeight, setImgHeight ] = useState<number>(0)
+    const [ rects, setRects ] = useState<Array<any>>([])
 
+    useEffect(() => {
+        console.log("in useImg useRffect: ", img)
+        if(img){
+            let height =  img.naturalHeight / img.naturalWidth * 355
+            setImgHeight(height)
+            console.log(img.naturalHeight, img.naturalWidth, height)
+        }
+    }, [img])
+
+    useEffect(() => {
+        const newBoxes:Array<Box> = []
+        rects.map(aRect=>{newBoxes.push({x: aRect.attrs.x,
+                                        y: aRect.attrs.y,
+                                        width: aRect.attrs.width,
+                                        height: aRect.attrs.height})})
+        setBoxes(newBoxes)
+    }, [rects])
+    
     const addBoxes = (e: MouseEvent) => {
         const newBox:Box = { x:e.pageX, y:e.pageY }
         let newList:Array<Box> = []
@@ -53,32 +47,17 @@ export const ImgProvider = ({children} : any) => {
 
         newList.push(newBox)
         setBoxes(newList)
-        console.log("in useImg, addBoxes:", boxes)
-
-    }
-
-    const saveBoxes = (e: MouseEvent) => {
-        if(boxes.length!==0){
-            let copyBoxes = deepCopyABoxes(boxes)
-            let box = { ...copyBoxes[boxes.length-1]}
-            // box.width = e.pageX-box.x
-            // box.height = e.pageY-box.y
-            box = adjustBox(box, e)
-            copyBoxes[boxes.length-1] = box
-            setBoxes(copyBoxes)
-
-            console.log("in useImg, saveBoxes: ", copyBoxes, boxes, box, e)
-        }else{
-            console.log("in useImg, saveBoxes, there is no boxes")
-        }
     }
 
     const value = {
         img,
+        setImg,
         boxes,
         setBoxes,
         addBoxes,
-        saveBoxes,
+        imgHeight,
+        rects,
+        setRects
     }
 
     return(

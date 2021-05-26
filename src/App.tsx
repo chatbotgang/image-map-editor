@@ -1,10 +1,7 @@
-import React from 'react';
 import SelectedBlock from './containers/selectedBlock'
 import PictureBlock from './containers/pictureBlock'
 import './App.css';
 import styled from 'styled-components'
-
-
 
 const AppFrame = styled.div`
   display: flex;
@@ -21,8 +18,8 @@ const ContentSpace = styled.div`
   height:792px;
   justify-content: space-between;
   margin: 50px;
-
 `
+
 const InbetweenDiv = styled.div`
   width:135px;
 `

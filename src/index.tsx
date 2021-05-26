@@ -6,11 +6,9 @@ import reportWebVitals from './reportWebVitals'
 import { ImgProvider } from './hooks/useImg'
 
 ReactDOM.render(
-  <React.StrictMode>
     <ImgProvider>
       <App />
-    </ImgProvider>
-  </React.StrictMode>,
+    </ImgProvider>,
   document.getElementById('root')
 );
 

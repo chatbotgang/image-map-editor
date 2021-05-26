@@ -3,7 +3,8 @@
     height:auto;
     display: inline-block;
     margin-top: 39px;
-    font-weight:
+    padding-top: 35px;
+    background-repeat: no-repeat;
 
     
 
@@ -29,3 +30,14 @@
 //     display: flex;
 
 // ` */
+
+/* ================================= in ImgContent, load Image, ================================ */
+/* // const newLayer = layer
+// const newStage = stage
+// setLayer(newLayer.add(newImg))
+// setState(newStage.))
+// setLayer(layer.parentElement.add(newImg))
+
+// var reader = URL.createObjectURL(file)
+// newImg.src = file.originFileObj.webkitRelativePath+"/"+file.name
+// console.log("in ImgContent loadImage, reader: ", reader) */
