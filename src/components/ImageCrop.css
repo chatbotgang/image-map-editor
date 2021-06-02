@@ -1,0 +1,26 @@
+.image-crop {
+  position: relative;
+}
+
+.ReactCrop {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.ReactCrop .ReactCrop__crop-selection {
+  box-shadow: none;
+  border-image-source: none;
+  border-color: rgb(52, 99, 230);
+}
+
+.ReactCrop .ReactCrop__drag-handle:after {
+  border: none;
+  background-color: rgb(52, 99, 230);
+  width: 8px;
+  height: 8px;
+}
+
+.ReactCrop__crop-selection {
+  z-index: 2;
+  /* display: none; */
+}

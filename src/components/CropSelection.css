@@ -1,0 +1,47 @@
+.ReactCrop.crop-demo .ReactCrop__crop-selection {
+  display: block;
+}
+
+.crop-demo .ReactCrop__crop-selection {
+  z-index: 5;
+}
+
+.crop-demo .ReactCrop__selection-addon .addon-wrap {
+  position: relative;
+}
+
+.crop-demo .ReactCrop__selection-addon .addon-wrap .index {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: rgba(255, 255, 255, 1);
+  color: #000;
+  opacity: 0.6;
+}
+
+.crop-demo .ReactCrop__selection-addon .addon-wrap .ico-del {
+  position: absolute;
+  top: 0px;
+  right: -30px;
+  color: rgb(188, 188, 188);
+  background-color: #FFF;
+  padding: 4px;
+  border-radius: 4px;
+  display: none;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  font-size: 18px;
+  text-align: center;
+}
+
+.crop-demo .ReactCrop__crop-selection:hover .addon-wrap .ico-del {
+  display: block;
+}

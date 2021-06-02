@@ -1,38 +1,76 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.app {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  min-width: 1126px;
+  overflow-x: scroll;
 }
 
-.App-link {
-  color: #61dafb;
+.app .image-edit {
+  flex: 0 0 433px;
+  min-height: 792px;
+  background-color: rgb(245, 249, 250);
+  max-height: 100vh;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.app .image-edit .bar {
+  background-color: rgb(236,240,243);
+  padding: 16px 32px;
+}
+
+.app .image-edit .bar .circle {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: rgb(213,218,222);
+}
+
+.app .image-edit .draw {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 56px 39px;
+  position: relative;
+}
+
+.app .image-data {
+  flex: 0 0 548px;
+  min-height: 703px;
+  background-color: rgb(44,56,71);
+  margin-left: 135px;
+  color: #FFF;
+  box-sizing: border-box;
+  padding: 20px;
+  max-height: 792px;
+  overflow-y: auto;
+}
+
+.app .image-data pre {
+  margin: 0;
+  font-family: inherit;
+}
+
+.image-crop .crop-demo {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+
+.image-crop .crop-demo .ReactCrop__crop-selection {
+  box-shadow: none;
+  border-image-source: none;
+  border-color: rgb(52, 99, 230);
+  z-index: 1;
+}
+
+.image-crop .crop-demo .ReactCrop__drag-handle:after {
+  border: none;
+  background-color: rgb(52, 99, 230);
+  width: 8px;
+  height: 8px;
+}
+
+.image-crop .ReactCrop .ReactCrop__crop-selection {
+  z-index: 2;
 }
