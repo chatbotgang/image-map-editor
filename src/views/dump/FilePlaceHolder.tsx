@@ -5,7 +5,7 @@ export const FilePlaceHolder = styled.div.attrs((props) => ({
 }))<any>`
   display: flex;
   width: 200px;
-  height: 100px;
+  min-height: 100px;
   flex-direction: row;
   background-color: ${(props) => props.bgc};
 `;

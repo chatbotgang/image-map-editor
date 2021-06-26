@@ -17,6 +17,14 @@ const ResetStyle = createGlobalStyle`
   img {
     border:0; /* kills Gecko bug when img's are placed inside links */
     vertical-align:bottom; /* set vertical align to bottom for IE */
+    user-drag: none; 
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    width:100%;
+    height:auto;    
   }
   a,
   a:link,

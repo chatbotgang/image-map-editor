@@ -13,7 +13,7 @@ const Upload = createContext<{
 });
 
 export function WithUploadLocalCtx({ ...props }): Function {
-  return (PageContainer: Function): Function => {
+  return (PageContainer: FC): FC => {
     const HOC: FC = () => {
       const [localState, dispatch] = useReducer(localReducer, initLocalState);
       return (
