@@ -8,8 +8,8 @@ export const SelectionElement = styled.div.attrs((props) => ({
   className: props.className,
 }))<SelectionElementProps>`
   position: absolute;
-  left: 0;
-  top: 0;
+  left: ${(props) => String(props.layout.x)}px;
+  top: ${(props) => String(props.layout.y)}px;
   width: ${(props) => String(props.layout.width)}px;
   height: ${(props) => String(props.layout.height)}px;
 `;

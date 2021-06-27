@@ -7,4 +7,5 @@ type ILayoutState = {
   height: number;
   x: number;
   y: number;
+  isMoving: boolean;
 };

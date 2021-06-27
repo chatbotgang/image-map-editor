@@ -1,4 +1,5 @@
-import { useEffect, PointerEvent } from "react";
+import { useEffect, PointerEvent, useContext } from "react";
+import { ImgEditorVMContext } from "../../../../presenters/Upload/uploadVM";
 // const region = {
 //   x: 0,
 //   y: 0,
@@ -6,14 +7,18 @@ import { useEffect, PointerEvent } from "react";
 //   height: 0,
 // };
 
-export const useCrop = () => {
-  const handleCropMove = (e: PointerEvent<HTMLDivElement>) => {
-    e.stopPropagation();
+export const useCrop = (crop: ILayoutState) => {
+  const { dispatch, layoutState } = useContext(ImgEditorVMContext);
+  const handleCropDown = (e: PointerEvent<HTMLDivElement>) => {
     if (e.cancelable) e.preventDefault();
-    console.log("move");
+    dispatch({
+      type: "setStartPosition",
+      payload: { ...layoutState, x: e.clientX, y: e.clientY, isMoving: true },
+    });
+    console.log("HandleCropDown");
   };
   useEffect(() => {}, []);
   return {
-    handleCropMove,
+    handleCropDown,
   };
 };

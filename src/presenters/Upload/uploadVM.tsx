@@ -1,34 +1,34 @@
-import { createContext, useReducer, FC, Dispatch, PointerEvent } from "react";
-import localReducer, {
-  initLocalState,
-  IInitLocalState,
-} from "./uploadLocalReducer";
+import { createContext, FC, Dispatch, PointerEvent, useRef } from "react";
 import { usePointer, initCropState } from "../../views/logic/Pointer/hooks";
 
 export const ImgEditorVMContext = createContext<{
-  state: IInitLocalState;
+  // state: IInitLocalState;
   layoutState: ILayoutState;
   handleComponentPointerDown: (e: PointerEvent<HTMLDivElement>) => void;
   dispatch: Dispatch<any>;
+  pointerWorkRegionRef: any;
 }>({
-  state: initLocalState,
+  // state: initLocalState,
   layoutState: initCropState.layoutState,
   handleComponentPointerDown: (e: PointerEvent<HTMLDivElement>) => {},
+  pointerWorkRegionRef: null,
   dispatch: () => {},
 });
 
 export function WithUploadLocalCtx({ ...props }): Function {
   return (PageContainer: FC): FC => {
     const HOC: FC = () => {
-      const [localState, dispatch] = useReducer(localReducer, initLocalState);
-      const { state, handleComponentPointerDown } = usePointer();
-      console.log("state in VM", state);
+      const pointerWorkRegionRef = useRef(document.createElement("div"));
+      // const [localState, dispatch] = useReducer(localReducer, initLocalState);
+      const { state, handleComponentPointerDown, dispatch } =
+        usePointer(pointerWorkRegionRef);
       return (
         <ImgEditorVMContext.Provider
           value={{
-            state: localState,
+            // state: localState,
             dispatch,
             layoutState: state.layoutState,
+            pointerWorkRegionRef: pointerWorkRegionRef,
             handleComponentPointerDown: handleComponentPointerDown,
           }}
         >

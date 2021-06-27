@@ -4,7 +4,7 @@ import {
   useReducer,
   useState,
   useCallback,
-  useRef,
+  MutableRefObject,
 } from "react";
 
 interface IInitLocalState {
@@ -16,6 +16,7 @@ export const initCropState = {
     height: 0,
     x: 0,
     y: 0,
+    isMoving: false,
   },
 };
 
@@ -27,6 +28,7 @@ export interface Action {
 const editorReducer: Reducer<IInitLocalState, Action> = (state, action) => {
   switch (action.type) {
     case "setStartPosition":
+      console.log("action.payload", action.payload);
       return {
         ...state,
         layoutState: action.payload,
@@ -36,21 +38,46 @@ const editorReducer: Reducer<IInitLocalState, Action> = (state, action) => {
         ...state,
         layoutState: action.payload,
       };
+    case "moveEndPosition":
+      return {
+        ...state,
+        layoutState: {
+          ...state.layoutState,
+          ...action.payload,
+        },
+      };
+    case "releaseMovingLock":
+      return {
+        ...state,
+        layoutState: {
+          ...state.layoutState,
+          ...action.payload,
+        },
+      };
     default:
       return state;
   }
 };
 
-export const usePointer = () => {
-  const pointerWorkRegionRef = useRef(document.createElement("div"));
+export const usePointer = (
+  pointerWorkRegionRef: MutableRefObject<HTMLDivElement>
+) => {
   const [isMouseDownState, setMouseDown] = useState(false);
   const [isDragState, setDrag] = useState(false);
   const [state, dispatch] = useReducer(editorReducer, initCropState);
   const handleComponentPointerDown = (e: PointerEvent<HTMLDivElement>) => {
     if (e.cancelable) e.preventDefault();
+    if (state.layoutState.isMoving) return;
+    console.log("HandleComponentDown");
+    const rect = pointerWorkRegionRef.current.getBoundingClientRect();
     dispatch({
       type: "setStartPosition",
-      payload: { ...state.layoutState, x: e.clientX, y: e.clientY },
+      payload: {
+        ...state.layoutState,
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+        isMoving: false,
+      },
     });
     setMouseDown(true);
   };
@@ -61,14 +88,27 @@ export const usePointer = () => {
       if (!isDragState) {
         setDrag(true);
       }
-      dispatch({
-        type: "setEndPosition",
-        payload: {
-          ...state.layoutState,
-          width: e.clientX - state.layoutState.x,
-          height: e.clientY - state.layoutState.y,
-        },
-      });
+      // move
+      if (state.layoutState.isMoving) {
+        console.log("moveEndPosition");
+        dispatch({
+          type: "moveEndPosition",
+          payload: {
+            ...state.layoutState,
+            x: e.clientX - state.layoutState.x,
+            y: e.clientY - state.layoutState.y,
+          },
+        });
+      } else {
+        dispatch({
+          type: "setEndPosition",
+          payload: {
+            ...state.layoutState,
+            width: e.clientX - state.layoutState.x,
+            height: e.clientY - state.layoutState.y,
+          },
+        });
+      }
     },
     [isMouseDownState, isDragState, state.layoutState]
   );
@@ -78,8 +118,15 @@ export const usePointer = () => {
         setMouseDown(false);
         setDrag(false);
       }
+      dispatch({
+        type: "releaseMovingLock",
+        payload: {
+          ...state.layoutState,
+          isMoving: false,
+        },
+      });
     },
-    [isMouseDownState]
+    [isMouseDownState, state.layoutState]
   );
   useEffect(() => {
     document.addEventListener("pointermove", handlePointerMove);
@@ -94,6 +141,6 @@ export const usePointer = () => {
   return {
     handleComponentPointerDown,
     state,
-    pointerWorkRegionRef,
+    dispatch,
   };
 };

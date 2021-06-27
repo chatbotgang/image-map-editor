@@ -7,11 +7,11 @@ import {
 import { useCrop } from "./cropHooks";
 
 export const CreateCropSelection = (crop: ILayoutState) => {
-  const { handleCropMove } = useCrop();
+  const { handleCropDown } = useCrop(crop);
   console.log("crop", crop);
   return (
     <SelectionElement
-      onPointerDown={handleCropMove}
+      onPointerDown={handleCropDown}
       className="drag-elements"
       layout={crop}
     >

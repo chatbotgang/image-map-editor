@@ -3,7 +3,7 @@ import { ImgEditorVMContext } from "../../../../presenters/Upload/uploadVM";
 import { CreateCropSelection } from "../Crop/Crop";
 
 export const EditRegion = () => {
-  const { layoutState, handleComponentPointerDown } =
+  const { layoutState, handleComponentPointerDown, pointerWorkRegionRef } =
     useContext(ImgEditorVMContext);
   let selectionList: any = useMemo(() => {
     return [];
@@ -22,8 +22,10 @@ export const EditRegion = () => {
   return (
     <>
       <div
-        onPointerDown={handleComponentPointerDown}
+        onPointerDownCapture={handleComponentPointerDown}
+        ref={pointerWorkRegionRef}
         style={{ position: "relative" }}
+        tabIndex={0}
       >
         <div
           style={{

@@ -5,11 +5,11 @@ import { ImgEditorVMContext } from "../../../presenters/Upload/uploadVM";
 
 export const JSONPreview = () => {
   const { layoutState } = useContext(ImgEditorVMContext);
-  console.log(JSON.stringify(layoutState));
+  // console.log(JSON.stringify(layoutState));
   const formattedText = JSON.stringify(layoutState)
     .replace(/([,])/g, "$1\n&nbsp;&nbsp;&nbsp;&nbsp;")
     .replace(/([{])/g, "$1\n&nbsp;&nbsp;&nbsp;&nbsp;")
     .replace(/(})/g, "\n$1");
-  console.log(formattedText);
+  // console.log(formattedText);
   return <CodeRegion>{ReactHtmlParser(formattedText)}</CodeRegion>;
 };
