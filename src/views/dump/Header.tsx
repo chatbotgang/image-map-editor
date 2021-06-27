@@ -4,6 +4,10 @@ export const Header = styled.div.attrs((props) => ({
   className: props.className,
 }))<any>`
   display: flex;
+  border-radius: inherit;
+  position: relative;
   flex-direction: row;
-  background-color: ${(props) => props.bgc};
+  width: 100%;
+  height: 56px;
+  background-color: #ebf0f3;
 `;

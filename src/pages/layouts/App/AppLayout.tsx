@@ -13,6 +13,7 @@ const ResetStyle = createGlobalStyle`
   body * {
     font-family: Avenir, -apple-system, BlinkMacSystemFont, Roboto, HelveticaNeue, Helvetica, Arial, sans-serif;
     box-sizing: border-box;
+    text-align:center;
   }
   img {
     border:0; /* kills Gecko bug when img's are placed inside links */

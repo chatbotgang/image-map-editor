@@ -1,14 +1,33 @@
-import { FilePlaceHolder } from "../../dump/FilePlaceHolder";
+import {
+  FilePlaceHolder,
+  UploadLabel,
+  UploadInput,
+  UploadName,
+  UploadHolder,
+} from "../../dump/FilePlaceHolder";
 
 import { useUpload } from "./uploadHooks";
 
 const Uploader = () => {
-  const { selectedFile, inputRef } = useUpload();
+  const { inputRef, selectedFile } = useUpload();
+  const isFileUploaded = !!selectedFile;
   return (
     <FilePlaceHolder className="FilePlaceHolder">
-      <input type="file" ref={inputRef} />
-      <img src={selectedFile} alt="uploade" />
-      Upload File Here
+      <UploadLabel htmlFor="upload" isFile={isFileUploaded}>
+        <UploadInput
+          id="upload"
+          type="file"
+          ref={inputRef}
+          style={{ display: "none" }}
+        />
+        <UploadName>Upload image</UploadName>
+      </UploadLabel>
+
+      {selectedFile && (
+        <UploadHolder>
+          <img src={selectedFile} alt="uploaded" />
+        </UploadHolder>
+      )}
     </FilePlaceHolder>
   );
 };
