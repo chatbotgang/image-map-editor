@@ -1,5 +1,10 @@
 import React, { ReactElement } from "react";
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
+
+const App = styled.div.attrs((props) => ({
+  className: props.className,
+  id: props.dir,
+}))<any>``;
 
 const ResetStyle = createGlobalStyle`
   body {
@@ -129,7 +134,7 @@ export const AppLayout = ({ children }: Props): ReactElement => {
       <ResetStyle />
       <ResetFormStyle />
       <GlobalStyle />
-      <div id="app">{children}</div>
+      <App id="app">{children}</App>
     </>
   );
 };

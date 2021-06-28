@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, ChangeEvent } from "react";
 
-export const useUpload = () => {
+export const useUploader = () => {
   const [selectedFile, setSelectedFile] = useState("");
   const inputRef = useRef<HTMLInputElement>(document.createElement("input"));
   const handleSelectedFile: any = (ev: ChangeEvent<HTMLInputElement>) => {

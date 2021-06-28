@@ -1,35 +1,35 @@
-import { createContext, FC, Dispatch, PointerEvent, useRef } from "react";
-import { usePointer, initCropState } from "../../views/logic/Pointer/hooks";
+import { createContext, FC, Dispatch, useRef, useReducer } from "react";
+import {
+  editorReducer,
+  initCropState,
+  IInitLocalState,
+} from "./uploadLocalReducer";
 
 export const ImgEditorVMContext = createContext<{
-  // state: IInitLocalState;
-  layoutState: ILayoutState;
-  handleComponentPointerDown: (e: PointerEvent<HTMLDivElement>) => void;
+  state: IInitLocalState;
   dispatch: Dispatch<any>;
-  pointerWorkRegionRef: any;
+  cropRegionRef: any;
+  cropRef: any;
 }>({
-  // state: initLocalState,
-  layoutState: initCropState.layoutState,
-  handleComponentPointerDown: (e: PointerEvent<HTMLDivElement>) => {},
-  pointerWorkRegionRef: null,
+  state: initCropState,
   dispatch: () => {},
+  cropRegionRef: null,
+  cropRef: null,
 });
 
 export function WithUploadLocalCtx({ ...props }): Function {
   return (PageContainer: FC): FC => {
     const HOC: FC = () => {
-      const pointerWorkRegionRef = useRef(document.createElement("div"));
-      // const [localState, dispatch] = useReducer(localReducer, initLocalState);
-      const { state, handleComponentPointerDown, dispatch } =
-        usePointer(pointerWorkRegionRef);
+      const cropRegionRef = useRef(document.createElement("div"));
+      const cropRef = useRef(document.createElement("div"));
+      const [state, dispatch] = useReducer(editorReducer, initCropState);
       return (
         <ImgEditorVMContext.Provider
           value={{
-            // state: localState,
             dispatch,
-            layoutState: state.layoutState,
-            pointerWorkRegionRef: pointerWorkRegionRef,
-            handleComponentPointerDown: handleComponentPointerDown,
+            state: state,
+            cropRegionRef: cropRegionRef,
+            cropRef: cropRef,
           }}
         >
           <PageContainer {...props} />

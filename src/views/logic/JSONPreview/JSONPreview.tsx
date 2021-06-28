@@ -4,12 +4,16 @@ import ReactHtmlParser from "react-html-parser";
 import { ImgEditorVMContext } from "../../../presenters/Upload/uploadVM";
 
 export const JSONPreview = () => {
-  const { layoutState } = useContext(ImgEditorVMContext);
-  // console.log(JSON.stringify(layoutState));
-  const formattedText = JSON.stringify(layoutState)
+  const {
+    state: { cropSelectionDict },
+  } = useContext(ImgEditorVMContext);
+
+  const formattedText = JSON.stringify(
+    Object.keys(cropSelectionDict).map((ele: any) => cropSelectionDict[ele])
+  )
     .replace(/([,])/g, "$1\n&nbsp;&nbsp;&nbsp;&nbsp;")
     .replace(/([{])/g, "$1\n&nbsp;&nbsp;&nbsp;&nbsp;")
+    .replace(/\n&nbsp;&nbsp;&nbsp;&nbsp;"isMoving":(false|true,)/g, "")
     .replace(/(})/g, "\n$1");
-  // console.log(formattedText);
   return <CodeRegion>{ReactHtmlParser(formattedText)}</CodeRegion>;
 };

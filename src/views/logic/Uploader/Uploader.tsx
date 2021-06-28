@@ -1,15 +1,17 @@
+import { memo } from "react";
 import {
   FilePlaceHolder,
   UploadLabel,
   UploadInput,
   UploadName,
   UploadHolder,
+  UploadImage,
 } from "../../dump/FilePlaceHolder";
+import { EditRegion } from "../Edit/EditRegion/EditRegion";
+import { useUploader } from "./uploaderHooks";
 
-import { useUpload } from "./uploadHooks";
-
-const Uploader = () => {
-  const { inputRef, selectedFile } = useUpload();
+export const Uploader = memo(() => {
+  const { inputRef, selectedFile } = useUploader();
   const isFileUploaded = !!selectedFile;
   return (
     <FilePlaceHolder className="FilePlaceHolder">
@@ -25,11 +27,11 @@ const Uploader = () => {
 
       {selectedFile && (
         <UploadHolder>
-          <img src={selectedFile} alt="uploaded" />
+          <EditRegion>
+            <UploadImage src={selectedFile} alt="uploaded" />
+          </EditRegion>
         </UploadHolder>
       )}
     </FilePlaceHolder>
   );
-};
-
-export default Uploader;
+});

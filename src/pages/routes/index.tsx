@@ -1,10 +1,10 @@
 import { RouteConfig, RouteConfigComponentProps } from "react-router-config";
 import { pagePaths } from "./paths";
 import AppRoute from "./AppRoute";
-import upLoadPage from "../components/ImageEditor/ImgEditorPage";
+import { WrapEditPicPage } from "../components/ImageEditor/ImgEditorPage";
 
 export const appRouteList = [
-  { component: upLoadPage, path: pagePaths.index, exact: true },
+  { component: WrapEditPicPage, path: pagePaths.index, exact: true },
 ];
 
 export const AppRouteRootList: RouteConfig[] = [

@@ -36,6 +36,10 @@ export const UploadLabel = styled.label.attrs((props) => ({
   ${(props) => props.isFile && `display:none;`}
 `;
 
+export const UploadImage = styled.img.attrs((props) => ({
+  className: props.className,
+}))<any>``;
+
 export const UploadInput = styled.input.attrs((props) => ({
   className: props.className,
 }))<any>``;

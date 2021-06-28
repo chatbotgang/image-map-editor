@@ -2,16 +2,23 @@ import styled from "styled-components";
 
 interface SelectionElementProps {
   layout: ILayoutState;
+  cropIndex: string;
 }
 
-export const SelectionElement = styled.div.attrs((props) => ({
-  className: props.className,
-}))<SelectionElementProps>`
+export const SelectionElement = styled.div.attrs<SelectionElementProps>(
+  (props) => ({
+    className: props.className,
+    id: props.cropIndex,
+    style: {
+      left: String(props.layout.x) + "px",
+      top: String(props.layout.y) + "px",
+      width: String(props.layout.width) + "px",
+      height: String(props.layout.height) + "px",
+    },
+  })
+)<SelectionElementProps>`
   position: absolute;
-  left: ${(props) => String(props.layout.x)}px;
-  top: ${(props) => String(props.layout.y)}px;
-  width: ${(props) => String(props.layout.width)}px;
-  height: ${(props) => String(props.layout.height)}px;
+  transform: translate(-50%, -50%);
 `;
 
 interface Props {
