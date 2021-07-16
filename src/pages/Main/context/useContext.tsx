@@ -1,13 +1,12 @@
 import React, { createContext, useState, useCallback } from "react"
+import { RectangleType } from "pages/Main/types/defaultTypes"
 
 interface MainContextInterface {
   fileBase64: string
   setFileBase64: React.Dispatch<React.SetStateAction<string>>
-  positionList: { x: number; y: number }[][]
-  setPositionList: React.Dispatch<React.SetStateAction<{ x: number; y: number }[][]>>
   removeRectangle: (index: number) => void
-  rectangleList: { rec: { width: number; height: number; x: number; y: number }; dots: { x: number; y: number }[] }[]
-  setRectangleList: React.Dispatch<React.SetStateAction<{ rec: { width: number; height: number; x: number; y: number }; dots: { x: number; y: number }[] }[]>>
+  rectangleList: RectangleType[]
+  setRectangleList: React.Dispatch<React.SetStateAction<RectangleType[]>>
   resetRectangleList: () => void
   resetAll: () => void
 }
@@ -20,8 +19,7 @@ type Props = {
 
 const ContextProvider = ({ children }: Props) => {
   const [fileBase64, setFileBase64] = useState("")
-  const [positionList, setPositionList] = useState<{ x: number; y: number }[][]>([])
-  const [rectangleList, setRectangleList] = useState<{ rec: { width: number; height: number; x: number; y: number }; dots: { x: number; y: number }[] }[]>([])
+  const [rectangleList, setRectangleList] = useState<RectangleType[]>([])
 
   const removeRectangleByIndex = useCallback(index => {
     setRectangleList(state => state.filter((s, i) => i !== index))
@@ -39,8 +37,6 @@ const ContextProvider = ({ children }: Props) => {
   const GET_CONTEXT = {
     fileBase64,
     setFileBase64,
-    positionList,
-    setPositionList,
     removeRectangle: removeRectangleByIndex,
     rectangleList,
     setRectangleList,

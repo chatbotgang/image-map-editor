@@ -2,11 +2,12 @@ import { useMemo, useContext } from "react"
 import { DeleteOutlined } from "@ant-design/icons"
 import { ContextStore } from "pages/Main/context/useContext"
 import { Border, Dot, Num, DeleteButton } from "./components/styledComponents"
+import { RectangleType } from "pages/Main/types/defaultTypes"
 
 const MIN_RECT_SIZE = 24
 
 type Props = {
-  style: { rec: { width: number; height: number; x: number; y: number }; dots: { x: number; y: number }[] }
+  style: RectangleType
   num?: number
 }
 

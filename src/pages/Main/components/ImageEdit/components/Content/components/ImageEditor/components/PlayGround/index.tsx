@@ -5,12 +5,13 @@ import _isEqual from "lodash/isEqual"
 import { ContextStore } from "pages/Main/context/useContext"
 import getStyleByPosition from "pages/Main/utils/getStyleByPosition"
 import { Container } from "./components/styledComponents"
+import { CoordinateListType } from "pages/Main/types/defaultTypes"
 
 export default function PlayGround() {
   const ref = useRef(null)
   const { elX, elY, elW, elH } = useMouse(ref)
   const context = useContext(ContextStore)
-  const [newPosition, setNewPosition] = useState<{ x: number; y: number }[]>([])
+  const [newPosition, setNewPosition] = useState<CoordinateListType>([])
 
   const getValidPosition = useCallback(() => {
     let validPosition = { x: elX, y: elY }

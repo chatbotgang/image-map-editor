@@ -1,12 +1,17 @@
 import styled, { css } from "styled-components"
+import defaultSettings from "pages/Main/styles/defaultSettings"
+
+const { borderRadius } = defaultSettings
+
+const RECTANGLE_COLOR = "#0069f3"
 
 export const Border = styled.div`
-  border: #0069f3 solid 2px;
+  border: ${RECTANGLE_COLOR} solid 2px;
   position: absolute;
 `
 
 export const Dot = styled.div`
-  background-color: #0069f3;
+  background-color: ${RECTANGLE_COLOR};
   height: 8px;
   width: 8px;
   position: absolute;
@@ -21,7 +26,7 @@ export const Num = styled.div<{ isOut: boolean }>`
   align-items: center;
   justify-content: center;
   background-color: rgba(255, 255, 255, 0.7);
-  border-radius: 50%;
+  border-radius: ${borderRadius.circle};
 
   ${({ isOut }) =>
     isOut &&
@@ -36,7 +41,7 @@ export const DeleteButton = styled.div`
   background-color: #fff;
   width: 24px;
   height: 24px;
-  border-radius: 6px;
+  border-radius: ${borderRadius.default};
   display: flex;
   justify-content: center;
   align-items: center;
