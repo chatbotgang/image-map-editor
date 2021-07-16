@@ -1,7 +1,7 @@
 import _min from "lodash/min"
 import { RecType, CoordinateListType } from "pages/Main/types/defaultTypes"
 
-const getDotPosition = ({ width, height, x, y }: RecType) => {
+const getDotCoordinate = ({ width, height, x, y }: RecType) => {
   const halfWidth = width / 2
   const halfHeight = height / 2
   const midY = y + halfHeight
@@ -21,13 +21,13 @@ const getDotPosition = ({ width, height, x, y }: RecType) => {
   ]
 }
 
-export default function getStyleByPosition(position: CoordinateListType) {
-  const width = Math.abs(position[0]?.x - position[1]?.x)
-  const height = Math.abs(position[0]?.y - position[1]?.y)
-  const x = _min([position[0]?.x, position[1]?.x]) || 0
-  const y = _min([position[0]?.y, position[1]?.y]) || 0
+export default function getStyleByCoordinate(coordinate: CoordinateListType) {
+  const width = Math.abs(coordinate[0]?.x - coordinate[1]?.x)
+  const height = Math.abs(coordinate[0]?.y - coordinate[1]?.y)
+  const x = _min([coordinate[0]?.x, coordinate[1]?.x]) || 0
+  const y = _min([coordinate[0]?.y, coordinate[1]?.y]) || 0
 
-  const dotList = getDotPosition({ width, height, x, y })
+  const dotList = getDotCoordinate({ width, height, x, y })
 
   return { rec: { width, height, x, y }, dots: dotList }
 }

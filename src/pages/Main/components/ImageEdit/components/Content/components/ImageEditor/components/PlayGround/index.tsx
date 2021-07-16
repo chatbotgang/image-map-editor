@@ -3,7 +3,7 @@ import { useMouse } from "react-use"
 import Rectangle from "./components/Rectangle"
 import _isEqual from "lodash/isEqual"
 import { ContextStore } from "pages/Main/context/useContext"
-import getStyleByPosition from "pages/Main/utils/getStyleByPosition"
+import getStyleByCoordinate from "pages/Main/utils/getStyleByCoordinate"
 import { Container } from "./components/styledComponents"
 import { CoordinateListType } from "pages/Main/types/defaultTypes"
 
@@ -11,38 +11,38 @@ export default function PlayGround() {
   const ref = useRef(null)
   const { elX, elY, elW, elH } = useMouse(ref)
   const context = useContext(ContextStore)
-  const [newPosition, setNewPosition] = useState<CoordinateListType>([])
+  const [newCoordinate, setNewCoordinate] = useState<CoordinateListType>([])
 
-  const getValidPosition = useCallback(() => {
-    let validPosition = { x: elX, y: elY }
+  const getValidCoordinate = useCallback(() => {
+    let coordinate = { x: elX, y: elY }
     if (elX < 0 || elX > elW) {
-      validPosition.x = elX < 0 ? 0 : elW
+      coordinate.x = elX < 0 ? 0 : elW
     }
     if (elY < 0 || elY > elH) {
-      validPosition.y = elY < 0 ? 0 : elH
+      coordinate.y = elY < 0 ? 0 : elH
     }
 
-    return validPosition
+    return coordinate
   }, [elX, elY, elW, elH])
 
   const handleMouseUp = useCallback(() => {
-    if (newPosition.length !== 0 && !_isEqual(newPosition[0], newPosition[1])) {
-      const newRectangle = getStyleByPosition(newPosition)
-      console.log({ newPosition, newRectangle })
+    if (newCoordinate.length !== 0 && !_isEqual(newCoordinate[0], newCoordinate[1])) {
+      const newRectangle = getStyleByCoordinate(newCoordinate)
+      console.log({ newCoordinate, newRectangle })
       context?.setRectangleList(state => [...state, newRectangle])
     }
-    setNewPosition([])
-  }, [newPosition, context])
+    setNewCoordinate([])
+  }, [newCoordinate, context])
 
   const handleMouseMove = useCallback(() => {
-    if (newPosition.length !== 0) {
-      const position = getValidPosition()
-      setNewPosition(state => {
-        state[1] = position
+    if (newCoordinate.length !== 0) {
+      const coordinate = getValidCoordinate()
+      setNewCoordinate(state => {
+        state[1] = coordinate
         return [...state]
       })
     }
-  }, [newPosition, getValidPosition])
+  }, [newCoordinate, getValidCoordinate])
 
   useEffect(() => {
     window.addEventListener("mouseup", handleMouseUp)
@@ -58,15 +58,15 @@ export default function PlayGround() {
       ref={ref}
       onMouseDown={e => {
         if (e.button === 0) {
-          const position = getValidPosition()
-          setNewPosition([position, position])
+          const coordinate = getValidCoordinate()
+          setNewCoordinate([coordinate, coordinate])
         }
       }}
     >
       {context?.rectangleList.map((rectangle, rectangleIndex) => (
         <Rectangle key={rectangleIndex} style={rectangle} num={rectangleIndex} />
       ))}
-      {newPosition.length > 0 && <Rectangle style={getStyleByPosition(newPosition)} />}
+      {newCoordinate.length > 0 && <Rectangle style={getStyleByCoordinate(newCoordinate)} />}
     </Container>
   )
 }
