@@ -62,8 +62,8 @@ export default function PlayGround() {
         }
       }}
     >
-      {context?.rectangleList.map((el, index) => (
-        <Rectangle key={index} style={el} num={index} />
+      {context?.rectangleList.map((rectangle, rectangleIndex) => (
+        <Rectangle key={rectangleIndex} style={rectangle} num={rectangleIndex} />
       ))}
       {newPosition.length > 0 && <Rectangle style={getStyleByPosition(newPosition)} />}
     </Container>

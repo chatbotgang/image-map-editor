@@ -3,14 +3,8 @@ import { Wrapper, Container, StartEnd, Result } from "./components/styledCompone
 import { ContextStore } from "pages/Main/context/useContext"
 import _get from "lodash/get"
 
-const DATA_MAP_LIST = [
-  { name: "x", key: "left" },
-  { name: "y", key: "top" },
-  { name: "width", key: "width" },
-  { name: "height", key: "height" }
-]
-
-const LAST_DATA_INDEX = DATA_MAP_LIST.length - 1
+const DATA_KEY_LIST = ["x", "y", "width", "height"]
+const LAST_DATA_INDEX = DATA_KEY_LIST.length - 1
 
 export default function DataDisplay() {
   const context = useContext(ContextStore)
@@ -19,14 +13,14 @@ export default function DataDisplay() {
     const lastRectangle = context?.rectangleList.length ? context?.rectangleList.length - 1 : 0
     return context?.rectangleList.map((rectangle, rectangleIndex) => {
       const isLastRectangle = lastRectangle === rectangleIndex
-      return DATA_MAP_LIST.map((data, dataIndex) => {
-        if (LAST_DATA_INDEX !== dataIndex) {
-          return <div key={dataIndex}>{`"${data.name}": ${_get(rectangle.rec, data.key)}, `}</div>
+      return DATA_KEY_LIST.map((key, keyIndex) => {
+        if (LAST_DATA_INDEX !== keyIndex) {
+          return <div key={keyIndex}>{`"${key}": ${_get(rectangle.rec, key)}, `}</div>
         }
 
         return (
-          <div key={dataIndex}>
-            {`"${data.name}": ${_get(rectangle.rec, data.key)}`}
+          <div key={keyIndex}>
+            {`"${key}": ${_get(rectangle.rec, key)}`}
             {!isLastRectangle && <div>{`},{`}</div>}
           </div>
         )

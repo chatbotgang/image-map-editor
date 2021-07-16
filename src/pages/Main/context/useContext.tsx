@@ -6,10 +6,8 @@ interface MainContextInterface {
   positionList: { x: number; y: number }[][]
   setPositionList: React.Dispatch<React.SetStateAction<{ x: number; y: number }[][]>>
   removeRectangle: (index: number) => void
-  rectangleList: { rec: { width: number; height: number; top: number; left: number }; dots: { left: number; top: number }[] }[]
-  setRectangleList: React.Dispatch<
-    React.SetStateAction<{ rec: { width: number; height: number; top: number; left: number }; dots: { left: number; top: number }[] }[]>
-  >
+  rectangleList: { rec: { width: number; height: number; x: number; y: number }; dots: { x: number; y: number }[] }[]
+  setRectangleList: React.Dispatch<React.SetStateAction<{ rec: { width: number; height: number; x: number; y: number }; dots: { x: number; y: number }[] }[]>>
   resetRectangleList: () => void
   resetAll: () => void
 }
@@ -23,9 +21,7 @@ type Props = {
 const ContextProvider = ({ children }: Props) => {
   const [fileBase64, setFileBase64] = useState("")
   const [positionList, setPositionList] = useState<{ x: number; y: number }[][]>([])
-  const [rectangleList, setRectangleList] = useState<
-    { rec: { width: number; height: number; top: number; left: number }; dots: { left: number; top: number }[] }[]
-  >([])
+  const [rectangleList, setRectangleList] = useState<{ rec: { width: number; height: number; x: number; y: number }; dots: { x: number; y: number }[] }[]>([])
 
   const removeRectangleByIndex = useCallback(index => {
     setRectangleList(state => state.filter((s, i) => i !== index))

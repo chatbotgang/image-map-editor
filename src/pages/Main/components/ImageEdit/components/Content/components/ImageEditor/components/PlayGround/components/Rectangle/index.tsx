@@ -6,27 +6,29 @@ import { Border, Dot, Num, DeleteButton } from "./components/styledComponents"
 const MIN_RECT_SIZE = 24
 
 type Props = {
-  style: { rec: { width: number; height: number; top: number; left: number }; dots: { left: number; top: number }[] }
+  style: { rec: { width: number; height: number; x: number; y: number }; dots: { x: number; y: number }[] }
   num?: number
 }
 
 export default function Rectangle({ style, num }: Props) {
   const context = useContext(ContextStore)
 
+  const { rec, dots } = useMemo(() => style, [style])
+
   const isTooSmall = useMemo(() => {
-    const { width, height } = style.rec
+    const { width, height } = rec
     return width < MIN_RECT_SIZE || height < MIN_RECT_SIZE
-  }, [style])
+  }, [rec])
 
   return (
     <>
-      <Border style={{ ...style.rec }}>{num !== undefined && <Num isOut={isTooSmall}>{num + 1}</Num>}</Border>
-      {style.dots.map((dot, i) => (
-        <Dot style={{ ...dot }} key={i} />
+      <Border style={{ width: rec.width, height: rec.height, left: rec.x, top: rec.y }}>{num !== undefined && <Num isOut={isTooSmall}>{num + 1}</Num>}</Border>
+      {dots.map((dot, dotIndex) => (
+        <Dot style={{ left: dot.x, top: dot.y }} key={dotIndex} />
       ))}
-      {num !== undefined && style.rec.left !== undefined && (
+      {num !== undefined && rec.x !== undefined && (
         <DeleteButton
-          style={{ left: style.rec.left + style.rec.width + 10, top: style.rec.top }}
+          style={{ left: rec.x + rec.width + 10, top: rec.y }}
           onClick={() => {
             context?.removeRectangle(num)
           }}

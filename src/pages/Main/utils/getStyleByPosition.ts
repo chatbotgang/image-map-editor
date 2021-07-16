@@ -3,37 +3,37 @@ import _min from "lodash/min"
 type Props = {
   width: number
   height: number
-  top: number
-  left: number
+  x: number
+  y: number
 }
 
-const getDotPosition = ({ width, height, top, left }: Props) => {
+const getDotPosition = ({ width, height, x, y }: Props) => {
   const halfWidth = width / 2
   const halfHeight = height / 2
-  const midTop = top + halfHeight
-  const midLeft = left + halfWidth
-  const endTop = top + height
-  const endLeft = left + width
+  const midY = y + halfHeight
+  const midX = x + halfWidth
+  const endY = y + height
+  const endX = x + width
 
   return [
-    { left, top },
-    { left: midLeft, top },
-    { left: endLeft, top },
-    { left, top: midTop },
-    { left: endLeft, top: midTop },
-    { left, top: endTop },
-    { left: midLeft, top: endTop },
-    { left: endLeft, top: endTop }
+    { x, y },
+    { x: midX, y },
+    { x: endX, y },
+    { x, y: midY },
+    { x: endX, y: midY },
+    { x, y: endY },
+    { x: midX, y: endY },
+    { x: endX, y: endY }
   ]
 }
 
 export default function getStyleByPosition(position: { x: number; y: number }[]) {
   const width = Math.abs(position[0]?.x - position[1]?.x)
   const height = Math.abs(position[0]?.y - position[1]?.y)
-  const top = _min([position[0]?.y, position[1]?.y]) || 0
-  const left = _min([position[0]?.x, position[1]?.x]) || 0
+  const x = _min([position[0]?.x, position[1]?.x]) || 0
+  const y = _min([position[0]?.y, position[1]?.y]) || 0
 
-  const dotList = getDotPosition({ width, height, top, left })
+  const dotList = getDotPosition({ width, height, x, y })
 
-  return { rec: { width, height, top, left }, dots: dotList }
+  return { rec: { width, height, x, y }, dots: dotList }
 }
