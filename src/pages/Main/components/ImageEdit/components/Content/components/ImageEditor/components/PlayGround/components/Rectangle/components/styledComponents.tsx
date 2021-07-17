@@ -2,21 +2,20 @@ import styled, { css } from "styled-components"
 import defaultSettings from "pages/Main/styles/defaultSettings"
 
 const { borderRadius } = defaultSettings
+const { dotSize, borderWidth } = defaultSettings.rectangle
 
 const RECTANGLE_COLOR = "#0069f3"
 
 export const Border = styled.div`
-  border: ${RECTANGLE_COLOR} solid 2px;
+  border: ${RECTANGLE_COLOR} solid ${borderWidth}px;
   position: absolute;
 `
 
 export const Dot = styled.div`
   background-color: ${RECTANGLE_COLOR};
-  height: 8px;
-  width: 8px;
+  height: ${dotSize}px;
+  width: ${dotSize}px;
   position: absolute;
-  margin-left: -4px;
-  margin-top: -4px;
 `
 
 export const Num = styled.div<{ isOut: boolean }>`

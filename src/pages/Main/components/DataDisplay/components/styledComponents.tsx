@@ -15,7 +15,7 @@ export const Wrapper = styled.div`
 
 export const Container = styled.div`
   display: flex;
-  width: inherit;
+  width: 100%;
 `
 
 export const StartEnd = styled.div`

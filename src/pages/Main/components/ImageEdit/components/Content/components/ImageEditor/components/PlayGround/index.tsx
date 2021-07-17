@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, useCallback, useContext } from "react"
+import { useRef, useEffect, useState, useCallback, useContext, useMemo } from "react"
 import { useMouse } from "react-use"
 import Rectangle from "./components/Rectangle"
 import _isEqual from "lodash/isEqual"
@@ -28,7 +28,7 @@ export default function PlayGround() {
   const handleMouseUp = useCallback(() => {
     if (newCoordinate.length !== 0 && !_isEqual(newCoordinate[0], newCoordinate[1])) {
       const newRectangle = getStyleByCoordinate(newCoordinate)
-      console.log({ newCoordinate, newRectangle })
+
       context?.setRectangleList(state => [...state, newRectangle])
     }
     setNewCoordinate([])
@@ -53,6 +53,8 @@ export default function PlayGround() {
     }
   }, [handleMouseUp, handleMouseMove])
 
+  const newRectangle = useMemo(() => newCoordinate.length > 0 && getStyleByCoordinate(newCoordinate), [newCoordinate])
+
   return (
     <Container
       ref={ref}
@@ -66,7 +68,7 @@ export default function PlayGround() {
       {context?.rectangleList.map((rectangle, rectangleIndex) => (
         <Rectangle key={rectangleIndex} style={rectangle} num={rectangleIndex} />
       ))}
-      {newCoordinate.length > 0 && <Rectangle style={getStyleByCoordinate(newCoordinate)} />}
+      {newRectangle && <Rectangle style={newRectangle} />}
     </Container>
   )
 }
