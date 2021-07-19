@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 interface ImageMapDebuggerProps {
 	imageScale: number
-	imageShapes: ImageShape[]
+	imageShapesData: ImageShape[]
 }
 
 const ImageMapDebuggerContainer = styled.div`
@@ -21,19 +21,21 @@ const ImageMapDebuggerData = styled.pre`
 	padding: 0 15px;
 `
 
-export const ImageMapDebugger = ({ imageScale, imageShapes }: ImageMapDebuggerProps) => {
+export const ImageMapDebugger = ({ imageScale, imageShapesData }: ImageMapDebuggerProps) => {
 	// Image data needs to be normalized due to the use of SVG for shape elements
-	const imageShapeData = imageShapes.map((imageShape) => ({
-		x: imageShape.x * imageScale,
-		y: imageShape.y * imageScale,
-		width: imageShape.width * imageScale,
-		height: imageShape.height * imageScale,
+	const imageShapesDataFormatted = imageShapesData.map((imageShapeData) => ({
+		x: imageShapeData.x * imageScale,
+		y: imageShapeData.y * imageScale,
+		width: imageShapeData.width * imageScale,
+		height: imageShapeData.height * imageScale,
 	}))
 
 	return (
 		<ImageMapDebuggerContainer>
-			{imageShapes.length > 0 && (
-				<ImageMapDebuggerData>{JSON.stringify(imageShapeData, null, '  ')}</ImageMapDebuggerData>
+			{imageShapesData.length > 0 && (
+				<ImageMapDebuggerData>
+					{JSON.stringify(imageShapesDataFormatted, null, '  ')}
+				</ImageMapDebuggerData>
 			)}
 		</ImageMapDebuggerContainer>
 	)

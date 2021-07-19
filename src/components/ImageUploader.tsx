@@ -1,9 +1,10 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { useDropzone } from 'react-dropzone'
 import { Image as ImageIconRaw } from '@styled-icons/boxicons-regular/Image'
 import styled from 'styled-components'
 
 interface ImageUploaderProps {
+	componentWidth: number
 	setImagePreview: (imagePreview: string) => void
 }
 
@@ -17,7 +18,6 @@ const ImageUploaderContainer = styled.div`
 	flex-direction: column;
 	height: 156px;
 	justify-content: center;
-	width: 355px;
 `
 
 const ImageIcon = styled(ImageIconRaw)`
@@ -26,8 +26,8 @@ const ImageIcon = styled(ImageIconRaw)`
 	width: 45px;
 `
 
-export const ImageUploader = ({ setImagePreview }: ImageUploaderProps) => {
-	const onDrop = useCallback(
+export const ImageUploader = ({ componentWidth, setImagePreview }: ImageUploaderProps) => {
+	const onDrop = React.useCallback(
 		(acceptedFiles: File[]) => {
 			if (acceptedFiles.length > 0) {
 				acceptedFiles.forEach((file: File) => {
@@ -45,7 +45,7 @@ export const ImageUploader = ({ setImagePreview }: ImageUploaderProps) => {
 	})
 
 	return (
-		<ImageUploaderContainer {...getRootProps()}>
+		<ImageUploaderContainer {...getRootProps()} style={{ width: `${componentWidth}px` }}>
 			<input {...getInputProps()} />
 			<ImageIcon />
 			{isDragActive ? <p>Drop image here</p> : <p>Upload image</p>}

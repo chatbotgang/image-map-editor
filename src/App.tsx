@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
+import { ImageMapDebugger } from './components/ImageMapDebugger'
 import { ImageMapEditor } from './components/ImageMapEditor'
 import { ImageUploader } from './components/ImageUploader'
+import { useShapes } from './hooks/UseShapes'
 
 const ImageMapEditorAppContainer = styled.div`
 	display: flex;
@@ -47,23 +49,18 @@ const ImageResetButton = styled.button`
 	width: 50%;
 `
 
-const ImageMapDebugger = styled.div`
-	background-color: #2a3a48;
-	border-radius: 5px;
-	margin-left: 135px;
-	height: 703px;
-	width: 548px;
-`
-
-const ImageMapDebugUtil = styled.div`
-	color: #a3aeb9;
-	font: monospace;
-`
+// Globals
+const IMAGE_EDITOR_WIDTH = 355
+const IS_DEBUG = false // Adds a "remove image" button
 
 const ImageMapApp = () => {
-	const [imagePreview, setImagePreview] = useState('')
+	const [imagePreview, setImagePreview] = React.useState('')
+	const [imageScale, setImageScale] = React.useState(1) // Since we have a fixed width for the shape editor we will need to scale the SVG element to match
 
-	useEffect(() => {
+	// A custom hook to organize some of the code associated with shape manipulation
+	const { imageShapesData, imageShapesDispatch } = useShapes()
+
+	React.useEffect(() => {
 		URL.revokeObjectURL(imagePreview) // Prevent memory leaks
 	}, [imagePreview])
 
@@ -74,16 +71,32 @@ const ImageMapApp = () => {
 					<ImageMapEditorIcon />
 				</ImageMapEditorHeader>
 				<ImageMapEditorMain>
-					{imagePreview && <ImageMapEditor imagePreview={imagePreview} />}
 					{imagePreview && (
-						<ImageResetButton onClick={() => setImagePreview('')}>Remove image</ImageResetButton>
+						<ImageMapEditor
+							componentWidth={IMAGE_EDITOR_WIDTH}
+							imagePreview={imagePreview}
+							imageScale={imageScale}
+							imageShapesData={imageShapesData}
+							imageShapesDispatch={imageShapesDispatch}
+							setImageScale={setImageScale}
+						/>
 					)}
-					{!imagePreview && <ImageUploader setImagePreview={setImagePreview} />}
+					{IS_DEBUG && imagePreview && (
+						<ImageResetButton
+							onClick={() => {
+								setImagePreview('')
+								imageShapesDispatch({ type: 'reset' })
+							}}
+						>
+							Remove image
+						</ImageResetButton>
+					)}
+					{!imagePreview && (
+						<ImageUploader componentWidth={IMAGE_EDITOR_WIDTH} setImagePreview={setImagePreview} />
+					)}
 				</ImageMapEditorMain>
 			</ImageMapEditorContainer>
-			<ImageMapDebugger>
-				<ImageMapDebugUtil />
-			</ImageMapDebugger>
+			<ImageMapDebugger imageScale={imageScale} imageShapesData={imageShapesData} />
 		</ImageMapEditorAppContainer>
 	)
 }
