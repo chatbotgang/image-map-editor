@@ -1,20 +1,16 @@
 import React, { useCallback } from "react";
 import { InfoWrapper } from "./styles";
+import { Area } from "../../Hooks/useUploadFile/types";
 
 interface Props {
-  height: number;
-  width: number;
+  areas: Area[];
 }
 
 const Info = (props: Props) => {
-  const { height, width } = props;
+  const { areas } = props;
+  const info = JSON.stringify(areas);
 
-  return (
-    <InfoWrapper>
-      width: {width} <br />
-      height: {height}
-    </InfoWrapper>
-  );
+  return <InfoWrapper>{info}</InfoWrapper>;
 };
 
 export default React.memo(Info);

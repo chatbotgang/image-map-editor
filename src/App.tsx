@@ -3,22 +3,25 @@ import Image from "./Components/Image";
 import Info from "./Components/Info";
 import UploadFile from "./Components/UploadFile";
 import { useUploadFile } from "./Hooks/useUploadFile";
+import { useMouse } from "./Hooks/useMouse";
 
 function App() {
-  const { url, width, height, setUrl, setWH, areas } = useUploadFile();
+  const { url, setUrl, setWH, areas, add } = useUploadFile();
+  const { ref, isPress } = useMouse();
+
   return (
-    <div className="App">
+    <div className="App" ref={ref}>
       <div className="LeftSide">
         <div className="Bar">
           <div className="Circle"></div>
         </div>
-        <div className="Content">
-          <Image url={url} width={width} areas={areas} />
+        <div className="Content" draggable={false}>
+          <Image url={url} areas={areas} isPress={isPress} addArea={add} />
           <UploadFile url={url} setUrl={setUrl} setWH={setWH} />
         </div>
       </div>
-      <div className="RightSide">
-        <Info height={height} width={width} />
+      <div className="RightSide" draggable={false}>
+        <Info areas={areas} />
       </div>
     </div>
   );

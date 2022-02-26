@@ -34,9 +34,29 @@ export interface iArea {
 export class Area {
   position: Position;
   size: Size;
+  key: string;
 
   constructor(x: number, y: number, width: number, height: number) {
     this.position = new Position(x, y);
     this.size = new Size(width, height);
+    this.key = this._uuid();
+  }
+
+  _uuid() {
+    var d = Date.now();
+    if (
+      typeof performance !== "undefined" &&
+      typeof performance.now === "function"
+    ) {
+      d += performance.now();
+    }
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+      /[xy]/g,
+      function (c) {
+        var r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
+      }
+    );
   }
 }
