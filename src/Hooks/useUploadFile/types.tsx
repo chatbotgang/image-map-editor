@@ -39,10 +39,6 @@ export class Area {
   constructor(x: number, y: number, width: number, height: number) {
     this.position = new Position(x, y);
     this.size = new Size(width, height);
-    this.key = this._uuid();
-  }
-
-  _uuid() {
     var d = Date.now();
     if (
       typeof performance !== "undefined" &&
@@ -50,7 +46,7 @@ export class Area {
     ) {
       d += performance.now();
     }
-    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+    this.key = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
       /[xy]/g,
       function (c) {
         var r = (d + Math.random() * 16) % 16 | 0;

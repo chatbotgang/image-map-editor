@@ -19,30 +19,41 @@ export const useUploadFile = () => {
   );
 
   const setOriginWH = useCallback(
-    (area: Area) => {
-      console.log(area);
-      let perW = width / imageWidth;
-      let perH = height / imageHeight;
-      let obj = {
-        x: area.position.X * perW,
-        Y: area.position.Y * perH,
-        width: area.size.width * perW,
-        height: area.size.height * perW,
-      };
+    (newArr: Area[]): void => {
+      let result: any[] = [];
 
-      let newData = [...data];
-      newData.push(obj);
+      newArr.map((i): void => {
+        let perW = width / imageWidth;
+        let perH = height / imageHeight;
+        let obj = {
+          x: i.position.X * perW,
+          Y: i.position.Y * perH,
+          width: i.size.width * perW,
+          height: i.size.height * perW,
+        };
 
-      setData(newData);
+        result.push(obj);
+      });
+      setData(result);
     },
-    [setData, data, width, height]
+    [setData, width, height, imageWidth, imageHeight]
   );
+
   const add = useCallback(
     (newArea: Area) => {
       let newArr = [...areas];
       newArr.push(newArea);
       setAreas(newArr);
-      setOriginWH(newArea);
+      setOriginWH(newArr);
+    },
+    [setAreas, setOriginWH, areas]
+  );
+
+  const deleteArea = useCallback(
+    (target: Area) => {
+      let newArr = areas.filter((i) => i.key !== target.key);
+      setAreas(newArr);
+      setOriginWH(newArr);
     },
     [setAreas, setOriginWH, areas]
   );
@@ -56,5 +67,6 @@ export const useUploadFile = () => {
     setUrl,
     setWH,
     add,
+    deleteArea,
   };
 };

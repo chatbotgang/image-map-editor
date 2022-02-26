@@ -6,7 +6,7 @@ import { useUploadFile } from "./Hooks/useUploadFile";
 import { useMouse } from "./Hooks/useMouse";
 
 function App() {
-  const { data, areas, url, setUrl, setWH, add } = useUploadFile();
+  const { data, areas, url, setUrl, setWH, add, deleteArea } = useUploadFile();
   const { ref, isPress } = useMouse();
 
   return (
@@ -16,7 +16,13 @@ function App() {
           <div className="Circle"></div>
         </div>
         <div className="Content" draggable={false}>
-          <Image url={url} areas={areas} isPress={isPress} addArea={add} />
+          <Image
+            url={url}
+            areas={areas}
+            isPress={isPress}
+            addArea={add}
+            deleteArea={deleteArea}
+          />
           <UploadFile url={url} setUrl={setUrl} setWH={setWH} />
         </div>
       </div>

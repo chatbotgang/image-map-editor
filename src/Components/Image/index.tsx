@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Container } from "./styles";
 import { Area, Position } from "../../Hooks/useUploadFile/types";
 import Select from "../Select";
@@ -8,6 +8,7 @@ export interface Props {
   url: string;
   areas: Area[] | null;
   addArea: (area: Area) => void;
+  deleteArea: (area: Area) => void;
 }
 
 const Image = (props: Props) => {
@@ -15,7 +16,7 @@ const Image = (props: Props) => {
   const imgRef = React.useRef<HTMLImageElement>(null);
   const [mouseIndex, setMouseIndex] = useState(new Position(0, 0));
   const [area, setArea] = useState<Area>(new Area(0, 0, 0, 0));
-  const { url, areas, isPress, addArea } = props;
+  const { url, areas, isPress, addArea, deleteArea } = props;
 
   const getClientLeft = useCallback(
     (x: number): number => {
@@ -44,14 +45,10 @@ const Image = (props: Props) => {
       let x = getClientLeft(e.clientX);
       let y = getClientTop(e.clientY);
       setMouseIndex(new Position(x, y));
-      setArea(new Area(x, y, 0, 0));
+      let newArea = new Area(x, y, 0, 0);
+      setArea(newArea);
     },
-    [setArea, imgRef]
-  );
-
-  const onMouseUp = useCallback(
-    (e: React.MouseEvent): void => {},
-    [area, getClientLeft, getClientTop]
+    [setArea, getClientLeft, getClientTop]
   );
 
   const onMouseMove = useCallback(
@@ -73,28 +70,28 @@ const Image = (props: Props) => {
 
         if (offsetX >= 0) {
           temp.position.X = clientX;
-          temp.size.height = offsetX;
+          temp.size.width = offsetX;
           index.X = clientX;
         } else {
-          temp.size.height = offsetX * -1;
+          temp.size.width = offsetX * -1;
         }
 
         if (offsetY >= 0) {
           temp.position.Y = clientY;
-          temp.size.width = offsetY;
+          temp.size.height = offsetY;
           index.Y = clientY;
         } else {
-          temp.size.width = offsetY * -1;
+          temp.size.height = offsetY * -1;
         }
 
         setArea(temp);
       }
     },
-    [setArea, mouseIndex, isPress]
+    [setArea, mouseIndex, isPress, area, getClientLeft, getClientTop]
   );
 
-  useEffect(() => {
-    if (!isPress && area.size.width > 1 && area.size.height > 1) {
+  const addNewArea = useCallback(() => {
+    if (area.size.width > 10 && area.size.height > 10) {
       addArea(
         new Area(
           area.position.X,
@@ -105,7 +102,7 @@ const Image = (props: Props) => {
       );
       setArea(new Area(0, 0, 0, 0));
     }
-  }, [isPress]);
+  }, [area, setArea, addArea]);
 
   if (!url) {
     return null;
@@ -117,13 +114,12 @@ const Image = (props: Props) => {
       ref={containerRef}
       onMouseDown={onMouseDown}
       onMouseMove={onMouseMove}
-      onMouseUp={onMouseUp}
-      onMouseLeave={onMouseUp}
+      onMouseUp={addNewArea}
     >
-      <img ref={imgRef} src={url} width="355" draggable={false} />
+      <img ref={imgRef} src={url} width="355" draggable={false} alt="" />
       {areas &&
         areas.map((i) => {
-          return <Select key={i.key} area={i} />;
+          return <Select key={i.key} area={i} deleteArea={deleteArea} />;
         })}
       <Select area={area} />
     </Container>
