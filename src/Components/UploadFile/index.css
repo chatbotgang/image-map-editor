@@ -1,0 +1,15 @@
+.UploadFile {
+  background-color: white;
+  width: 355px;
+  height: 156px;
+  border-radius: 5px;
+  border: 1px solid rgb(67, 74, 138);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.Input {
+  display: none;
+}
