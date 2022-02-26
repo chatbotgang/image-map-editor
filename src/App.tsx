@@ -6,7 +6,7 @@ import { useUploadFile } from "./Hooks/useUploadFile";
 import { useMouse } from "./Hooks/useMouse";
 
 function App() {
-  const { url, setUrl, setWH, areas, add } = useUploadFile();
+  const { data, areas, url, setUrl, setWH, add } = useUploadFile();
   const { ref, isPress } = useMouse();
 
   return (
@@ -21,7 +21,7 @@ function App() {
         </div>
       </div>
       <div className="RightSide" draggable={false}>
-        <Info areas={areas} />
+        <Info data={data} />
       </div>
     </div>
   );

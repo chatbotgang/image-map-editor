@@ -1,16 +1,27 @@
-import React, { useCallback } from "react";
+import React, { useEffect } from "react";
 import { InfoWrapper } from "./styles";
 import { Area } from "../../Hooks/useUploadFile/types";
+import ReactJson from "react-json-view-ts";
 
 interface Props {
-  areas: Area[];
+  data: any[];
 }
 
 const Info = (props: Props) => {
-  const { areas } = props;
-  const info = JSON.stringify(areas);
+  const { data } = props;
 
-  return <InfoWrapper>{info}</InfoWrapper>;
+  return (
+    <InfoWrapper>
+      <ReactJson
+        src={data}
+        name={false}
+        theme="brewer"
+        displayDataTypes={false}
+        displayObjectSize={false}
+        enableClipboard={false}
+      />
+    </InfoWrapper>
+  );
 };
 
 export default React.memo(Info);
