@@ -1,27 +1,41 @@
 # Image Map Editor
 
-## 說明
+## Instructions
 
-這個前端作業是使用 `Create React App` 建立，請依照說明要求完成指定功能與畫面
+This repository contains simple project initialized with [Create React App](https://create-react-app.dev/). Please use this as the foundation for developing an application that meets the design specifications and technical expectations below. The whole process should take no more than 3 to 6 hours.
 
-## 說明
+### Design Specifications
 
-### 圖示
-圖一
+Figure 1:
+
 <img src="./src/assets/q1.jpg" />
-圖二
+
+Figure 2:
+
 <img src="./src/assets/q2.jpg" />
 
-### 說明文字
-1. 用 React.js 實現一個 SPA，該 SPA 可以讓使用者從本地選擇一張不限尺寸的圖片顯示於畫面上
-2. 選擇的圖片會顯示於畫面左側預覽中（如圖二左），圖片縮放到寬 355px，高則根據寬度換算的比例來換算高度
-3. 使用者可以在圖片預覽區塊內選取任意數量的矩形區域，選取到的區域座標會映射回圖片本身的尺寸顯示於畫面右側區塊，顯示的方式要有基本的縮排（如圖二右）
-4. 使用者可以刪除矩形選取區塊，刪除後右側對應的座標資料需要一併消失
+1. Implement a single-page React application that allows the user to upload an image of unlimited size from their local machine.
+2. The uploaded picture should be displayed in the interactive image preview pane on the left side of the screen (see figure 2). The picture should be scaled to a width of 355 px, and the height should be constrained by the original aspect ratio of the picture.
+3. The user should be able to select any number of rectangular areas in the image preview pane, and the coordinates of the selected area relative to the size of the image itself will be displayed in a readable, indented format in the data preview pane (figure 2, right).
+4. The user should be able to delete each selection block using an icon similar to what is displayed in the sample image.
+5. The user should be able to arbitrarily reposition and resize each selection block without exceeding the dimensions of the image preview.
+6. The data preview panel should be updated with selection block coordinates after every addition, deletion, resize, or reposition action.
+7. Optional bonus: ensure each selection block cannot overlay another selection block.
 
+Note: emulating the look and feel of the sample images is encouraged but the more important part is completing the functionality described above.
 
-## 基本要求
-- 請 fork `develop` branch，完成之後請開 PR 到 `develop` branch 提交此作業
-- 請使用 TypeScript 開發
-- 請使用 `React hooks` 來實作
-- 如果必要的話，可以使用第三方套件（請使用 yarn 安裝）
-- 顯示樣式盡量貼近說明圖示樣式，但以功能完成度為優先
+## Technical Expectations
+
+- Use TypeScript, React hooks, and functional components to develop the application.
+- CRA should not emit any linting or type errors when the application is complete, but you can disable errors where appropriate.
+- Using third party packages installed with `yarn` is welcome; you don’t need to (and probably shouldn’t) write everything from scratch, but we may be interested in why you chose a particular approach.
+- For CSS-in-JS we suggest (but do not require) using [Styled Components](https://styled-components.com/).
+- Clean and readable code style is encouraged!
+
+## Git Flow
+
+- Please fork the `develop` branch to work on the application, and later open a pull request to `develop` branch using the template provided when it is ready for review.
+- Use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) style to name your branch, commits, and pull request.
+- Team members may leave some comments on your PR as code review; feel welcome to respond and interact there, or send a private message if you prefer.
+
+If you have any questions about the assignment or the process, you are welcome to send an email and ask! Thank you for taking the time to complete this assignment. Good luck!
