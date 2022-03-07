@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import useDrag from "./useDrag";
 import './ImageUploader.css';
+import DragDiv from "./DragDiv";
 
 function ImageUploader() {
 	const [image, setImage] = useState<any>();
@@ -13,10 +14,43 @@ function ImageUploader() {
 	const useDragProps = useDrag();
 
     const styles = {
-        container: {
+        imgContainer: {
           width: 350,
+          position: 'relative'
+        } as React.CSSProperties,
+        imgPic: {
+            with:'100%'
         } as React.CSSProperties,
     };
+
+    const TestdivSet = [
+        {
+            top:100,
+            left:100,
+            width:50,
+            height:50
+        },
+        {
+            top:200,
+            left:200,
+            width:50,
+            height:50
+        }
+    ]
+
+    type dragDiv = {
+        top:number,
+        left:number,
+        width:number,
+        height:number
+    }
+
+    const createImages = function (divSet:dragDiv[]) {
+        return divSet.map(({...data}:dragDiv) => {
+            return (<DragDiv {...data} />)
+        });
+    };
+    
 
     return (
         <>
@@ -29,10 +63,11 @@ function ImageUploader() {
                     <div {...useDragProps}>
                         <img
                             src={URL.createObjectURL(image)}
-                            style={styles.container}
+                            style={styles.imgContainer}
 							className="non_draggable_image"
-                            alt="Thumb"
+                            alt="uploadPicture"
                         />
+                        {createImages(TestdivSet)}
                         {/* <button onClick={removeSelectedImage} style={styles.delete}>
                         Remove This Image
                         </button> */}

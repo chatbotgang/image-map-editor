@@ -8,23 +8,34 @@ type position = {
 
 function useDrag() {
 	const [isMouseDown, setMouseDown] = useState(false);
-	const [mousePosition, setMousePosition] = useState<Nullable<position>>();
+	const [startMousePosition, setStartMousePosition] = useState<Nullable<position>>();
+	const [lastMousePosition, setLastMousePosition] = useState<Nullable<position>>();
 	const ref = useRef(null);
 
 	function onMouseDown(event:React.MouseEvent<HTMLDivElement>) {
 		setMouseDown(true);
-		setMousePosition({_x:event.clientX, _y:event.clientY});
+		setStartMousePosition({_x:event.clientX, _y:event.clientY});
+		console.log("_x", event.clientX, '_y', event.clientY);
 	}
 
 	useEffect(() => {
 		function onMouseUp(event:any):void {
 			setMouseDown(false);
-			setMousePosition(null);
+			setStartMousePosition(null);
+			setLastMousePosition(null);
 		}
 		function onMouseMove(event:any):void {
-		  if (!isMouseDown) return;
+		    if (!isMouseDown) return;
+			if (ref.current === null) return;
+      		if (startMousePosition === null) return;
+
+			if (event.clientX) {
+                // endPosition = {x : e.clientX, y : e.clientY};
+            } else if (event.touches) {
+                // endposition = {x : e.touches[0].pageX, y : e.touches[0].pageY};            
+            }
 		
-			console.log("_x", event.clientX, '_y', event.clientY);
+			// console.log("_x", event.clientX, '_y', event.clientY);
 		}
 	
 		  	window.addEventListener('mouseup', onMouseUp);
@@ -33,7 +44,7 @@ function useDrag() {
 		  	window.removeEventListener('mouseup', onMouseUp);
 		  	window.removeEventListener('mousemove', onMouseMove);
 		};
-	}, [isMouseDown, mousePosition]);
+	}, [isMouseDown, lastMousePosition]);
 
 	return {
 		ref,
