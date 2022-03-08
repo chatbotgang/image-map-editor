@@ -1,5 +1,9 @@
 .preview {
-  width: 548px;
-  height: 703px;
+  padding: 48px;
+  overflow: auto;
+  width: 452px;
+  height: 607px;
+  color: #b8c0cb;
   background-color: #2b3948;
+  border-radius: 2px;
 }

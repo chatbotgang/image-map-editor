@@ -1,6 +1,43 @@
 .uploader {
+  display: flex;
   width: 433px;
   height: 792px;
+  margin: 0 135px 0 0;
+  flex-direction: column;
+  align-items: center;
   background-color: #ebf0f1;
+  border-radius: 6px;
+  box-shadow: 0 12px 20px 2px #ccd2d6;
 }
 
+.uploaderHeader {
+  display: flex;
+  width: 100%;
+  height: 56px;
+  align-items: center;
+  background-color: #e2e7ea;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+}
+
+.uploaderHeader__icon {
+  width: 24px;
+  height: 24px;
+  margin: 0 0 0 27px;
+  background-color: #ccd2d6;
+  border-radius: 9999px;
+}
+
+.uploaderUploadArea {
+  display: flex;
+  width: 355px;
+  height: 156px;
+  margin: 48px 0 0 0;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: darkgray;
+  background: #ffffff;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+}
