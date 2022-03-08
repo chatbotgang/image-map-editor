@@ -1,7 +1,7 @@
 // import React, { useState } from "react";
 import './ImageEditor.css';
 import ImageUploader from "./ImageUploader";
-import DragDiv from './DragDiv';
+// import DragDiv from './DragDiv';
 
 function ImageEditor() {
     const data = [{

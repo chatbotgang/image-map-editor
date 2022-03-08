@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useDrag from "./useDrag";
 import './ImageUploader.css';
 import DragDiv from "./DragDiv";
+
+import MultiCrops from 'react-multi-crops'
 
 function ImageUploader() {
 	const [image, setImage] = useState<any>();
@@ -11,16 +13,13 @@ function ImageUploader() {
         }
     }
 
-	const useDragProps = useDrag();
+	const {currentDragDiv, ...useDragProps} = useDrag();
 
     const styles = {
         imgContainer: {
           width: 350,
           position: 'relative'
-        } as React.CSSProperties,
-        imgPic: {
-            with:'100%'
-        } as React.CSSProperties,
+        } as React.CSSProperties
     };
 
     const TestdivSet = [
@@ -33,8 +32,8 @@ function ImageUploader() {
         {
             top:200,
             left:200,
-            width:50,
-            height:50
+            width:80,
+            height:80
         }
     ]
 
@@ -45,12 +44,15 @@ function ImageUploader() {
         height:number
     }
 
-    const createImages = function (divSet:dragDiv[]) {
+    const createDivSet = function (divSet:dragDiv[]) {
         return divSet.map(({...data}:dragDiv) => {
             return (<DragDiv {...data} />)
         });
     };
-    
+
+	useEffect(() => {
+
+	}, [currentDragDiv]);
 
     return (
         <>
@@ -67,12 +69,23 @@ function ImageUploader() {
 							className="non_draggable_image"
                             alt="uploadPicture"
                         />
-                        {createImages(TestdivSet)}
+                        {/* {createDivSet(TestdivSet)} */}
+						{/* {currentDragDiv && createDivSet([currentDragDiv])} */}
                         {/* <button onClick={removeSelectedImage} style={styles.delete}>
                         Remove This Image
                         </button> */}
                     </div>
                 )}
+
+				{/* {image && (
+				<MultiCrops
+					src={URL.createObjectURL(image)}
+					width={350}
+					coordinates={this.state.coordinates}
+					onChange={this.changeCoordinate}
+					onDelete={this.deleteCoordinate}
+					/>
+				)} */}
             </div>
         </>
     )

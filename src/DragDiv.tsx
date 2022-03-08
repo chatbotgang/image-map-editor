@@ -4,7 +4,7 @@ let style = {
     margin: '2px 2px',
     border: '1px solid black',
     position: 'absolute',
-}as React.CSSProperties;
+} as React.CSSProperties;
 
 type dragDiv = {
     top:number,
@@ -14,6 +14,7 @@ type dragDiv = {
 }
 
 function DragDiv({...props}:dragDiv) {
+    // console.log('drag input', props, {...style ,...props})
     let divProps = {...style ,...props} 
     return (
         <>
