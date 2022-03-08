@@ -1,19 +1,13 @@
 import React from 'react';
 
+import UploaderUploadArea from './upload-area/upload-area';
+
 import styles from './uploader.module.css';
 
 function UploaderHeader() {
   return (
     <div className={styles.uploaderHeader}>
       <div className={styles.uploaderHeader__icon} />
-    </div>
-  );
-}
-
-function UploaderUploadArea() {
-  return (
-    <div className={styles.uploaderUploadArea}>
-      <p>Upload image</p>
     </div>
   );
 }
