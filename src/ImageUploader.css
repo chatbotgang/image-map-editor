@@ -1,31 +1,62 @@
-.upload-btn-wrapper {
-  position: relative;
-  overflow: hidden;
-  display: inline-block;
+#uploader {
+  display: grid;
+	width: 100%;
+  height: 100%;
+	margin:10px auto;
+	grid-template-columns: repeat(1, 1fr);
+	grid-template-rows: repeat(2, auto);
+	grid-template-areas: "imager"
+                       "uploadBtn";
 }
 
-.uploadBtn{
+.uploadBtn {
+  color: #555;
+  padding: 0;
+  line-height: 40px;
+  width: 120px;
+  margin: auto;
+  display: block;
+  border: 2px solid #555;
+  text-align: center;
+}
+.uploadBtn:hover, .uploadBtn:focus {
+  color: #888;
+  border-color: #888;
+}
+/* input file style */
+.input-file {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+.input-file + .labelFile {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 10px;
   cursor: pointer;
 }
-
-.btn {
-  border: 2px solid gray;
-  color: gray;
-  background-color: white;
-  padding: 8px 20px;
-  border-radius: 8px;
-  font-size: 20px;
-  font-weight: bold;
+.input-file + .labelFile .icon:before {
+  content: "\f093";
+}
+.input-file + .labelFile.has-file .icon:before {
+  content: "\f00c";
+  color: #5aac7b;
 }
 
-.upload-btn-wrapper input[type=file] {
-  font-size: 100px;
-  position: absolute;
-  left: 0;
-  top: 0;
-  opacity: 0;
+label {
+	font: 600 16px "Prompt";
+	margin-bottom: 2px;
+	display: block;
+	flex: 0 0 auto;
 }
 
-.non_draggable_image{
-  -webkit-user-drag: none;
+.image_frame {
+	grid-area: imager;
+  display: flex; align-items: center; justify-content: center;
 }
+
+

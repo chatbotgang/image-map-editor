@@ -39,7 +39,13 @@ function useDrag() {
 			if (ref.current === null) return;
       		// if (startMousePosition === null) return;
 
-			console.log(event);
+			console.log(event, startMousePosition);
+			let max_X = Math.max(startMousePosition?._x || 0, lastMousePosition?._x || 0);
+			let max_Y = Math.max(startMousePosition?._y || 0, lastMousePosition?._y || 0);
+			let min_X = Math.min(startMousePosition?._x || 0, lastMousePosition?._x || 0);
+			let min_Y = Math.min(startMousePosition?._y || 0, lastMousePosition?._y || 0);
+			
+			setCurrentDragDiv({width : max_X-min_X, height: max_Y-min_Y, top: min_X, left: min_Y});
 
 			// if (event.offsetX) {
 			// 	setLastMousePosition({_x : event.offsetX, _y : event.offsetY});

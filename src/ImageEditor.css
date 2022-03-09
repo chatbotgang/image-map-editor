@@ -1,0 +1,27 @@
+.main-content {
+	margin: 4em auto;
+	max-width: 900px;
+	background: #fff;
+	padding: 15px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+	-webkit-user-drag: none;
+}
+
+.image_editor_wrapper {
+	display: grid;
+	width: 100%;
+	margin:auto;
+	grid-gap: 15px;
+	padding: 15px 0px;
+	background: rgba(76, 162, 205, 0.2);
+	border: 1px solid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-rows: repeat(1, 1fr);
+	grid-template-areas: "imageUpload jsonText";
+}
+
+#json {
+	overflow-y: scroll;
+    max-height: 400px;
+	height: 400px;
+}

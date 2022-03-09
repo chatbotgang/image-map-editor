@@ -1,92 +1,63 @@
 import React, { useState, useEffect } from "react";
-import useDrag from "./useDrag";
 import './ImageUploader.css';
-import DragDiv from "./DragDiv";
+import useDebounce from "./useDebounce";
 
 import MultiCrops from 'react-multi-crops'
 
-function ImageUploader() {
+// type coodiantesRes = {
+// 	top:number,
+// 	left:number,
+// 	width:number,
+// 	height:number
+// }
+
+function ImageUploader({coodiantesData}:{
+	coodiantesData:any
+}) {
 	const [image, setImage] = useState<any>();
+	const [coordinates, setCoordinates] = useState([]);
+	const [resultDebounce, setResultDebounce] = useDebounce<any>([], 500);
     const ImageChangeHandler = (e:React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
             setImage(e.target.files[0]);
         }
     }
 
-	const {currentDragDiv, ...useDragProps} = useDrag();
-
-    const styles = {
-        imgContainer: {
-          width: 350,
-          position: 'relative'
-        } as React.CSSProperties
-    };
-
-    const TestdivSet = [
-        {
-            top:100,
-            left:100,
-            width:50,
-            height:50
-        },
-        {
-            top:200,
-            left:200,
-            width:80,
-            height:80
-        }
-    ]
-
-    type dragDiv = {
-        top:number,
-        left:number,
-        width:number,
-        height:number
-    }
-
-    const createDivSet = function (divSet:dragDiv[]) {
-        return divSet.map(({...data}:dragDiv) => {
-            return (<DragDiv {...data} />)
-        });
-    };
-
 	useEffect(() => {
+		coodiantesData(resultDebounce);
+	}, [resultDebounce, coodiantesData]);
 
-	}, [currentDragDiv]);
+	const changeCoordinate = (coordinate:any, index:any, coordinates:any) => {
+		setCoordinates(coordinates);
+		setResultDebounce(coordinates);
+	}
+
+	const deleteCoordinate = (coordinate:any, index:any, coordinates:any) => {
+		setCoordinates(coordinates);
+		setResultDebounce(coordinates);
+	}
 
     return (
-        <>
-            <div>
-                <div className="upload-btn-wrapper">
-                    <button className="btn uploadBtn">Upload a file</button>
-                    <input type="file" accept="image/*" name="editSource" onChange={ImageChangeHandler} />
+        <>  
+			<div id="uploader">
+				<div className="image_frame">
+					{image && (
+						<MultiCrops
+							src={URL.createObjectURL(image)}
+							width={350}
+							coordinates={coordinates}
+							onChange={changeCoordinate}
+							onDelete={deleteCoordinate}
+							/>
+					)}
+				</div>
+				<div>
+					<input type="file" name="file" id="file" className="input-file"  accept="image/*" onChange={ImageChangeHandler}/>
+					<label htmlFor="file" className="btn uploadBtn labelFile">
+						<span className="fileName">Choose a file</span>
+					</label>
                 </div>
-                {image && (
-                    <div {...useDragProps}>
-                        <img
-                            src={URL.createObjectURL(image)}
-                            style={styles.imgContainer}
-							className="non_draggable_image"
-                            alt="uploadPicture"
-                        />
-                        {/* {createDivSet(TestdivSet)} */}
-						{/* {currentDragDiv && createDivSet([currentDragDiv])} */}
-                        {/* <button onClick={removeSelectedImage} style={styles.delete}>
-                        Remove This Image
-                        </button> */}
-                    </div>
-                )}
-
-				{/* {image && (
-				<MultiCrops
-					src={URL.createObjectURL(image)}
-					width={350}
-					coordinates={this.state.coordinates}
-					onChange={this.changeCoordinate}
-					onDelete={this.deleteCoordinate}
-					/>
-				)} */}
-            </div>
+			</div>
         </>
     )
 };
