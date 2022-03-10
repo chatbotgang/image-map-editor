@@ -1,0 +1,12 @@
+html,
+body,
+#root {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: stretch;
+  align-items: stretch;
+  --font: "Roboto", sans-serif;
+  font-family: var(--font);
+}

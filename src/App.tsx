@@ -1,25 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { css } from "@emotion/css";
+import ControlPanel from "ControlPanel";
+import { SnackbarProvider } from "notistack";
+import Console from "./Console";
+import "./style.css";
+import Workspace from "./Workspace";
+
+const main = css`
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 135px;
+  padding: 32px 8px;
+`;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <SnackbarProvider>
+      <ControlPanel />
+      <div className={main}>
+        <Workspace />
+        <Console />
+      </div>
+    </SnackbarProvider>
   );
 }
 
