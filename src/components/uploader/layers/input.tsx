@@ -1,4 +1,6 @@
 import React, { ChangeEvent } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faImage } from '@fortawesome/free-regular-svg-icons';
 
 import styles from '../uploader.module.css';
 import { UploaderEnum, useUploader } from '../../../reducers';
@@ -25,7 +27,8 @@ export const UploaderLayerInput = () => {
   return (
     <>
       <div className={styles.uploaderUploadAreaInput__text}>
-        <p>Image upload</p>
+        <FontAwesomeIcon icon={faImage} size="lg" color="#c4c4c6" />
+        <p>Upload image</p>
       </div>
       <input
         type="file"

@@ -1,4 +1,6 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 
 import { UploaderEnum, useUploader } from '../../../reducers';
 import { Coordinate } from '../../../types';
@@ -14,16 +16,17 @@ const UploaderLayerDeleteButton = ({
   const { x, y, width, height } = coordinate;
   return (
     <button
+      className={styles.uploaderLayerDeleteButton}
       style={{
         position: 'absolute',
         top: `${y - height / 2 - 2}px`,
-        left: `${x + width / 2 + 8}px`,
+        left: `${x + width / 2 + 6}px`,
       }}
       onClick={() =>
         dispatch({ type: UploaderEnum.DeleteCoordinate, payload: coordinate })
       }
     >
-      X
+      <FontAwesomeIcon icon={faTrashAlt} color="#c7c7d0" size="lg" />
     </button>
   );
 };

@@ -62,6 +62,10 @@
   text-align: center;
 }
 
+.uploaderUploadAreaInput__text p {
+  margin: 8px 0 0 0;
+}
+
 .uploaderLayers {
   position: absolute;
   top: 0;
@@ -78,6 +82,16 @@
 .uploaderLayerDeleteButtons,
 .uploaderLayerIndicators {
   position: absolute;
+}
+
+.uploaderLayerDeleteButton {
+  width: 24px;
+  height: 24px;
+  background-color: #fcfef9;
+  border: none;
+  border-radius: 4px;
+  box-shadow: -2px 2px 12px #858383;
+  cursor: pointer;
 }
 
 .uploaderLayerIndicator {

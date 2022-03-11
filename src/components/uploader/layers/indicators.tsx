@@ -17,7 +17,7 @@ const UploaderLayerIndicator = ({
     <div
       style={{
         position: 'absolute',
-        top: `${y - height / 2 + 8}px`,
+        top: `${y - height / 2 + 4}px`,
         left: `${x - width / 2 + 8}px`,
       }}
       className={styles.uploaderLayerIndicator}
