@@ -1,8 +1,15 @@
 import React from 'react';
 
-import UploaderUploadArea from './upload-area/upload-area';
+import classNames from 'classnames';
+
+import {
+  UploaderLayerCanvas,
+  UploaderLayerImage,
+  UploaderLayerInput,
+} from './layers';
 
 import styles from './uploader.module.css';
+import { useUploader } from '../../reducers';
 
 function UploaderHeader() {
   return (
@@ -12,11 +19,32 @@ function UploaderHeader() {
   );
 }
 
+function UploaderEditor({ hidden }: { hidden?: boolean }) {
+  if (hidden) {
+    return null;
+  }
+  return (
+    <div className={styles.uploaderLayers}>
+      <UploaderLayerImage />
+      <UploaderLayerCanvas />
+    </div>
+  );
+}
+
 function Uploader() {
+  const { uploader } = useUploader();
+  const hasImg = !!uploader.originalImageSrc;
   return (
     <div className={styles.uploader}>
       <UploaderHeader />
-      <UploaderUploadArea />
+      <div
+        className={classNames({
+          [styles.uploaderUploadArea]: true,
+          [styles['uploaderUploadArea--transparent']]: hasImg,
+        })}
+      >
+        {!hasImg ? <UploaderLayerInput /> : <UploaderEditor />}
+      </div>
     </div>
   );
 }

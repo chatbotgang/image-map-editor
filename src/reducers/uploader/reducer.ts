@@ -15,6 +15,12 @@ export const uploaderReducer = (
       return { ...state, originalImageWidth: action.payload };
     case UploaderEnum.SetOriginalImageHeight:
       return { ...state, originalImageHeight: action.payload };
+    case UploaderEnum.SetStageWidth:
+      return { ...state, stageWidth: action.payload };
+    case UploaderEnum.SetStageHeight:
+      return { ...state, stageHeight: action.payload };
+    case UploaderEnum.SetRatio:
+      return { ...state, ratio: action.payload };
     case UploaderEnum.AddCoordinate:
       return { ...state, coordinates: [...state.coordinates, action.payload] };
     case UploaderEnum.DeleteCoordinate:

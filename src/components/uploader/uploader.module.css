@@ -62,14 +62,18 @@
   text-align: center;
 }
 
-.uploaderUploadAreaPreview {
+.uploaderLayers {
   position: absolute;
   top: 0;
   width: 100%;
 }
 
-.uploaderUploadAreaPreview__image {
+.uploaderLayerImage {
   position: absolute;
   width: 100%;
   object-fit: contain;
+}
+
+.uploaderLayerCanvas {
+  position: absolute;
 }

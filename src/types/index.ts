@@ -9,10 +9,16 @@ export type ActionMap<M extends { [index: string]: any }> = {
       };
 };
 
-export interface Coordinate {
-  id: string;
+export type Point = {
   x: number;
   y: number;
+};
+
+export type Dimension = {
   width: number;
   height: number;
+};
+
+export interface Coordinate extends Point, Dimension {
+  id: string;
 }

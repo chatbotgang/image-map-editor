@@ -1,9 +1,9 @@
-import React, { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import React, { ChangeEvent } from 'react';
 
 import styles from '../uploader.module.css';
 import { UploaderEnum, useUploader } from '../../../reducers';
 
-function UploaderUploadAreaInput() {
+export const UploaderLayerInput = () => {
   const { dispatch } = useUploader();
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -34,6 +34,4 @@ function UploaderUploadAreaInput() {
       />
     </>
   );
-}
-
-export default UploaderUploadAreaInput;
+};

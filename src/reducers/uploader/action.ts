@@ -6,6 +6,9 @@ export type UploaderPayload = {
   [UploaderEnum.SetOriginalImageName]: string;
   [UploaderEnum.SetOriginalImageWidth]: number;
   [UploaderEnum.SetOriginalImageHeight]: number;
+  [UploaderEnum.SetStageWidth]: number;
+  [UploaderEnum.SetStageHeight]: number;
+  [UploaderEnum.SetRatio]: number;
   [UploaderEnum.AddCoordinate]: Coordinate;
   [UploaderEnum.DeleteCoordinate]: Coordinate;
 };
