@@ -6,6 +6,7 @@ import {
   UploaderLayerCanvas,
   UploaderLayerDeleteButtons,
   UploaderLayerImage,
+  UploaderLayerIndicators,
   UploaderLayerInput,
 } from './layers';
 
@@ -27,6 +28,7 @@ function UploaderEditor({ hidden }: { hidden?: boolean }) {
   return (
     <div className={styles.uploaderLayers}>
       <UploaderLayerImage />
+      <UploaderLayerIndicators />
       <UploaderLayerCanvas />
       <UploaderLayerDeleteButtons />
     </div>
