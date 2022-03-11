@@ -1,14 +1,10 @@
 import React, { ChangeEvent, Dispatch, SetStateAction } from 'react';
 
 import styles from '../uploader.module.css';
+import { UploaderEnum, useUploader } from '../../../reducers';
 
-function UploaderUploadAreaInput({
-  setImageSrc,
-  setImageName,
-}: {
-  setImageSrc: Dispatch<SetStateAction<string>>;
-  setImageName: Dispatch<SetStateAction<string>>;
-}) {
+function UploaderUploadAreaInput() {
+  const { dispatch } = useUploader();
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     const file = event.target.files?.[0];
@@ -20,8 +16,11 @@ function UploaderUploadAreaInput({
       event.target.value = '';
       return;
     }
-    setImageSrc(URL.createObjectURL(file));
-    setImageName(file.name);
+    dispatch({
+      type: UploaderEnum.SetOriginalImageSrc,
+      payload: URL.createObjectURL(file),
+    });
+    dispatch({ type: UploaderEnum.SetOriginalImageName, payload: file.name });
   };
   return (
     <>

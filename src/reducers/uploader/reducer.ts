@@ -7,6 +7,10 @@ export const uploaderReducer = (
   action: UploaderAction
 ): UploaderState => {
   switch (action.type) {
+    case UploaderEnum.SetOriginalImageSrc:
+      return { ...state, originalImageSrc: action.payload };
+    case UploaderEnum.SetOriginalImageName:
+      return { ...state, originalImageName: action.payload };
     case UploaderEnum.SetOriginalImageWidth:
       return { ...state, originalImageWidth: action.payload };
     case UploaderEnum.SetOriginalImageHeight:
