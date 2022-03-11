@@ -2,22 +2,15 @@ import React, { useEffect, useState } from 'react';
 
 import styles from './preview.module.css';
 import { useUploader } from '../../reducers';
+import { Dimension, Point } from '../../types';
 
-type FormattedCoordinate = {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-};
+interface FormattedCoordinate extends Point, Dimension {}
 
 function Preview() {
   const { uploader } = useUploader();
   const [data, setData] = useState([] as FormattedCoordinate[]);
   const { ratio, coordinates } = uploader;
   useEffect(() => {
-    if (!coordinates.length) {
-      return;
-    }
     setData(
       coordinates.map(({ x, y, width, height }) => ({
         x: x / ratio,

@@ -5,6 +5,7 @@ import CanvasHelper from './canvas.helper';
 import { UploaderEnum, useUploader } from '../../../reducers';
 
 import styles from '../uploader.module.css';
+import { Point } from '../../../types';
 
 export const UploaderLayerCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -19,25 +20,28 @@ export const UploaderLayerCanvas = () => {
     ) as CanvasRenderingContext2D;
     setCtx(context);
   }, [canvasRef]);
-  const drawShape = () => {
+  useEffect(() => {
     if (!ctx) {
       return;
     }
+    ctx.clearRect(
+      0,
+      0,
+      uploader.stageWidth as number,
+      uploader.stageHeight as number
+    );
+    uploader.coordinates.forEach((coordinate) => {
+      drawShape(CanvasHelper.makeVerticesFromCoordinate(coordinate));
+    });
+  }, [uploader.coordinates]);
+  const drawShape = (vertices: Point[]) => {
+    if (!ctx) {
+      return;
+    }
+    ctx.beginPath();
+    ctx.moveTo(vertices[0].x, vertices[0].y);
     ctx.fillStyle = '#000fff';
     ctx.strokeStyle = '#000fff';
-    const p3 = { x: endPoint.x, y: startPoint.y };
-    const p4 = { x: startPoint.x, y: endPoint.y };
-    const vertices = [
-      startPoint,
-      CanvasHelper.getCenterPoint(startPoint, p3),
-      p3,
-      CanvasHelper.getCenterPoint(p3, endPoint),
-      endPoint,
-      CanvasHelper.getCenterPoint(endPoint, p4),
-      p4,
-      CanvasHelper.getCenterPoint(p4, startPoint),
-      startPoint,
-    ];
     vertices.forEach((vertex) => {
       ctx.fillRect(vertex.x - 4, vertex.y - 4, 8, 8);
       ctx.lineTo(vertex.x, vertex.y);
@@ -51,8 +55,6 @@ export const UploaderLayerCanvas = () => {
       return;
     }
     const point = CanvasHelper.createPoint(event, ctx);
-    ctx.beginPath();
-    ctx.moveTo(point.x, point.y);
     setStartPoint(point);
     setEndPoint(point);
   };
@@ -71,15 +73,15 @@ export const UploaderLayerCanvas = () => {
     if (!CanvasHelper.hasArea(rectDimension)) {
       return;
     }
-    drawShape();
     setIsDragging(false);
     const rectCenter = CanvasHelper.getCenterPoint(startPoint, endPoint);
-    const payload = {
+    const coordinate = {
       id: uuidV4(),
       ...rectCenter,
       ...rectDimension,
     };
-    dispatch({ type: UploaderEnum.AddCoordinate, payload });
+    drawShape(CanvasHelper.makeVerticesFromCoordinate(coordinate));
+    dispatch({ type: UploaderEnum.AddCoordinate, payload: coordinate });
   };
   return (
     <canvas

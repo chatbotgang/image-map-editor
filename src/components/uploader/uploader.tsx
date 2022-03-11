@@ -4,6 +4,7 @@ import classNames from 'classnames';
 
 import {
   UploaderLayerCanvas,
+  UploaderLayerDeleteButtons,
   UploaderLayerImage,
   UploaderLayerInput,
 } from './layers';
@@ -27,6 +28,7 @@ function UploaderEditor({ hidden }: { hidden?: boolean }) {
     <div className={styles.uploaderLayers}>
       <UploaderLayerImage />
       <UploaderLayerCanvas />
+      <UploaderLayerDeleteButtons />
     </div>
   );
 }

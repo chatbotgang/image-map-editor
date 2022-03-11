@@ -27,7 +27,7 @@ export const uploaderReducer = (
       return {
         ...state,
         coordinates: state.coordinates.filter(
-          (c) => c.id === action.payload.id
+          (c) => c.id !== action.payload.id
         ),
       };
     default:
