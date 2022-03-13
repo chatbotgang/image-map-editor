@@ -1,7 +1,7 @@
 import React from 'react';
 import Playground from './components/playground';
 import Results from './components/results';
-import './App.css';
+
 
 function App() {
   return (

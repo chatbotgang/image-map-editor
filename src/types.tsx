@@ -1,0 +1,1 @@
+export type FileEventTarget = Event & { target :{files: FileList} } & React.ChangeEvent<HTMLInputElement>;

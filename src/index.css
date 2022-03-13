@@ -11,3 +11,96 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.App {
+  height: 100vh;
+  position: relative;
+}
+
+.container{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 50px;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.playground{
+  width: 433px;
+  height: 792px;
+  position: relative;
+  margin-right: 135px;
+  background-color: #F3F3F3;
+  border-radius:5px;
+  box-shadow: 0 1px 10px rgba(0,0,0,0.5);
+}
+
+.bg-main{
+  background-color: #F3F3F3;;
+}
+
+.bg-secondary{
+  background-color: #E6E6EF;
+}
+
+.h-56{
+  height: 56px;
+}
+
+.results{
+  width: 548px;
+  height: 703px;
+  color: white;
+  background-color: #202C38;
+}
+
+.circle{
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin: 16px;
+  border-radius: 12px;
+  background-color: #CAD1D7;
+}
+
+.canvas{
+  border: 2px solid #CAD1D7;
+  border-radius: 10px;
+}
+
+
+input[type=file] {
+  display: inline-block;
+  position: relative;
+  width: 355px;
+  height: 156px;
+  padding: 156px 0 0 0;
+  overflow: hidden;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background: url('https://cdn1.iconfinder.com/data/icons/hawcons/32/698394-icon-130-cloud-upload-512.png') center center no-repeat #ffffff;
+  border: 2px solid #CAD1D7;
+  border-radius: 10px;
+  background-size: 60px 60px;
+  cursor: pointer;
+}
+
+input[type=file]::before{
+  position: absolute;
+  left: 50%;
+  bottom: 20px; 
+  transform: translate(-50%);
+  content:"Upload Image";
+  font-size: 16px;
+  color: #AAAAAA;
+}
+
+.pt-48{
+  padding-top:48px;
+}
