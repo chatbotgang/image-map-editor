@@ -15,6 +15,8 @@ export type AppCtx = {
 
 export const appState: AppState = {
   uploader: {
+    stageWidth: 0,
+    stageHeight: 0,
     ratio: 1,
     coordinates: [],
   },

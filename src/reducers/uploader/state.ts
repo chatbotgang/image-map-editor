@@ -5,8 +5,8 @@ export type UploaderState = {
   originalImageName?: string;
   originalImageWidth?: number;
   originalImageHeight?: number;
-  stageWidth?: number;
-  stageHeight?: number;
+  stageWidth: number;
+  stageHeight: number;
   ratio: number;
   coordinates: Coordinate[];
 };

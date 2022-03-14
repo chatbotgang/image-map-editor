@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState, PointerEvent } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  PointerEvent,
+} from 'react';
 import { v4 as uuidV4 } from 'uuid';
 
 import CanvasHelper from './canvas.helper';
@@ -14,6 +20,24 @@ export const UploaderLayerCanvas = () => {
   const [endPoint, setEndPoint] = useState(CanvasHelper.createOrigin());
   const [isDragging, setIsDragging] = useState(false);
   const { uploader, dispatch } = useUploader();
+  const drawShape = useCallback(
+    (vertices: Point[]) => {
+      if (!ctx) {
+        return;
+      }
+      ctx.beginPath();
+      ctx.moveTo(vertices[0].x, vertices[0].y);
+      ctx.fillStyle = '#000fff';
+      ctx.strokeStyle = '#000fff';
+      vertices.forEach((vertex) => {
+        ctx.fillRect(vertex.x - 4, vertex.y - 4, 8, 8);
+        ctx.lineTo(vertex.x, vertex.y);
+      });
+      ctx.stroke();
+      ctx.closePath();
+    },
+    [ctx]
+  );
   useEffect(() => {
     const context = canvasRef.current?.getContext(
       '2d'
@@ -24,31 +48,17 @@ export const UploaderLayerCanvas = () => {
     if (!ctx) {
       return;
     }
-    ctx.clearRect(
-      0,
-      0,
-      uploader.stageWidth as number,
-      uploader.stageHeight as number
-    );
+    ctx.clearRect(0, 0, uploader.stageWidth, uploader.stageHeight);
     uploader.coordinates.forEach((coordinate) => {
       drawShape(CanvasHelper.makeVerticesFromCoordinate(coordinate));
     });
-  }, [uploader.coordinates]);
-  const drawShape = (vertices: Point[]) => {
-    if (!ctx) {
-      return;
-    }
-    ctx.beginPath();
-    ctx.moveTo(vertices[0].x, vertices[0].y);
-    ctx.fillStyle = '#000fff';
-    ctx.strokeStyle = '#000fff';
-    vertices.forEach((vertex) => {
-      ctx.fillRect(vertex.x - 4, vertex.y - 4, 8, 8);
-      ctx.lineTo(vertex.x, vertex.y);
-    });
-    ctx.stroke();
-    ctx.closePath();
-  };
+  }, [
+    ctx,
+    uploader.coordinates,
+    uploader.stageHeight,
+    uploader.stageWidth,
+    drawShape,
+  ]);
   const handlePointerDown = (event: PointerEvent<HTMLCanvasElement>) => {
     setIsDragging(true);
     if (!ctx) {
