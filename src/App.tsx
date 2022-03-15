@@ -1,24 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {useState} from 'react';
+
+import * as Type from 'type';
+import * as Comp from "components";
+
+import style from './App.module.css';
 
 function App() {
+  const [rectangleList, setRectangleList] = useState<Type.Rectangle[]>([]);
+  const appendRectangleList = (rectangle: Type.Rectangle) => {
+    setRectangleList(list => [...list, rectangle]);
+  };
+
+  const deleteRectangle = (index: number) => {
+    setRectangleList(list => list.filter((_, i) => i !== index));
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={style.App}>
+      <div className={style.ImageUploadArea}>
+        <Comp.ImagePreviewer {...{rectangleList, appendRectangleList, deleteRectangle}} />
+      </div>
+      <pre className={style.ConsoleArea}>
+        {!!rectangleList.length && JSON.stringify(rectangleList.map(r => ({x: r.left, y: r.top, width: r.width, height: r.height})), null, 4)}
+      </pre>
     </div>
   );
 }

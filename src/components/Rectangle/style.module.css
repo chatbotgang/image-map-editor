@@ -1,0 +1,71 @@
+.rectangle {
+  position: absolute;
+  border: 1px solid #1469e1;
+}
+
+.rectangle .serialNum {
+  top: 5px;
+  left: 5px;
+  width: 25px;
+  height: 25px;
+  color: #000;
+  display: flex;
+  position: absolute;
+  border-radius: 100%;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.rectangle .trash.disabled {
+  z-index: 0;
+}
+
+.rectangle .trash {
+  z-index: 1;
+  top: 0;
+  left: 100%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  border-radius: 3px;
+  position: absolute;
+  transform: translateX(10px);
+  background-color: #fdfffb;
+  box-shadow: 1px 1px 2px rgb(0 0 0 / 60%);
+}
+
+.rectangle .trash:hover {
+  background-color: var(--RedColor);
+}
+
+.rectangle .trash:hover ~ .serialNum {
+  color: #fff;
+  transform: scale(1.2);
+  transition: transform 0.2s;
+  background-color: var(--RedColor);
+}
+
+.rectangle .trash:hover ~ .dotBlock .dot {
+  width: 10px;
+  height: 10px;
+  transition: width 0.2s, height 0.2s;
+  background-color: var(--RedColor);
+}
+
+.rectangle .dotBlock .dot {
+  width: var(--DotSize);
+  height: var(--DotSize);
+  position: absolute;
+  background-color: #1469e1;
+  transform: translate(-50%, -50%);
+}
+
+.rectangle .dotBlock .dot:nth-of-type(1) { left: 0; top: 0; }
+.rectangle .dotBlock .dot:nth-of-type(2) { left: 0; top: 50%;}
+.rectangle .dotBlock .dot:nth-of-type(3) { left: 0; top: 100%; }
+.rectangle .dotBlock .dot:nth-of-type(4) { left: 50%; top: 0; }
+.rectangle .dotBlock .dot:nth-of-type(5) { left: 50%; top: 100%; }
+.rectangle .dotBlock .dot:nth-of-type(6) { left: 100%; top: 0; }
+.rectangle .dotBlock .dot:nth-of-type(7) { left: 100%; top: 50%; }
+.rectangle .dotBlock .dot:nth-of-type(8) { left: 100%; top: 100%; }

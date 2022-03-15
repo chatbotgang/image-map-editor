@@ -1,0 +1,59 @@
+:root {
+  --DotSize: 5px;
+  --DefaultBorderRadius: 5px;
+  --ImageUploadAreaWidth: 433px;
+  --ImageUploadHintWidth: 355px;
+  --RedColor: rgb(214, 113, 113);
+  --ImageUploadAreaHeaderHeight: 56px;
+}
+
+.App {
+  gap: 135px;
+  display: flex;
+  margin: 20px auto;
+  width: fit-content;
+}
+
+.App > * {
+  overflow: hidden;
+  border-radius: var(--DefaultBorderRadius);
+}
+
+/* Left: ImageUploadArea */
+.App .ImageUploadArea {
+  width: var(--ImageUploadAreaWidth);
+  height: 792px;
+  position: relative;
+  background-color: #f5f9fa;
+}
+
+.App .ImageUploadArea:before,
+.App .ImageUploadArea:after {
+  content: "";
+}
+
+.App .ImageUploadArea:before {
+  width: 100%;
+  height: var(--ImageUploadAreaHeaderHeight);
+  display: block;
+  background-color: #ecf0f3;
+}
+
+.App .ImageUploadArea:after {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  border-radius: 100%;
+  background-color: #d4dbdf;
+  transform: translateY(-50%);
+  left: 30px;
+  top: calc(var(--ImageUploadAreaHeaderHeight) / 2);
+}
+
+/* Right: ConsoleArea */
+.App .ConsoleArea {
+  width: 548px;
+  height: 703px;
+  color: #fff;
+  background-color: #2a3948;
+}
