@@ -1,23 +1,20 @@
 import React, {FunctionComponent,useState, useEffect, useRef} from 'react';
 import { FiTrash2 } from "react-icons/fi";
-import useCanvas from "../hooks/useCanvas"
+import useCanvas from "../hooks/useCanvas";
+import { RootState } from '../stores';
+import { useSelector, useDispatch } from 'react-redux';
+import { add, deleteByIndex } from '../slices/rectangleSlice';
 
 interface props {
     image: string;
 }
 
-interface rectProperties {
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-}
-
 const  Canvas: FunctionComponent<props> = ({image}) => {
     const img = useRef<HTMLImageElement>(null);
     const canvas = useRef<HTMLCanvasElement>(null);
-    const [rects, setRects] = useState<rectProperties[]>([])
     const {offset,clear,drawRect} = useCanvas(canvas);
+    const rectangles = useSelector((state: RootState) => state.rectangle.rectangles)
+    const dispatch = useDispatch()
    
     let isMouseDown: boolean = false;
     let startX: number = 0;
@@ -43,12 +40,12 @@ const  Canvas: FunctionComponent<props> = ({image}) => {
 
       useEffect(() => {
         clear();
-        rects.forEach((rect) => drawRect(rect));
-      }, [rects]);    
+        rectangles.forEach((rect) => drawRect(rect));
+      }, [rectangles]);    
 
     const handleMouseUp = (e :React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
         isMouseDown = false;
-        setRects([...rects, {x: startX, y:startY, width: rectWidth, height: rectHeight}]);
+        dispatch(add({x: startX, y:startY, width: rectWidth, height: rectHeight}))
     }  
 
     const handleMouseMove = (e :React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
@@ -61,7 +58,7 @@ const  Canvas: FunctionComponent<props> = ({image}) => {
         rectHeight = mouseY - startY;
     
         drawRect({x:startX, y:startY, width: rectWidth, height:rectHeight})
-        rects.forEach((rect) => drawRect(rect))
+        rectangles.forEach((rect) => drawRect(rect))
     }  
 
     const handleMouseDown = (e :React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
@@ -71,15 +68,14 @@ const  Canvas: FunctionComponent<props> = ({image}) => {
     } 
 
     const handleDeleteRect = (index: number) => {
-        const excludeIndexRects = [...rects.slice(0, index), ...rects.slice(index + 1)];
-        setRects(excludeIndexRects);
+        dispatch(deleteByIndex(index))
     }
     
-    const deleteButtons = rects.map((r, index) => (
+    const deleteButtons = rectangles.map((r, index) => (
         <button key={index}  className="absolute trash" style={{left: r.x + r.width + 4, top: r.y}} onClick={()=>handleDeleteRect(index)}>{<FiTrash2/>}</button>)
     )
 
-     const labels = rects.map((r, index) => (
+     const labels = rectangles.map((r, index) => (
         <span key={index} className="absolute sm round" style={{left: r.x +1 , top: r.y + 1}}>{index + 1}</span>)
     )
 
