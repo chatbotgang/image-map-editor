@@ -68,10 +68,22 @@ code {
   background-color: #CAD1D7;
 }
 
-.canvas{
+.canvas-container{
+  width: 355px;
+  height: auto;
+  position: relative;
+}
+.canvas-img{
   border: 2px solid #CAD1D7;
   border-radius: 10px;
 }
+.canvas-area{
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 999;
+}
+
 
 
 input[type=file] {
