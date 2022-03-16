@@ -1,10 +1,15 @@
 import React from 'react';
+import { RootState } from '../stores';
+import { useSelector } from 'react-redux';
 
 const  Results = () => {
+    const rectangles = useSelector((state: RootState) => state.rectangle.rectangles);
+
+
   return (
-   <div className="results">
-            yyy
-   </div>
+   <pre className="results">
+       {rectangles.length > 0 && JSON.stringify(rectangles).replaceAll("}", "\n  }").replaceAll(",\"", ",\n  \"").replaceAll("{\"", "{\n  \"")}
+   </pre>
   );
 }
 

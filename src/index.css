@@ -52,11 +52,16 @@ code {
   height: 56px;
 }
 
+.pt-48 {
+  padding-top: 48px;
+}
+
 .results {
   width: 548px;
   height: 703px;
   color: white;
   background-color: #202c38;
+  padding: 24px;
 }
 
 .circle {
@@ -110,10 +115,6 @@ input[type="file"]::before {
   content: "Upload Image";
   font-size: 16px;
   color: #aaaaaa;
-}
-
-.pt-48 {
-  padding-top: 48px;
 }
 
 .round {

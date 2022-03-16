@@ -13,8 +13,8 @@ const  Canvas: FunctionComponent<props> = ({image}) => {
     const img = useRef<HTMLImageElement>(null);
     const canvas = useRef<HTMLCanvasElement>(null);
     const {offset,clear,drawRect} = useCanvas(canvas);
-    const rectangles = useSelector((state: RootState) => state.rectangle.rectangles)
-    const dispatch = useDispatch()
+    const rectangles = useSelector((state: RootState) => state.rectangle.rectangles);
+    const dispatch = useDispatch();
    
     let isMouseDown: boolean = false;
     let startX: number = 0;
