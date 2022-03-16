@@ -1,32 +1,43 @@
-import React, {FunctionComponent, useState, useEffect, useRef} from 'react';
+import React, {FunctionComponent,useState, useEffect, useRef} from 'react';
+import { FiTrash2 } from "react-icons/fi";
 
 interface props {
     image: string;
 }
 
+interface Offset {
+    offsetX: number, 
+    offsetY: number
+}
+
+interface rectProperties {
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+}
 
 const  Canvas: FunctionComponent<props> = ({image}) => {
     const img = useRef<HTMLImageElement>(null);
     const canvas = useRef<HTMLCanvasElement>(null);
-    const [rect, setRect] = useState<number[][]>([])
-
-
-    let ctx : CanvasRenderingContext2D | null | undefined = null;
+    const [rects, setRects] = useState<rectProperties[]>([])
+    const [settings, setSettings] = useState<Offset>({ offsetX: 0, offsetY: 0})
+    const [ctx, setCtx] = useState<CanvasRenderingContext2D | null | undefined>(null);
+   
     let isMouseDown: boolean = false;
-    let offsetX: number = 0;
-    let offsetY: number = 0;
     let startX: number = 0;
     let startY: number = 0;
     let mouseX: number = 0;
     let mouseY: number = 0;
-    let width: number = 0;
-    let height: number = 0;
-    const rectangles: number[][] = []
+    let rectWidth: number = 0;
+    let rectHeight: number = 0;
+
 
     useEffect(() => {
-        ctx = canvas.current?.getContext("2d");
-      }, []);
-    
+        setCtx(canvas.current?.getContext("2d"));
+      }, []);  
+
+
     useEffect(() => {
         const loadImage = new Image();
         loadImage.src = image;
@@ -36,44 +47,52 @@ const  Canvas: FunctionComponent<props> = ({image}) => {
                 let imageNode = img.current as any;
                 canvasNode.height = imageNode?.height;
                 console.log(canvas);
-                offsetX = canvasNode.offsetParent.offsetLeft + canvasNode.offsetParent.offsetParent.offsetLeft;
-                offsetY = canvasNode.offsetParent.offsetTop + canvasNode.offsetParent.offsetParent.offsetTop;;
-                console.log('offsetX', offsetX, 'offsetY', offsetY);
+                setSettings(({
+                    offsetX:canvasNode.offsetParent.offsetLeft + canvasNode.offsetParent.offsetParent.offsetLeft,
+                    offsetY:canvasNode.offsetParent.offsetTop + canvasNode.offsetParent.offsetParent.offsetTop,
+                }))
+                
             }
            
         };
       }, [image]);
 
+      useEffect(() => {
+        const canvasNode = canvas.current as any;
+        if(ctx){
+             ctx.clearRect(0, 0, canvasNode.width, canvasNode.height);
+             rects.forEach((rect) => {
+                const {x,y,width,height} = rect;
+                ctx && ctx.strokeRect(x,y,width,height);
+            })
+        }
+      }, [rects]);    
+
     const handleMouseUp = (e :React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
         console.log('handleMouseUp');
         isMouseDown = false;
-        //setRectangles([]);
-        rectangles.push([startX, startY, width, height]);
-        
-        console.log(rectangles);
-        //setRect([...rectangles]);
-
+        console.log(rects);
+        setRects([...rects, {x: startX, y:startY, width: rectWidth, height: rectHeight}]);
     }  
 
     const handleMouseMove = (e :React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
         console.log('handleMouseMove');
         if(!isMouseDown) return;
-        mouseX =  e.clientX - offsetX; 
-        mouseY =  e.clientY - offsetY; 
-
+        mouseX =  e.clientX - settings.offsetX; 
+        mouseY =  e.clientY - settings.offsetY; 
+        
         if(canvas && ctx){
             let canvasNode = canvas.current as any;
             ctx.clearRect(0, 0, canvasNode.width, canvasNode.height);
-            width = mouseX - startX;
-            height = mouseY - startY;
-            console.log('draw', startX, startY, width, height);
+            rectWidth = mouseX - startX;
+            rectHeight = mouseY - startY;
             ctx.strokeStyle = '#0000FF';
             ctx.lineWidth = 2;
             
-            ctx.strokeRect(startX, startY, width, height);
-            rectangles.forEach((rect) => {
-                const [x,y,w,h] = rect;
-                ctx && ctx.strokeRect(x,y,w,h);
+            ctx.strokeRect(startX, startY, rectWidth, rectHeight);
+            rects.forEach((rect) => {
+                const {x,y,width,height} = rect;
+                ctx && ctx.strokeRect(x,y,width,height);
             })
 
         }
@@ -84,16 +103,26 @@ const  Canvas: FunctionComponent<props> = ({image}) => {
 
     const handleMouseDown = (e :React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
         console.log('handleMouseDown');
-        startX = e.clientX - offsetX;
-        startY = e.clientY - offsetY;
+        startX = e.clientX - settings.offsetX;
+        startY = e.clientY - settings.offsetY;
         console.log('startX', startX, 'startY', startY);
 
         isMouseDown = true;
 
     } 
+
+    const handleDeleteRect = (index: number) => {
+        const excludeIndexRects = [...rects.slice(0, index), ...rects.slice(index + 1)];
+        setRects(excludeIndexRects);
+    }
     
-    const deleteButtons = rectangles.map(r => (<button>r
-    </button>) )
+    const deleteButtons = rects.map((r, index) => (
+        <button key={index}  className="absolute trash" style={{left: r.x + r.width + 4, top: r.y}} onClick={()=>handleDeleteRect(index)}>{<FiTrash2/>}</button>)
+    )
+
+     const labels = rects.map((r, index) => (
+        <span key={index} className="absolute sm round" style={{left: r.x +1 , top: r.y + 1}}>{index + 1}</span>)
+    )
 
   return (
       <div className="canvas-container">
@@ -105,6 +134,7 @@ const  Canvas: FunctionComponent<props> = ({image}) => {
             onMouseMove={(e) =>handleMouseMove(e)}
             onMouseDown={(e) =>handleMouseDown(e)}>     
         </canvas>
+        {labels}
         {deleteButtons}
       </div>
    

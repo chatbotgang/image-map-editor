@@ -1,14 +1,14 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
@@ -17,7 +17,7 @@ code {
   position: relative;
 }
 
-.container{
+.container {
   max-width: 1200px;
   margin: 0 auto;
   padding-top: 50px;
@@ -30,63 +30,61 @@ code {
   flex-wrap: wrap;
 }
 
-.playground{
+.playground {
   width: 433px;
   height: 792px;
   position: relative;
   margin-right: 135px;
-  background-color: #F3F3F3;
-  border-radius:5px;
-  box-shadow: 0 1px 10px rgba(0,0,0,0.5);
+  background-color: #f3f3f3;
+  border-radius: 5px;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
 }
 
-.bg-main{
-  background-color: #F3F3F3;;
+.bg-main {
+  background-color: #f3f3f3;
 }
 
-.bg-secondary{
-  background-color: #E6E6EF;
+.bg-secondary {
+  background-color: #e6e6ef;
 }
 
-.h-56{
+.h-56 {
   height: 56px;
 }
 
-.results{
+.results {
   width: 548px;
   height: 703px;
   color: white;
-  background-color: #202C38;
+  background-color: #202c38;
 }
 
-.circle{
+.circle {
   display: inline-block;
   width: 24px;
   height: 24px;
   margin: 16px;
   border-radius: 12px;
-  background-color: #CAD1D7;
+  background-color: #cad1d7;
 }
 
-.canvas-container{
+.canvas-container {
   width: 355px;
   height: auto;
   position: relative;
 }
-.canvas-img{
-  border: 2px solid #CAD1D7;
+.canvas-img {
+  border: 2px solid #cad1d7;
   border-radius: 10px;
 }
-.canvas-area{
+.canvas-area {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 999;
+  z-index: 99;
 }
 
-
-
-input[type=file] {
+input[type="file"] {
   display: inline-block;
   position: relative;
   width: 355px;
@@ -96,23 +94,50 @@ input[type=file] {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  background: url('https://cdn1.iconfinder.com/data/icons/hawcons/32/698394-icon-130-cloud-upload-512.png') center center no-repeat #ffffff;
-  border: 2px solid #CAD1D7;
+  background: url("https://cdn1.iconfinder.com/data/icons/hawcons/32/698394-icon-130-cloud-upload-512.png")
+    center center no-repeat #ffffff;
+  border: 2px solid #cad1d7;
   border-radius: 10px;
   background-size: 60px 60px;
   cursor: pointer;
 }
 
-input[type=file]::before{
+input[type="file"]::before {
   position: absolute;
   left: 50%;
-  bottom: 20px; 
+  bottom: 20px;
   transform: translate(-50%);
-  content:"Upload Image";
+  content: "Upload Image";
   font-size: 16px;
-  color: #AAAAAA;
+  color: #aaaaaa;
 }
 
-.pt-48{
-  padding-top:48px;
+.pt-48 {
+  padding-top: 48px;
+}
+
+.round {
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(200, 200, 200, 0.5);
+  border-radius: 50%;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.absolute {
+  position: absolute;
+  z-index: 999;
+}
+
+.trash {
+  width: 24px;
+  height: 24px;
+  color: #cccccc;
+  background-color: #ffffff;
+  border: 1px solid #aaaaaa;
+  border-radius: 4px;
+  font-size: 18px;
+  padding: 2px;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
 }
