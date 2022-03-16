@@ -1,13 +1,9 @@
 import React, {FunctionComponent,useState, useEffect, useRef} from 'react';
 import { FiTrash2 } from "react-icons/fi";
+import useCanvas from "../hooks/useCanvas"
 
 interface props {
     image: string;
-}
-
-interface Offset {
-    offsetX: number, 
-    offsetY: number
 }
 
 interface rectProperties {
@@ -21,8 +17,7 @@ const  Canvas: FunctionComponent<props> = ({image}) => {
     const img = useRef<HTMLImageElement>(null);
     const canvas = useRef<HTMLCanvasElement>(null);
     const [rects, setRects] = useState<rectProperties[]>([])
-    const [settings, setSettings] = useState<Offset>({ offsetX: 0, offsetY: 0})
-    const [ctx, setCtx] = useState<CanvasRenderingContext2D | null | undefined>(null);
+    const {offset,clear,drawRect} = useCanvas(canvas);
    
     let isMouseDown: boolean = false;
     let startX: number = 0;
@@ -31,12 +26,7 @@ const  Canvas: FunctionComponent<props> = ({image}) => {
     let mouseY: number = 0;
     let rectWidth: number = 0;
     let rectHeight: number = 0;
-
-
-    useEffect(() => {
-        setCtx(canvas.current?.getContext("2d"));
-      }, []);  
-
+ 
 
     useEffect(() => {
         const loadImage = new Image();
@@ -45,70 +35,39 @@ const  Canvas: FunctionComponent<props> = ({image}) => {
             if(canvas && img){
                 let canvasNode = canvas.current as any;
                 let imageNode = img.current as any;
-                canvasNode.height = imageNode?.height;
-                console.log(canvas);
-                setSettings(({
-                    offsetX:canvasNode.offsetParent.offsetLeft + canvasNode.offsetParent.offsetParent.offsetLeft,
-                    offsetY:canvasNode.offsetParent.offsetTop + canvasNode.offsetParent.offsetParent.offsetTop,
-                }))
-                
+                canvasNode.height = imageNode?.height;            
             }
            
         };
       }, [image]);
 
       useEffect(() => {
-        const canvasNode = canvas.current as any;
-        if(ctx){
-             ctx.clearRect(0, 0, canvasNode.width, canvasNode.height);
-             rects.forEach((rect) => {
-                const {x,y,width,height} = rect;
-                ctx && ctx.strokeRect(x,y,width,height);
-            })
-        }
+        clear();
+        rects.forEach((rect) => drawRect(rect));
       }, [rects]);    
 
     const handleMouseUp = (e :React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
-        console.log('handleMouseUp');
         isMouseDown = false;
-        console.log(rects);
         setRects([...rects, {x: startX, y:startY, width: rectWidth, height: rectHeight}]);
     }  
 
     const handleMouseMove = (e :React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
-        console.log('handleMouseMove');
         if(!isMouseDown) return;
-        mouseX =  e.clientX - settings.offsetX; 
-        mouseY =  e.clientY - settings.offsetY; 
+        mouseX =  e.clientX - offset.x; 
+        mouseY =  e.clientY - offset.y; 
         
-        if(canvas && ctx){
-            let canvasNode = canvas.current as any;
-            ctx.clearRect(0, 0, canvasNode.width, canvasNode.height);
-            rectWidth = mouseX - startX;
-            rectHeight = mouseY - startY;
-            ctx.strokeStyle = '#0000FF';
-            ctx.lineWidth = 2;
-            
-            ctx.strokeRect(startX, startY, rectWidth, rectHeight);
-            rects.forEach((rect) => {
-                const {x,y,width,height} = rect;
-                ctx && ctx.strokeRect(x,y,width,height);
-            })
-
-        }
-
-       
-        
+        clear();
+        rectWidth = mouseX - startX;
+        rectHeight = mouseY - startY;
+    
+        drawRect({x:startX, y:startY, width: rectWidth, height:rectHeight})
+        rects.forEach((rect) => drawRect(rect))
     }  
 
     const handleMouseDown = (e :React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
-        console.log('handleMouseDown');
-        startX = e.clientX - settings.offsetX;
-        startY = e.clientY - settings.offsetY;
-        console.log('startX', startX, 'startY', startY);
-
+        startX = e.clientX - offset.x;
+        startY = e.clientY - offset.y;
         isMouseDown = true;
-
     } 
 
     const handleDeleteRect = (index: number) => {
