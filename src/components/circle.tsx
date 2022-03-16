@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {FunctionComponent} from 'react';
 
-const  Circle = () => {
+const  Circle: FunctionComponent = () => {
   return (
    <div className="circle"></div>
   );

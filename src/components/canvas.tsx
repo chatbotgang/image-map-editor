@@ -1,4 +1,4 @@
-import React, {FunctionComponent,useState, useEffect, useRef} from 'react';
+import React, {FunctionComponent, useEffect, useRef} from 'react';
 import { FiTrash2 } from "react-icons/fi";
 import useCanvas from "../hooks/useCanvas";
 import { RootState } from '../stores';
@@ -75,7 +75,7 @@ const  Canvas: FunctionComponent<props> = ({image}) => {
         <button key={index}  className="absolute trash" style={{left: r.x + r.width + 4, top: r.y}} onClick={()=>handleDeleteRect(index)}>{<FiTrash2/>}</button>)
     )
 
-     const labels = rectangles.map((r, index) => (
+    const labels = rectangles.map((r, index) => (
         <span key={index} className="absolute sm round" style={{left: r.x +1 , top: r.y + 1}}>{index + 1}</span>)
     )
 

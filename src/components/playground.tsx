@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {FunctionComponent} from 'react';
 import Circle from './circle';
 import ImageUploader from './imageUploader';
 import Canvas from './canvas';
 import useUploadFile from '../hooks/useUploadFile';
 
 
-const  Playground = () => {
+const  Playground: FunctionComponent = () => {
     const {image, setImage} = useUploadFile();
  
   return (

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {FunctionComponent} from 'react';
 import { RootState } from '../stores';
 import { useSelector } from 'react-redux';
 
-const  Results = () => {
+const  Results: FunctionComponent = () => {
     const rectangles = useSelector((state: RootState) => state.rectangle.rectangles);
 
 
