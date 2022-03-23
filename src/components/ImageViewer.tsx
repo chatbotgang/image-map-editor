@@ -93,6 +93,7 @@ function ImageViewer() {
     const handleMouseUp = (e: MouseEvent) => {
       document.removeEventListener('mouseup', handleMouseUp, false);
       document.removeEventListener('mousemove', handleMouseMove, false);
+      throttleSetRange.cancel();
       setRange({ x: 0, y: 0, x2: 0, y2: 0, width: 0, height: 0 });
       const moveX = e.clientX - left;
       const moveY = e.clientY - top;
