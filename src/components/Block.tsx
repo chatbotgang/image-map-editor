@@ -4,30 +4,15 @@ import { Block as BlockType } from '../store/appContext';
 import TrashIcon from '../icons/TrashIcon';
 import { appContext, ActionEnum } from '../store/appContext';
 
-type StyleBlockType = {
-  x: number,
-  y: number,
-  width: number,
-  height: number
-}
-
 type DotProp = {
   top: string,
   left: string,
 }
 
-type IconProp = {
-  top: number,
-  left: number,
-  width: number,
-}
-
-const StyledBlock = style.div<StyleBlockType>`
+const StyledBlock = style.div.attrs((prop) => ({
+  style: prop.style
+}))`
   position: absolute;
-  top: ${props => props.y}px;
-  left: ${props => props.x}px;
-  width: ${props => props.width}px;
-  height: ${props => props.height}px;
   border: 1px solid blue;
   pointer-events: none;
 `;
@@ -51,10 +36,10 @@ const IndexDiv = style.div`
   border-radius: 50%;
 `;
 
-const IconWrapper = style.div<IconProp>`
+const IconWrapper = style.div.attrs((prop) => ({
+  style: prop.style
+}))`
   position: absolute;
-  top: ${props => props.top}px;
-  left: ${props => props.left + props.width + 2}px;
   width: 24px;
   height: 24px;
   border-radius: 4px;
@@ -76,7 +61,7 @@ function Block(props: BlockType) {
   if(!width || !height) return null;
   return (
     <>
-      <StyledBlock x={x} y={y} width={width} height={height}>
+      <StyledBlock style={{ left: x, top: y, width, height }}>
         {index && <IndexDiv>{index}</IndexDiv>}
         {[{ top: '0px', left: '0px' },
           { top: '0px', left: '100%' },
@@ -86,9 +71,10 @@ function Block(props: BlockType) {
         ))}
       </StyledBlock>
       <IconWrapper
-        left={x}
-        top={y}
-        width={width}
+        style={{
+          top: y,
+          left: x + width + 2
+        }}
         onClick={() => {
           dispatch({
             type: ActionEnum.DELETE_BLOCK,
