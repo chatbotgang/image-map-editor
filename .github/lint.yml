@@ -4,7 +4,7 @@ on: [pull_request]
 
 jobs:
   lint:
-    name: Lint & Check Type
+    name: Lint & Check Types
     runs-on: ubuntu-latest
     steps:
       - name: Checkout branch
