@@ -1,25 +1,12 @@
-## 🔗 Related issue link
+## 🤔 Why
 
 <!--
-[]()
-1. Describe the source of requirement. It's recommended to list the issue link.
-2. Leave blank if there is no issue link.
+Describe the problem and the scenario.
 -->
 
-## 💡 Background and solution
+## 💡 How
 
 <!--
-1. Describe the problem and the scenario.
-2. How to fix the problem, and list final API implementation and usage sample if that is a new feature.
+- How to fix the problem, and list the final API implementation and usage sample if that is a new feature. Also, add reference links here, if any.
+- Stuff to watch out for. For example, an API change of a shared component or requiring installing new packages
 -->
-
-## 🤔 TODO
-
-<!--
-These need some discussion or work outside of this PR:
--->
-
-## ☑️ Self Check before Merge
-
-- [ ] Doc and Wiki are updated/provided or not needed.
-- [ ] Followed the Commit Message Guidelines listed in CONTRIBUTING.md
