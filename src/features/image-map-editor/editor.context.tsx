@@ -6,7 +6,7 @@ import {
 } from 'react';
 
 // state
-interface Selection {
+export interface Selection {
   id: string;
   x: number;
   y: number;
@@ -14,69 +14,96 @@ interface Selection {
   height: number;
 }
 
+export interface ImgData {
+  el: HTMLImageElement;
+  width: number;
+  height: number;
+  aspectRatio: number;
+}
+
 interface EditorState {
-  img: null | HTMLImageElement;
+  imgData: ImgData|null;
   selections: Selection[];
 }
 
 // reducer
 type Action =
-  | { type: 'add-image'; img: HTMLImageElement }
+  | { type: 'add-image'; imgData: ImgData }
   | { type: 'delete-image'; }
   | { type: 'add-selection'; selection: Selection }
-  | { type: 'delete-selection'; selectionId: Pick<Selection, 'id'> }
-  | { type: 'update-selection'; selectionIndex: number; selection: Selection }
+  | { type: 'delete-selection'; id: string }
+  | { type: 'update-selection'; id: string; selection: Selection }
 type Dispatch = (action: Action) => void;
 
 const initialStates: EditorState = {
-  img: null,
+  imgData: null,
   selections: [],
 };
 
 function editorReducer(state: EditorState, action: Action) {
   switch(action.type) {
-    case 'add-image':
+    case 'add-image': {
       return {
         ...state,
-        img: action.img
+        imgData: action.imgData,
       };
-    case 'delete-image': 
+    }
+
+    case 'delete-image': {
       return { ...initialStates };
-    case 'add-selection':
+    }
+
+    case 'add-selection': {
+      const newSelections = state.selections.concat(action.selection);
       return { 
         ...state, 
-        selections: state.selections.concat(action.selection)
+        selections: newSelections,
       };
-    case 'update-selection':
+    }
+      
+    case 'update-selection': {
+      const index = state.selections.findIndex(({ id }) => id === action.id);
+      if (index === -1) return state;
+
       return {
         ...state,
         selections: [
-          ...state.selections.slice(0, action.selectionIndex),
+          ...state.selections.slice(0, index),
           action.selection,
-          ...state.selections.slice(action.selectionIndex + 1),
-        ]
+          ...state.selections.slice(index + 1),
+        ],
       };
-    case 'delete-selection':
-      return { ...state };
-    default: 
-      return state;
+    }
+      
+    case 'delete-selection': {
+      const newSelections = state.selections.filter(({ id }) => id !== action.id);
+
+      return {
+        ...state,
+        selections: newSelections,
+      };
+    }
+    default: return state;
   }
 };
 
 // context
-interface ContextInterface {
-  state: EditorState;
+interface EditorContextType {
+  imgData: ImgData|null;
+  selections: Selection[];
   dispatch: Dispatch;
 }
 
-const EditorContext = createContext<ContextInterface | undefined>(undefined);
+const EditorContext = createContext<EditorContextType | undefined>(undefined);
 EditorContext.displayName = 'EditorContext';
 
-
-
-const EditorProvider = (props: { children: ReactNode }) => {
+export const EditorProvider = (props: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(editorReducer, { ...initialStates });
-  const value = { state, dispatch };
+  const value = {
+    dispatch,
+    imgData: state.imgData,
+    selections: state.selections,
+  };
 
   return (
     <EditorContext.Provider
@@ -86,15 +113,10 @@ const EditorProvider = (props: { children: ReactNode }) => {
   );
 };
 
-const useEditor = () => {
+export const useEditor = () => {
   const context = useContext(EditorContext)
   if (context === undefined) {
     throw new Error('useEditor must be used within a EditorProvider');
   }
   return context;
-}
-
-export {
-  useEditor,
-  EditorProvider,
 }
