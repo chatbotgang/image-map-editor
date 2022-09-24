@@ -16,21 +16,6 @@ jobs:
           node-version: '18'
           cache: 'yarn'
 
-      - name: Get Yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - name: Handle Yarn cache
-        uses: actions/cache@v3
-        id: yarn-cache
-        with:
-          path: |
-            node_modules
-            ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-
       - name: Install dependencies
         run: rm -f .yarnclean && yarn --frozen-lockfile --ignore-engines --ignore-optional --non-interactive --silent --ignore-scripts
         env:
