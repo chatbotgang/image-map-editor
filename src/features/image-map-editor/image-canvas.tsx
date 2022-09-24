@@ -1,52 +1,56 @@
+import { nanoid } from 'nanoid';
 import {
   useRef,
   useEffect,
   useCallback,
   MouseEvent,
 } from 'react';
-import { nanoid } from 'nanoid';
 import { useEditor } from './editor.context';
 
+export type DrawStartCallback = () => void;
+export type DrawStopCallback = () => void;
 interface ImageCanvasProps {
-  onDrawStart?: () => void;
-  onDrawEnd?: () => void;
+  width: number;
+  height: number;
+  onDrawStart?: DrawStartCallback;
+  onDrawStop?: DrawStopCallback;
 }
 
 const ImageCanvas = ({
-  onDrawEnd = () => {},
-  onDrawStart = () => {},
+  width,
+  height,
+  onDrawStart,
+  onDrawStop,
+  ...rest
 }: ImageCanvasProps) => {
-  const {
-    imgData,
-    dispatch,
-  } = useEditor();
-  const isDrawingRef = useRef(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  // avoid reflow frequently, only assign the value on mousedown
   const canvasRectRef = useRef<DOMRect>();
+
+  const editorContext = useEditor();
+  const imgData = editorContext.imgData!;
+  const dispatch = editorContext.dispatch;
 
   const drawImg = useCallback(() => {
     const canvas = canvasRef.current;
     const context = canvas?.getContext('2d');
-    if (!imgData || !canvas || !context) return;
+    if (!context) return;
     
     context.drawImage(
       imgData.el,
       0, 0, imgData.width, imgData.height, 
-      0, 0, canvas.width, canvas.height,
+      0, 0, width, height,
     );
-  }, [imgData]);
+  }, [imgData, width, height]);
   
   // init img
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas || !imgData) return;
-    canvas.width = 355;
-    canvas.height = 355 * (imgData.aspectRatio)
+    if (!canvas) return;
     drawImg();
-  }, [imgData, drawImg]);
+  }, [drawImg]);
   
   // draw selection rectangle
+  const isDrawingRef = useRef(false);
   const mouseStatusRef = useRef<'idle'|'down'|'moving'>('idle');
   const rectRef = useRef({
     startX: 0,
@@ -56,29 +60,25 @@ const ImageCanvas = ({
     width: 0,
     height: 0,
   });
-  const addSelection = () => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
+  const stopDrawing = () => {
     const rect = rectRef.current;
-    const width = Math.abs(rect.width);
-    const height = Math.abs(rect.height);
     const selection = {
       id: nanoid(),
       x: rect.width > 0 ? rect.startX : rect.endX,
       y: rect.height > 0 ? rect.startY : rect.endY,
-      width,
-      height,
+      width: Math.abs(rect.width),
+      height: Math.abs(rect.height),
     };
-
-    // ignore small movement
-    if (width >= 5 && height >= 5) {
+    
+    const minimumSize = 12;
+    if (selection.height > minimumSize || selection.width > minimumSize) {
       dispatch({ type: 'add-selection', selection });
     }
-    drawImg();
-    onDrawEnd?.();
+
     mouseStatusRef.current = 'idle';
     isDrawingRef.current = false;
+    drawImg();
+    onDrawStop?.();
   };
 
   const handleMouseDown = (e: MouseEvent) => {
@@ -97,17 +97,16 @@ const ImageCanvas = ({
     if (!canDrawRectangle) return;
 
     if (!isDrawingRef.current) {
+      mouseStatusRef.current = 'moving';
       isDrawingRef.current = true;
       onDrawStart?.();
     }
-    mouseStatusRef.current = 'moving';
 
     const rect = rectRef.current;
-    const canvasRect = canvasRectRef.current;
-    if (!canvasRect) return;
+    const canvasRect = canvasRectRef.current!;
     rect.width = e.pageX - canvasRect.left - rect.startX;
     rect.height = e.pageY - canvasRect.top - rect.startY;
-    const context = canvasRef.current?.getContext('2d');
+    const context = canvasRef.current!.getContext('2d');
     if (!context) return;
 
     drawImg();
@@ -127,17 +126,16 @@ const ImageCanvas = ({
     if (!context) return;
 
     const rect = rectRef.current;
-    const canvasRect = canvasRectRef.current;
-    if (!canvasRect) return;
+    const canvasRect = canvasRectRef.current!;
 
     rect.endX = e.pageX - canvasRect.left;
     rect.endY = e.pageY - canvasRect.top;
-    addSelection();
+    stopDrawing();
   };
 
   const handleMouseLeave = (e: MouseEvent) => {    
     if (mouseStatusRef.current !== 'moving') return;
-    if (!imgData || !canvasRectRef.current) return;
+    if (!canvasRectRef.current) return;
 
     const canvasRect = canvasRectRef.current;
 
@@ -167,17 +165,19 @@ const ImageCanvas = ({
     rect.width = width;
     rect.height = height;
 
-    addSelection();
+    stopDrawing();
   };
 
   return (
     <canvas
-      style={{ cursor: 'crosshair', margin: '0 auto' }}
       ref={canvasRef}
+      width={width}
+      height={height}
       onMouseUp={handleMouseUp}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      {...rest}
     />
   );
 };

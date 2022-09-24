@@ -24,11 +24,6 @@ export const LeftHeader = styled.div`
   height: 56px;
 `;
 
-export const LeftBody = styled.div`
-  width: 355px;
-  margin: 40px auto;
-`;
-
 export const Avatar = styled.div`
   width: 24px;
   height: 24px;

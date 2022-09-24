@@ -11,9 +11,7 @@ const Editor = () => {
           <Styled.LeftHeader>
             <Styled.Avatar />
           </Styled.LeftHeader>
-          <Styled.LeftBody>
-            <ImageGroup />
-          </Styled.LeftBody>
+          <ImageGroup />
         </Styled.Left>
 
         <Styled.Right>
