@@ -1,4 +1,10 @@
-# Image Map Editor
+## 🔗 Related issue link
+
+<!--
+[]()
+1. Describe the source of requirement. It's recommended to list the issue link.
+2. Leave blank if there is no issue link.
+-->
 
 ## 💡 Background and solution
 
@@ -26,17 +32,18 @@ flowchart TB
 
 - It's not a complex state, Most of the re-render is necessary when the state change.
 - Friendly for component composition. Keep the exposed context API consistency to help alternate the sub-component or better implementation easily.
-- If resize or reposition the selection block needs to renew the preview data immediately, Maybe can split the context or use the state management library for the performance issue.
+
+If resize or reposition the selection block needs to renew the preview data immediately, Maybe can split the context or use the state management library for the performance issue.
 
 ### Canvas
 
 - Most of the canvas view updates do not rely on react manipulate, so I use `useRef` to keep the canvas internal state, e.g. mouse current status.
-- Saving the latest Canvas DOMRect via mousedown and use in mousemove, avoid get box metrics frequently (might cause unnecessary reflow).
+- Saving the latest canvas DOMRect via mousedown and use in mousemove, avoid get box metrics frequently (might cause unnecessary reflow).
 
 ### Libaraies
 
 - react-dropzone: For file upload, prop getters API looks good to me.
-- react-rnd: Resize and reposition the selection block. I think the API interface is simple.
+- react-rnd: It's a higher-level wrapper of react-draggable and re-resizable combination, I think the API interface is easy to use.
 - react-icons: Styling.
 - styled-components: Styling.
 - polished: CSS-in-JS toolset. use for setup the normalize CSS.
