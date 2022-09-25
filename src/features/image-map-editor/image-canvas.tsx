@@ -6,6 +6,7 @@ import {
   MouseEvent,
 } from 'react';
 import { useEditor } from './editor.context';
+import { detectIsOverlap } from './utils';
 
 export type DrawStartCallback = () => void;
 export type DrawStopCallback = () => void;
@@ -28,6 +29,7 @@ const ImageCanvas = ({
 
   const editorContext = useEditor();
   const imgData = editorContext.imgData!;
+  const selections = editorContext.selections;
   const dispatch = editorContext.dispatch;
 
   const drawImg = useCallback(() => {
@@ -60,21 +62,34 @@ const ImageCanvas = ({
     width: 0,
     height: 0,
   });
-  const stopDrawing = () => {
+  const addSelectionIfNeeded = () => {
     const rect = rectRef.current;
-    const selection = {
+    const newSelection = {
       id: nanoid(),
       x: rect.width > 0 ? rect.startX : rect.endX,
       y: rect.height > 0 ? rect.startY : rect.endY,
       width: Math.abs(rect.width),
       height: Math.abs(rect.height),
     };
-    
-    const minimumSize = 12;
-    if (selection.height > minimumSize || selection.width > minimumSize) {
-      dispatch({ type: 'add-selection', selection });
-    }
 
+    // detect overlap
+    const isOverlap = selections.some((selection) => {
+      return detectIsOverlap(newSelection, selection);
+    });
+    if (isOverlap) return;
+    
+    const isLessThanMinimumSize = (
+      newSelection.width < 1
+      || newSelection.height < 1
+    );
+    if (isLessThanMinimumSize) return;
+    
+    dispatch({
+      type: 'add-selection',
+      selection: newSelection,
+    });
+  };
+  const stopDrawing = () => {
     mouseStatusRef.current = 'idle';
     isDrawingRef.current = false;
     drawImg();
@@ -130,6 +145,7 @@ const ImageCanvas = ({
 
     rect.endX = e.pageX - canvasRect.left;
     rect.endY = e.pageY - canvasRect.top;
+    addSelectionIfNeeded();
     stopDrawing();
   };
 
@@ -144,7 +160,7 @@ const ImageCanvas = ({
     let endY = e.pageY - canvasRect.top;
     let width = (e.pageX - canvasRect.left)  - rect.startX;
     let height = (e.pageY - canvasRect.top) - rect.startY;
-    
+
     // left boundary
     if (endX < 0) endX = 0;
     // top boundary
@@ -164,7 +180,7 @@ const ImageCanvas = ({
     rect.endY = endY;
     rect.width = width;
     rect.height = height;
-
+    addSelectionIfNeeded();
     stopDrawing();
   };
 

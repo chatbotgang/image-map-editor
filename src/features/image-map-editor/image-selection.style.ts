@@ -39,6 +39,12 @@ export const Selection = styled.div`
   height: 100%;
 `;
 
+export const DragHandler = styled.div`
+  width: 100%;
+  height: 100%;
+  cursor: move;
+`;
+
 export const Dot = styled.div`
   position: absolute;
   width: 8px;
