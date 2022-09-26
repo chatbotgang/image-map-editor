@@ -4,28 +4,17 @@ on: [pull_request]
 
 jobs:
   lint:
+    name: Lint & Check Types
     runs-on: ubuntu-latest
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Node.js for use with actions
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
-          node-version: '10.x'
-
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - name: Handle yarn cache
-        uses: actions/cache@v2
-        id: yarn-cache
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          node-version: '16'
+          cache: 'yarn'
 
       - name: Install dependencies
         run: rm -f .yarnclean && yarn --frozen-lockfile --ignore-engines --ignore-optional --non-interactive --silent --ignore-scripts
@@ -34,10 +23,9 @@ jobs:
           HUSKY_SKIP_INSTALL: true
 
       - name: Run ESLint
-        uses: tinovyatkin/action-eslint@a62d4ab3ea77b401bd40d1dfbd1ff053b3aa9307
+        uses: tj-actions/eslint-changed-files@v13
         with:
-          repo-token: ${{secrets.GITHUB_TOKEN}}
-          check-name: lint # this is the check name from above 👆 where to post annotations
+          token: ${{secrets.GITHUB_TOKEN}}
 
-      - name: Check type
+      - name: Check types
         run: yarn check-types
