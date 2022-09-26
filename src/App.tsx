@@ -1,54 +1,37 @@
 import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
 import omit from "lodash/fp/omit";
 import Layout from "layouts/Layout";
 import { Console, ImageMapEditor } from "components";
 import type { Coordinate } from "types/coordinate";
+import isCoordinatesOverlap from "utils/isCoordinatesOverlap";
 
 import "react-image-crop/dist/ReactCrop.css";
+
+const elementOverlayNotify = () => toast.error("The selections are overlapping.");
 
 function App() {
   const [coordinates, setCoordinates] = useState<Coordinate[]>([]);
 
-  const handleDragStop = ({
-    x,
-    y,
-    coordinateId,
-  }: {
-    x: number;
-    y: number;
-    coordinateId: string;
-  }) => {
+  const handleDragStop = (currentCoordinate: Coordinate) => {
+    if (isCoordinatesOverlap(coordinates, currentCoordinate)) {
+      elementOverlayNotify();
+      return;
+    }
     const updatedCoordinates = coordinates.map((coordinate) =>
-      coordinate.id === coordinateId ? { ...coordinate, x, y } : coordinate
+      coordinate.id === currentCoordinate.id ? currentCoordinate : coordinate
     );
     setCoordinates(updatedCoordinates);
   };
 
-  const handleResizeStop = ({
-    x,
-    y,
-    width,
-    height,
-    coordinateId,
-  }: {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-    coordinateId: string;
-  }) => {
+  const handleResizeStop = (currentCoordinate: Coordinate) => {
+    if (isCoordinatesOverlap(coordinates, currentCoordinate)) {
+      elementOverlayNotify();
+      return;
+    }
     const updatedCoordinates = coordinates.map((coordinate) =>
-      coordinate.id === coordinateId
-        ? { ...coordinate, x, y, width, height }
-        : coordinate
-    );
-    setCoordinates(updatedCoordinates);
-  };
-
-  const handleRemoveCoordinate = (coordinateId: string) => {
-    const updatedCoordinates = coordinates.filter(
-      (coordinate) => coordinate.id !== coordinateId
+      coordinate.id === currentCoordinate.id ? currentCoordinate : coordinate
     );
     setCoordinates(updatedCoordinates);
   };
@@ -58,13 +41,9 @@ function App() {
     y,
     width,
     height,
-  }: {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  }) => {
+  }: Omit<Coordinate, "id">) => {
     if (width === 0 || height === 0) return;
+
     const newCoordinate = {
       id: uuidv4(),
       x: Math.round(x),
@@ -72,7 +51,20 @@ function App() {
       width: Math.round(width),
       height: Math.round(height),
     };
+
+    if (isCoordinatesOverlap(coordinates, newCoordinate)) {
+      elementOverlayNotify();
+      return;
+    }
+
     setCoordinates(coordinates.concat(newCoordinate));
+  };
+
+  const handleRemoveCoordinate = ({ id }: Coordinate) => {
+    const updatedCoordinates = coordinates.filter(
+      (coordinate) => coordinate.id !== id
+    );
+    setCoordinates(updatedCoordinates);
   };
 
   return (
@@ -89,6 +81,7 @@ function App() {
           ? JSON.stringify(coordinates.map(omit("id")), null, 2)
           : null}
       </Console>
+      <Toaster />
     </Layout>
   );
 }

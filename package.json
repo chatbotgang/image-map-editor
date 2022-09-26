@@ -16,6 +16,7 @@
     "lodash": "^4.17.21",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-hot-toast": "^2.4.0",
     "react-icons": "^4.4.0",
     "react-image-crop": "^10.0.7",
     "react-rnd": "^10.3.7",

@@ -85,21 +85,10 @@ const RESIZE_HANDLE_STYLES = {
 
 interface ImageMapEditorProps {
   coordinates: Coordinate[];
-  onDragStop: (props: { x: number; y: number; coordinateId: string }) => void;
-  onResizeStop: (props: {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-    coordinateId: string;
-  }) => void;
-  onRemoveCoordinate: (coordinateId: string) => void;
-  onCropComplete: (props: {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  }) => void;
+  onDragStop: (coordinate: Coordinate) => void;
+  onResizeStop: (coordinate: Coordinate) => void;
+  onRemoveCoordinate: (coordinate: Coordinate) => void;
+  onCropComplete: (coordinate: Omit<Coordinate, "id">) => void;
 }
 
 const ImageMapEditor = ({
@@ -140,6 +129,7 @@ const ImageMapEditor = ({
               >
                 <ImageMapEditorImagePreview
                   alt="crop image preview"
+                  draggable={false}
                   src={imageSrc}
                 />
               </ReactCrop>
@@ -155,9 +145,10 @@ const ImageMapEditor = ({
                   position={{ x: coordinate.x, y: coordinate.y }}
                   onDragStop={(_, DraggableData) =>
                     onDragStop({
+                      ...coordinate,
                       x: DraggableData.x,
                       y: DraggableData.y,
-                      coordinateId: coordinate.id,
+                      id: coordinate.id,
                     })
                   }
                   onResizeStop={(e, _, ref, delta, position) =>
@@ -166,14 +157,14 @@ const ImageMapEditor = ({
                       y: position.y,
                       width: ref.offsetWidth,
                       height: ref.offsetHeight,
-                      coordinateId: coordinate.id,
+                      id: coordinate.id,
                     })
                   }
                   resizeHandleStyles={RESIZE_HANDLE_STYLES}
                 >
                   <ImageMapEditorNumberTag>{index + 1}</ImageMapEditorNumberTag>
                   <ImageMapEditorUploaderDeleteButton
-                    onClick={() => onRemoveCoordinate(coordinate.id)}
+                    onClick={() => onRemoveCoordinate(coordinate)}
                   >
                     <AiOutlineDelete size={24} />
                   </ImageMapEditorUploaderDeleteButton>
