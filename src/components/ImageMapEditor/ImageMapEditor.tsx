@@ -155,15 +155,15 @@ const ImageMapEditor = ({
                       id: coordinate.id,
                     })
                   }
-                  onResizeStop={(e, _, ref, delta, position) =>
+                  onResizeStop={(e, _, ref, delta, position) => {
                     onResizeStop({
                       x: position.x,
                       y: position.y,
                       width: ref.offsetWidth,
                       height: ref.offsetHeight,
                       id: coordinate.id,
-                    })
-                  }
+                    });
+                  }}
                   resizeHandleStyles={RESIZE_HANDLE_STYLES}
                 >
                   <ImageMapEditorNumberTag>{index + 1}</ImageMapEditorNumberTag>
