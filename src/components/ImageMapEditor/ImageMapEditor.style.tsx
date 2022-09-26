@@ -24,7 +24,7 @@ export const ImageMapEditorHeaderCircle = styled.div`
 `;
 
 export const ImageMapEditorBody = styled.div`
-  padding-top: 40px;
+  padding: 40px;
   display: flex;
   justify-content: center;
 `;

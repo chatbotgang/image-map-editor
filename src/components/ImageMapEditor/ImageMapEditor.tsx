@@ -107,7 +107,10 @@ const ImageMapEditor = ({
       reader.addEventListener("load", () =>
         setImageSrc((reader?.result as string) ?? "")
       );
-      reader.readAsDataURL(event.target.files[0]);
+      const file = event.target.files[0];
+      if (file.type.includes("image")) {
+        reader.readAsDataURL(file);
+      }
     }
   };
 
@@ -121,6 +124,7 @@ const ImageMapEditor = ({
           {imageSrc ? (
             <>
               <ReactCrop
+                style={{ maxHeight: 662 }}
                 className="crop-image"
                 crop={crop}
                 onChange={(crop) => setCrop(crop)}
