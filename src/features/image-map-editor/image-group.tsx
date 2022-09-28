@@ -5,7 +5,7 @@ import ImageCanvas from './image-canvas';
 import ImageSelection from './image-selection';
 import * as Styled from './image-group.style';
 
-const width = 355;
+export const width = 355;
 
 const ImageGroup = () => {
   const {
