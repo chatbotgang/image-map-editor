@@ -1,45 +1,36 @@
-import {
-  useEffect,
-  useCallback,
-} from 'react';
+import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useEditor } from './editor.context';
 import * as Styled from './image-dropzone.style';
 
-const dropzoneOptions = {
-  multiple: false,
-  accept: {'image/*': ['.png', '.jpeg', '.jpg', '.svg']}
-};
-
 const ImageDropzone = () => {
-  const {
-    acceptedFiles,
-    getRootProps,
-    getInputProps,
-  } = useDropzone(dropzoneOptions);
   const { dispatch } = useEditor();
-
-  const addImg = useCallback((file) => {
+  const handleDropAccepted = useCallback(([file]) => {
+    if (!file) return;
     const img = new Image();
     img.src = URL.createObjectURL(file);
-    img.src = URL.createObjectURL(file);
     img.onload = () => {
-      const imgData = {
-        el: img,
-        width: img.width,
-        height: img.height,
-        aspectRatio: img.height / img.width,
-      };
-      dispatch({ type: 'add-image', imgData })
+      dispatch({
+        type: 'add-image',
+        imgData: {
+          el: img,
+          width: img.width,
+          height: img.height,
+          aspectRatio: img.height / img.width,
+        },
+      });
     };
   }, [dispatch]);
 
-  useEffect(() => {
-    if (!acceptedFiles.length) return;
-    const [file] = acceptedFiles;
-    if (!file) return;
-    addImg(file);
-  }, [acceptedFiles, addImg]);
+  const {
+    getRootProps,
+    getInputProps,
+  } = useDropzone({
+    multiple: false,
+    accept: { 'image/*': ['.png', '.jpeg', '.jpg', '.svg'] },
+    onDropAccepted: handleDropAccepted,
+  });
+
 
   return (
     <Styled.Root {...getRootProps()}>
