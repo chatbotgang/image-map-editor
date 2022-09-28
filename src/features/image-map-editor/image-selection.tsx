@@ -27,13 +27,14 @@ const ImageSelection = ({
   const rndRef = useRef<Rnd>(null);
   
   const revertOrUpdate = (newSelection: Selection) => {
-    const isUnchanged = (
-      newSelection.x === selection.x
-      && newSelection.y === selection.y
-      && newSelection.width === selection.width
-      && newSelection.height === selection.height
+    const hasChanged = (
+      newSelection.x !== selection.x
+      || newSelection.y !== selection.y
+      || newSelection.width !== selection.width
+      || newSelection.height !== selection.height
     );
-    if (isUnchanged) return;
+
+    if (!hasChanged) return;
 
     const isOverlap = selections.some((otherSelection) => {
       if (otherSelection.id === selection.id) return false;
