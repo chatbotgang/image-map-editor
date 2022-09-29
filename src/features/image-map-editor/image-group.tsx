@@ -25,7 +25,6 @@ const ImageGroup = () => {
           <ImageCanvas
             width={width}
             height={width * imgData.aspectRatio}
-            data-image-canvas=""
             onDrawStart={handleDrawStart}
             onDrawStop={handleDrawStop}
           />

@@ -22,7 +22,6 @@ const ImageCanvas = ({
   height,
   onDrawStart,
   onDrawStop,
-  ...rest
 }: ImageCanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvasRectRef = useRef<DOMRect>();
@@ -189,11 +188,11 @@ const ImageCanvas = ({
       ref={canvasRef}
       width={width}
       height={height}
+      data-image-canvas=""
       onMouseUp={handleMouseUp}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      {...rest}
     />
   );
 };
