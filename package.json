@@ -45,5 +45,11 @@
   "engines": {
     "node": "16",
     "yarn": "1"
+  },
+  "resolutions": {
+    "styled-components": "^5"
+  },
+  "devDependencies": {
+    "@types/styled-components": "^5.1.26"
   }
 }
