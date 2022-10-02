@@ -1,4 +1,4 @@
-import React, {useRef} from 'react'
+import React, {useRef, useState} from 'react'
 import styled from 'styled-components'
 
 type ImagePaneProps = {
@@ -8,27 +8,35 @@ type ImagePaneProps = {
 const ImagePaneJSX = ({className}: ImagePaneProps) => {
   const inputRef = useRef<HTMLInputElement>(null)
   const imageRef = useRef<HTMLImageElement>(null)
+  const [isUploaded, setIsUploaded] = useState(false)
 
   const fileUploadHandler = () => {
-    // console.log('change')
-    // const reader = new FileReader()
-    // const image = inputRef.current!.files![0]!
-
-    // const url = URL.createObjectURL(image)
-    // imageRef.current!.src = url
+    const image = inputRef.current!.files![0]!
+    const url = URL.createObjectURL(image)
+    imageRef.current!.src = url
+    setIsUploaded(true)
   }
 
   return (<main className={className}>
     <header className="header">
       <div className="circle"></div>
     </header>
+    
     <section className="content">
-      <label htmlFor="file" className="label">Upload images</label>
-      <img ref={imageRef} src="" alt="" />
+      <label 
+        htmlFor="file-input" 
+        className={`label ${isUploaded ? 'hidden' : ''}`}
+      >
+        Upload image
+      </label>
+
+      <img className="image" ref={imageRef} src="" alt="" />
+
       <input 
+        className="file-input"
         type="file" 
         accept="image/*" 
-        id="file" 
+        id="file-input" 
         onChange={fileUploadHandler}
         ref={inputRef}
         />
@@ -38,12 +46,11 @@ const ImagePaneJSX = ({className}: ImagePaneProps) => {
 
 const ImagePane = styled(ImagePaneJSX)`
   width: 433px;
-  height: 792px;
+  min-height: 792px;
   outline: 1px solid black;
   background-color: gray;
 
   .header {
-
     height: 56px;
     padding: 16px 39px;
     outline: 1px solid black;
@@ -66,11 +73,26 @@ const ImagePane = styled(ImagePaneJSX)`
   }
 
   .label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 355px;
     height: 156px;
     outline: 1px solid gray;
     border-radius: 5px;
     background-color: white;
+  }
+
+  .image {
+    width: 355px;
+  }
+
+  .file-input {
+    display: none;
+  }
+
+  .hidden {
+    display: none;
   }
 `
 
