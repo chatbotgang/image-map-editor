@@ -60,8 +60,6 @@ export const ImageMapEditorUploader = styled.div`
 export const ImageMapEditorImagePreview = styled.img`
   width: 355px;
   height: auto;
-  border: 4px solid #6683b8;
-  border-radius: 10px;
 `;
 
 export const ImageMapEditorNumberTag = styled.div`

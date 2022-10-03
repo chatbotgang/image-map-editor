@@ -1,7 +1,6 @@
-import { useReducer } from "react";
+import { useState, useReducer } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
-import omit from "lodash/fp/omit";
 import Layout from "layouts/Layout";
 import { Console, ImageMapEditor } from "components";
 import type { Coordinate } from "types/coordinate";
@@ -17,6 +16,7 @@ const elementOverlayNotify = () =>
 
 function App() {
   const [coordinates, dispatch] = useReducer(coordinateReducer, []);
+  const [imageRatio, setImageRatio] = useState(1);
 
   const handleDragStop = (currentCoordinate: Coordinate) => {
     if (isCoordinatesOverlap(coordinates, currentCoordinate)) {
@@ -74,6 +74,17 @@ function App() {
     });
   };
 
+  const handleImageRatioChange = (ratio: number) => {
+    setImageRatio(ratio);
+  };
+
+  const relativeCoordinates = coordinates.map((coordinate) => ({
+    x: Math.round(coordinate.x / imageRatio),
+    y: Math.round(coordinate.y / imageRatio),
+    width: Math.round(coordinate.width / imageRatio),
+    height: Math.round(coordinate.height / imageRatio),
+  }));
+
   return (
     <Layout>
       <ImageMapEditor
@@ -82,10 +93,11 @@ function App() {
         onResizeStop={handleResizeStop}
         onRemoveCoordinate={handleRemoveCoordinate}
         onCropComplete={handleCropComplete}
+        onImageRatioChange={handleImageRatioChange}
       />
       <Console>
         {coordinates.length > 0
-          ? JSON.stringify(coordinates.map(omit("id")), null, 2)
+          ? JSON.stringify(relativeCoordinates, null, 2)
           : null}
       </Console>
       <Toaster />

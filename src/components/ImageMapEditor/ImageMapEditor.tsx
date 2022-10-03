@@ -89,6 +89,7 @@ interface ImageMapEditorProps {
   onResizeStop: (coordinate: Coordinate) => void;
   onRemoveCoordinate: (coordinate: Coordinate) => void;
   onCropComplete: (coordinate: Omit<Coordinate, "id">) => void;
+  onImageRatioChange: (ratio: number) => void;
 }
 
 const ImageMapEditor = ({
@@ -97,6 +98,7 @@ const ImageMapEditor = ({
   onResizeStop,
   onRemoveCoordinate,
   onCropComplete,
+  onImageRatioChange,
 }: ImageMapEditorProps) => {
   const [crop, setCrop] = useState<Crop>();
   const [imageSrc, setImageSrc] = useState("");
@@ -111,6 +113,11 @@ const ImageMapEditor = ({
       setImageSrc((reader.result as string) ?? "")
     );
     reader.readAsDataURL(file);
+  };
+
+  const handleImageLoad = (event: React.SyntheticEvent<HTMLImageElement>) => {
+    const { width, naturalWidth } = event.currentTarget;
+    onImageRatioChange(width / naturalWidth);
   };
 
   return (
@@ -134,6 +141,7 @@ const ImageMapEditor = ({
                   alt="crop image preview"
                   draggable={false}
                   src={imageSrc}
+                  onLoad={handleImageLoad}
                 />
               </ReactCrop>
               {coordinates.map((coordinate, index) => (
