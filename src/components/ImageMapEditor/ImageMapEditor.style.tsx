@@ -5,7 +5,7 @@ export const ImageMapEditorContainer = styled.div`
   height: 792px;
   border-radius: 4px;
   background-color: #f5f9fa;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
 `;
 
 export const ImageMapEditorHeader = styled.div`
@@ -79,12 +79,12 @@ export const ImageMapEditorNumberTag = styled.div`
 export const ImageMapEditorUploaderDeleteButton = styled.button`
   position: absolute;
   right: -40px;
-  top: 0px;
+  top: 0;
   padding: 2px;
   color: #a3a4a7;
   background-color: #ffffff;
   border-radius: 4px;
   border: none;
   cursor: pointer;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0 2px 8px 0;
 `;
