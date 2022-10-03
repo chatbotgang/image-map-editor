@@ -21,7 +21,7 @@ const ImagePaneJSX = ({className}: ImagePaneProps) => {
     <header className="header">
       <div className="circle"></div>
     </header>
-    
+
     <section className="content">
       <label 
         htmlFor="file-input" 
@@ -47,21 +47,22 @@ const ImagePaneJSX = ({className}: ImagePaneProps) => {
 const ImagePane = styled(ImagePaneJSX)`
   width: 433px;
   min-height: 792px;
-  outline: 1px solid black;
-  background-color: gray;
+
+  background-color: #f5f9fa;
+  box-shadow: 5px 2px 15px 1px #DCDEE7;
 
   .header {
     height: 56px;
     padding: 16px 39px;
-    outline: 1px solid black;
+    background-color: #ECF0F3;
   }
 
   .circle {
     width: 24px;
     height: 24px;
-
+    
     border-radius: 50%;
-    background-color: white;
+    background-color: #d4dadf;
   }
 
   .content {
@@ -70,6 +71,7 @@ const ImagePane = styled(ImagePaneJSX)`
     justify-content: flex-start;
     align-items: center;
     padding-top: 56px;
+    background-color: ;
   }
 
   .label {
@@ -78,9 +80,11 @@ const ImagePane = styled(ImagePaneJSX)`
     align-items: center;
     width: 355px;
     height: 156px;
-    outline: 1px solid gray;
+    outline: 2px solid #DCDEE7;
     border-radius: 5px;
-    background-color: white;
+    color: #cececf;
+    background-color: #fff;
+    cursor: pointer;
   }
 
   .image {
