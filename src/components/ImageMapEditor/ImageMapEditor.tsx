@@ -25,7 +25,7 @@ const CROP_RESIZE_BASE_SIZE = 8;
 const rndBaseStyle = {
   display: "flex",
   padding: 5,
-  border: `solid 1px ${CROP_BASE_COLOR}`,
+  border: `1px solid ${CROP_BASE_COLOR}`,
   background: "transparent",
 };
 
