@@ -59,14 +59,12 @@ export const StyledWorkSpace = styled.div`
     }
 
     & .preview {
-      width: 355px;
       position: relative;
 
       & img {
         display: block;
-        width: 100%;
+        width: 355px;
         border-radius: 8px;
-        border: solid #3388ff 2.5px;
       }
 
       & .rect {
