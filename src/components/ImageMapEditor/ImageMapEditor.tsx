@@ -102,16 +102,15 @@ const ImageMapEditor = ({
   const [imageSrc, setImageSrc] = useState("");
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
-      const reader = new FileReader();
-      reader.addEventListener("load", () =>
-        setImageSrc((reader?.result as string) ?? "")
-      );
-      const file = event.target.files[0];
-      if (file.type.includes("image")) {
-        reader.readAsDataURL(file);
-      }
-    }
+    const file = event.target?.files?.[0];
+
+    if (!file?.type.includes("image")) return;
+
+    const reader = new FileReader();
+    reader.addEventListener("load", () =>
+      setImageSrc((reader.result as string) ?? "")
+    );
+    reader.readAsDataURL(file);
   };
 
   return (
