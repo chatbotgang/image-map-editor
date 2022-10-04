@@ -1,5 +1,6 @@
-import React, {useRef, useState} from 'react'
+import React, {useRef, useState, useContext} from 'react'
 import styled from 'styled-components'
+import {CanvasContext} from '../contexts/CanvasContextProvider'
 
 type ImagePaneProps = {
   className?: string
@@ -9,12 +10,29 @@ const ImagePaneJSX = ({className}: ImagePaneProps) => {
   const inputRef = useRef<HTMLInputElement>(null)
   const imageRef = useRef<HTMLImageElement>(null)
   const [isUploaded, setIsUploaded] = useState(false)
+  const ctx = useContext(CanvasContext)
 
   const fileUploadHandler = () => {
     const image = inputRef.current!.files![0]!
     const url = URL.createObjectURL(image)
     imageRef.current!.src = url
     setIsUploaded(true)
+
+    const reader = new FileReader()
+  
+    if (image) {
+      reader.readAsDataURL(image)
+    }
+
+    reader.addEventListener('load',  () => {
+      const image = new Image()
+      image.src = reader.result as string
+
+      image.onload = () => {
+        console.log({image})
+        ctx.updateImage(image)
+      }
+    })
   }
 
   return (<main className={className}>

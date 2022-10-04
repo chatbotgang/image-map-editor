@@ -1,8 +1,10 @@
-import React from 'react';
+// import React from 'react';
+import styled from 'styled-components'
+
+import CanvasContextProvider from './contexts/CanvasContextProvider';
 import ImagePane from './components/ImagePane'
 import DataPane from './components/DataPane'
 
-import styled from 'styled-components'
 
 type AppProps = {
   className?: string
@@ -11,8 +13,10 @@ type AppProps = {
 const AppJSX = ({className}: AppProps) => {
   return (
     <div className={`App ${className}`}>
-     <ImagePane/>
-     <DataPane/>
+      <CanvasContextProvider>
+       <ImagePane/>
+       <DataPane/>
+      </CanvasContextProvider>
     </div>
   );
 }
