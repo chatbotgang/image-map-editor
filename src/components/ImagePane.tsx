@@ -1,4 +1,4 @@
-import React, {useRef, useState, useContext} from 'react'
+import {useRef, useState, useContext} from 'react'
 import styled from 'styled-components'
 import {CanvasContext} from '../contexts/CanvasContextProvider'
 
