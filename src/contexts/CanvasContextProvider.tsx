@@ -1,59 +1,67 @@
 import { createContext, useState } from "react";
 
 type Object = {
-  [key: string]: any
-}
+  [key: string]: any;
+};
 
-type Rect = {
-  x: number,
-  y: number,
-  width: number,
-  height: number
-}
+type Rectangle = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
 
-type CtxValue = {
-  imageSrc: string,
-  imageSize: [number, number];
-  rects: Rect[],
-  updateImage: (image: Object) => void
-}
+type ContextValue = {
+  CANVAS_WIDTH: number;
+  imageSrc: string;
+  imageWidth: number;
+  imageHeight: number;
+  rects: Rectangle[];
+  updateImage: (image: Object) => void;
+};
 
-const CanvasContext = createContext<CtxValue>({
-  imageSrc: '',
-  imageSize: [0, 0],
+const CanvasContext = createContext<ContextValue>({
+  CANVAS_WIDTH: 355,
+  imageSrc: "",
+  imageWidth: 0,
+  imageHeight: 0,
   rects: [],
-  updateImage: (image) => {}
-})
+  updateImage: (image) => {},
+});
 
 type CanvasCtxProviderProps = {
-  children: React.ReactNode
-}
-const CanvasContextProvider = ({children}: CanvasCtxProviderProps) => {
+  children: React.ReactNode;
+};
+const CanvasContextProvider = ({ children }: CanvasCtxProviderProps) => {
   const [uploadedImage, setUploadedImage] = useState({
-    src: '',
+    src: "",
     width: 0,
-    height: 0
-  })
+    height: 0,
+  });
 
-  const updateImage = (image:Object) => {
+  const updateImage = (image: Object) => {
     setUploadedImage({
       src: image.src,
       width: image.width,
-      height: image.height
-    })
-  }
+      height: image.height,
+    });
+  };
 
   return (
-  <CanvasContext.Provider value={{
-    imageSrc: uploadedImage.src,
-    imageSize: [uploadedImage.width, uploadedImage.height],
-    rects: [],
-    updateImage
-  }}>
-    {children}
-  </CanvasContext.Provider>
-  )
-}
+    <CanvasContext.Provider
+      value={{
+        CANVAS_WIDTH: 355,
+        imageSrc: uploadedImage.src,
+        imageWidth: uploadedImage.width,
+        imageHeight: uploadedImage.height,
+        rects: [],
+        updateImage,
+      }}
+    >
+      {children}
+    </CanvasContext.Provider>
+  );
+};
 
-export {CanvasContext}
-export default CanvasContextProvider
+export { CanvasContext };
+export default CanvasContextProvider;
