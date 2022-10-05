@@ -4,7 +4,7 @@
  */
 
 import React, { useContext } from "react";
-import { Stage, Layer, Rect } from "react-konva";
+import { Stage, Layer, Group, Star, Rect } from "react-konva";
 import Konva from "konva";
 import { CanvasContext } from "../contexts/CanvasContextProvider";
 import useMouseCoordinatesRef from "../hooks/useMouseCoordinatesRef";
@@ -18,6 +18,8 @@ const Canvas = () => {
     imageSrc,
     rects,
     addRectangle,
+    deleteRectangleById,
+    toggleIsHoveredById,
   } = useContext(CanvasContext);
 
   const scale = CANVAS_WIDTH / imageWidth;
@@ -59,17 +61,37 @@ const Canvas = () => {
       onMouseUp={mouseUpHandler}
     >
       <Layer>
-        {rects.map((rect) => (
-          <Rect
-            key={rect.id}
-            id={rect.id}
-            x={rect.x}
-            y={rect.y}
-            width={rect.width}
-            height={rect.height}
-            stroke="blue"
-          />
-        ))}
+        {rects.map((rect) => {
+          return (
+            <Group
+              key={rect.id}
+              onMouseEnter={() => toggleIsHoveredById(rect.id)}
+              onMouseLeave={() => toggleIsHoveredById(rect.id)}
+            >
+              <Rect
+                id={rect.id}
+                x={rect.x}
+                y={rect.y}
+                width={rect.width}
+                height={rect.height}
+                stroke="blue"
+              />
+              <Star
+                id={rect.id}
+                x={rect.x + rect.width}
+                y={rect.y}
+                numPoints={6}
+                innerRadius={10}
+                outerRadius={20}
+                fill="yellow"
+                stroke="black"
+                strokeWidth={2}
+                visible={rect.isHovered}
+                onClick={() => deleteRectangleById(rect.id)}
+              />
+            </Group>
+          );
+        })}
       </Layer>
     </Stage>
   );

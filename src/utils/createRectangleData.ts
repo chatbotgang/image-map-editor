@@ -1,29 +1,25 @@
 type Input = {
-  downX: number,
-  downY: number,
-  upX: number,
-  upY: number
-}
+  downX: number;
+  downY: number;
+  upX: number;
+  upY: number;
+};
 
 type Output = {
-  id: string,
-  x: number,
-  y: number,
-  width: number,
-  height: number
-} | null
+  id: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  isHovered: boolean;
+} | null;
 
-const createRectangleData = ({
-  downX,
-  downY,
-  upX,
-  upY
-}: Input): Output => {
-  const originX = Math.min(downX, upX)
-  const originY = Math.min(downY, upY)
-  const width = Math.abs(downX - upX)
-  const height = Math.abs(downY - upY)
-  
+const createRectangleData = ({ downX, downY, upX, upY }: Input): Output => {
+  const originX = Math.min(downX, upX);
+  const originY = Math.min(downY, upY);
+  const width = Math.abs(downX - upX);
+  const height = Math.abs(downY - upY);
+
   console.log({
     downX,
     downY,
@@ -32,18 +28,21 @@ const createRectangleData = ({
     originX,
     originY,
     width,
-    height
-  })
+    height,
+  });
 
-  if (!width || !height) {return null}
+  if (!width || !height) {
+    return null;
+  }
 
   return {
     id: Date.now().toString(),
     x: originX,
     y: originY,
     width,
-    height
-  }
-}
+    height,
+    isHovered: false,
+  };
+};
 
-export {createRectangleData}
+export { createRectangleData };

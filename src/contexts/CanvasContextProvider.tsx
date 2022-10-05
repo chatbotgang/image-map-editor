@@ -10,6 +10,7 @@ type Rectangle = {
   y: number;
   width: number;
   height: number;
+  isHovered: boolean;
 };
 
 type ContextValue = {
@@ -21,6 +22,7 @@ type ContextValue = {
   updateImage: (image: Object) => void;
   addRectangle: (rectangle: Rectangle) => void;
   deleteRectangleById: (id: string) => void;
+  toggleIsHoveredById: (id: string) => void;
 };
 
 const CanvasContext = createContext<ContextValue>({
@@ -32,6 +34,7 @@ const CanvasContext = createContext<ContextValue>({
   updateImage: () => {},
   addRectangle: () => {},
   deleteRectangleById: () => {},
+  toggleIsHoveredById: () => {},
 });
 
 type CanvasCtxProviderProps = {
@@ -62,6 +65,20 @@ const CanvasContextProvider = ({ children }: CanvasCtxProviderProps) => {
     setRectangles((prev) => prev.filter((rectangle) => rectangle.id !== id));
   };
 
+  const toggleIsHoveredById = (id: string) => {
+    setRectangles((prev) =>
+      prev.map((rectangle) => {
+        if (rectangle.id === id) {
+          return {
+            ...rectangle,
+            isHovered: !rectangle.isHovered,
+          };
+        }
+        return rectangle;
+      })
+    );
+  };
+
   return (
     <CanvasContext.Provider
       value={{
@@ -73,6 +90,7 @@ const CanvasContextProvider = ({ children }: CanvasCtxProviderProps) => {
         updateImage,
         addRectangle,
         deleteRectangleById,
+        toggleIsHoveredById,
       }}
     >
       {children}
