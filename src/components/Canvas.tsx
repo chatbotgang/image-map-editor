@@ -3,10 +3,11 @@
  * @see: {@link https://github.com/konvajs/react-konva/issues/369}
  */
 
-import React, { useContext, useRef } from "react";
+import React, { useContext } from "react";
 import { Stage, Layer, Rect } from "react-konva";
 import Konva from "konva";
 import { CanvasContext } from "../contexts/CanvasContextProvider";
+import useMouseCoordinatesRef from "../hooks/useMouseCoordinatesRef";
 import { createRectangleData } from "../utils/createRectangleData";
 
 const Canvas = () => {
@@ -15,44 +16,38 @@ const Canvas = () => {
     imageWidth,
     imageHeight,
     imageSrc,
-    addRectangle,
     rects,
+    addRectangle,
   } = useContext(CanvasContext);
+
   const scale = CANVAS_WIDTH / imageWidth;
+
   const backgroundStyles = {
     backgroundImage: `url(${imageSrc})`,
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
   };
 
-  const initialRefValue = {
-    downX: 0,
-    downY: 0,
-    upX: 0,
-    upY: 0,
-  };
-  const mouseActionsRef = useRef(initialRefValue);
-  const clearMouseActionsRef = () => {
-    mouseActionsRef.current = { ...initialRefValue };
-  };
+  const { mouseCoordinatesRef, clearMouseCoordinatesRef } =
+    useMouseCoordinatesRef();
 
   const mouseDownHandler = (event: Konva.KonvaEventObject<MouseEvent>) => {
     const { offsetX, offsetY } = event.evt;
-    mouseActionsRef.current.downX = offsetX;
-    mouseActionsRef.current.downY = offsetY;
+    mouseCoordinatesRef.current.downX = offsetX;
+    mouseCoordinatesRef.current.downY = offsetY;
   };
 
   const mouseUpHandler = (event: Konva.KonvaEventObject<MouseEvent>) => {
     const { offsetX, offsetY } = event.evt;
-    mouseActionsRef.current.upX = offsetX;
-    mouseActionsRef.current.upY = offsetY;
+    mouseCoordinatesRef.current.upX = offsetX;
+    mouseCoordinatesRef.current.upY = offsetY;
 
-    const rectangle = createRectangleData(mouseActionsRef.current);
-    clearMouseActionsRef();
+    const rectangle = createRectangleData(mouseCoordinatesRef.current);
     if (rectangle) {
       console.log({ rectangle });
       addRectangle(rectangle);
     }
+    clearMouseCoordinatesRef();
   };
 
   return (
