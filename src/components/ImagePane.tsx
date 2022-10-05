@@ -14,7 +14,6 @@ const ImagePaneJSX = ({ className }: ImagePaneProps) => {
 
   const fileUploadHandler = () => {
     const image = inputRef.current!.files![0]!;
-    const url = URL.createObjectURL(image);
     const reader = new FileReader();
 
     if (image) {

@@ -5,6 +5,7 @@ type Object = {
 };
 
 type Rectangle = {
+  id: string;
   x: number;
   y: number;
   width: number;
@@ -18,6 +19,8 @@ type ContextValue = {
   imageHeight: number;
   rects: Rectangle[];
   updateImage: (image: Object) => void;
+  addRectangle: (rectangle: Rectangle) => void;
+  deleteRectangleById: (id: string) => void;
 };
 
 const CanvasContext = createContext<ContextValue>({
@@ -26,18 +29,22 @@ const CanvasContext = createContext<ContextValue>({
   imageWidth: 0,
   imageHeight: 0,
   rects: [],
-  updateImage: (image) => {},
+  updateImage: () => {},
+  addRectangle: () => {},
+  deleteRectangleById: () => {},
 });
 
 type CanvasCtxProviderProps = {
   children: React.ReactNode;
 };
+
 const CanvasContextProvider = ({ children }: CanvasCtxProviderProps) => {
   const [uploadedImage, setUploadedImage] = useState({
     src: "",
     width: 0,
     height: 0,
   });
+  const [rectangles, setRectangles] = useState<Rectangle[]>([]);
 
   const updateImage = (image: Object) => {
     setUploadedImage({
@@ -47,6 +54,14 @@ const CanvasContextProvider = ({ children }: CanvasCtxProviderProps) => {
     });
   };
 
+  const addRectangle = (rectangle: Rectangle) => {
+    setRectangles((prev) => [...prev, rectangle]);
+  };
+
+  const deleteRectangleById = (id: string) => {
+    setRectangles((prev) => prev.filter((rectangle) => rectangle.id !== id));
+  };
+
   return (
     <CanvasContext.Provider
       value={{
@@ -54,8 +69,10 @@ const CanvasContextProvider = ({ children }: CanvasCtxProviderProps) => {
         imageSrc: uploadedImage.src,
         imageWidth: uploadedImage.width,
         imageHeight: uploadedImage.height,
-        rects: [],
+        rects: rectangles,
         updateImage,
+        addRectangle,
+        deleteRectangleById,
       }}
     >
       {children}
