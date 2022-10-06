@@ -1,3 +1,8 @@
+/**
+ * @remarks
+ * This utility function uses `String.replaceAll()`, which works only on Node.js 15 or above
+ */
+
 import { Rectangle } from "../types";
 
 const parseRectsJSON = (rects: Rectangle[]): string => {
@@ -11,18 +16,17 @@ const parseRectsJSON = (rects: Rectangle[]): string => {
     }
   );
 
-  console.log({ copiedRects });
+  // transform the object into a JSON string for further processing
+  const JSONizedString = JSON.stringify(copiedRects);
 
-  const JSONizedRects = JSON.stringify(copiedRects);
-  const displayText = JSONizedRects.replaceAll(",", ",\n    ")
+  // add line breaks and spaces
+  const displayText = JSONizedString.replaceAll(",", ",\n    ")
     .replaceAll("{", "{\n    ")
     .replaceAll("}", "\n  }")
-    .replaceAll(",\n    {", ",\n  {")
+    .replaceAll(",\n    {", ",\n  {") // modify string overcorrection
     .replaceAll("[", "[\n  ")
     .replaceAll("]", "\n]")
     .replaceAll('"', "");
-
-  console.log(`${displayText}`);
 
   return `${displayText}`;
 };

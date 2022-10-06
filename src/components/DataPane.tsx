@@ -9,8 +9,8 @@ type DataPaneProps = {
 
 const DataPaneJSX = ({ className }: DataPaneProps) => {
   const { rects } = useContext(CanvasContext);
-  const hasRects = !!rects.length;
-  const parsedData = hasRects ? parseRectsJSON(rects) : "";
+  const hasRectsData = !!rects.length;
+  const parsedData = hasRectsData ? parseRectsJSON(rects) : "";
 
   return (
     <aside className={className}>
