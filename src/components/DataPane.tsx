@@ -28,6 +28,7 @@ const DataPane = styled(DataPaneJSX)`
   height: 703px;
   border-radius: 5px;
   background-color: #2b3948;
+  overflow: scroll;
 
   code {
     color: white;

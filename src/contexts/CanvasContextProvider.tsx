@@ -11,6 +11,7 @@ type ContextValue = {
   addRectangle: (rectangle: Rectangle) => void;
   deleteRectangleById: (id: string) => void;
   toggleIsHoveredById: (id: string) => void;
+  updateRectangleList: (rects: Rectangle[]) => void;
 };
 
 const CanvasContext = createContext<ContextValue>({
@@ -23,6 +24,7 @@ const CanvasContext = createContext<ContextValue>({
   addRectangle: () => {},
   deleteRectangleById: () => {},
   toggleIsHoveredById: () => {},
+  updateRectangleList: () => {},
 });
 
 type CanvasCtxProviderProps = {
@@ -67,6 +69,10 @@ const CanvasContextProvider = ({ children }: CanvasCtxProviderProps) => {
     );
   };
 
+  const updateRectangleList = (updatedRects: Rectangle[]) => {
+    setRectangles((prev) => updatedRects);
+  };
+
   return (
     <CanvasContext.Provider
       value={{
@@ -79,6 +85,7 @@ const CanvasContextProvider = ({ children }: CanvasCtxProviderProps) => {
         addRectangle,
         deleteRectangleById,
         toggleIsHoveredById,
+        updateRectangleList,
       }}
     >
       {children}
