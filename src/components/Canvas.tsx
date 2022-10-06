@@ -65,8 +65,8 @@ const Canvas = () => {
           return (
             <Group
               key={rect.id}
-              onMouseEnter={() => toggleIsHoveredById(rect.id)}
-              onMouseLeave={() => toggleIsHoveredById(rect.id)}
+              onMouseEnter={() => toggleIsHoveredById(rect.id!)}
+              onMouseLeave={() => toggleIsHoveredById(rect.id!)}
             >
               <Rect
                 id={rect.id}
@@ -86,8 +86,8 @@ const Canvas = () => {
                 fill="yellow"
                 stroke="black"
                 strokeWidth={2}
-                visible={rect.isHovered}
-                onClick={() => deleteRectangleById(rect.id)}
+                visible={rect.isHovered!}
+                onClick={() => deleteRectangleById(rect.id!)}
               />
             </Group>
           );

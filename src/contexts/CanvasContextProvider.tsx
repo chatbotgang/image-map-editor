@@ -1,17 +1,5 @@
 import { createContext, useState } from "react";
-
-type Object = {
-  [key: string]: any;
-};
-
-type Rectangle = {
-  id: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  isHovered: boolean;
-};
+import { Object, Rectangle } from "../types";
 
 type ContextValue = {
   CANVAS_WIDTH: number;
