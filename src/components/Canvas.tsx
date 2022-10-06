@@ -4,13 +4,14 @@
  */
 
 import React, { useContext, useRef } from "react";
-import { Stage, Layer, Group, Star, Rect } from "react-konva";
+import { Stage, Layer, Group, Star, Rect, Transformer } from "react-konva";
 import Konva from "konva";
 import { CanvasContext } from "../contexts/CanvasContextProvider";
 import useMouseCoordinatesRef from "../hooks/useMouseCoordinatesRef";
 import { createRectangleData } from "../utils/createRectangleData";
 
 const Canvas = () => {
+  const transformerRef = useRef();
   const hasDragEventRef = useRef(false);
   const {
     CANVAS_WIDTH,
@@ -103,9 +104,9 @@ const Canvas = () => {
               key={rect.id}
               draggable
               onDragStart={dragStartHandler}
-              onDragEnd={(event) => dragEndHandler(event)(rect.id!)}
-              onMouseEnter={() => toggleIsHoveredById(rect.id!)}
-              onMouseLeave={() => toggleIsHoveredById(rect.id!)}
+              onDragEnd={(event) => dragEndHandler(event)(rect.id)}
+              onMouseEnter={() => toggleIsHoveredById(rect.id)}
+              onMouseLeave={() => toggleIsHoveredById(rect.id)}
             >
               <Rect
                 id={rect.id}
@@ -125,8 +126,8 @@ const Canvas = () => {
                 fill="yellow"
                 stroke="black"
                 strokeWidth={2}
-                visible={rect.isHovered!}
-                onClick={() => deleteRectangleById(rect.id!)}
+                visible={rect.isHovered}
+                onClick={() => deleteRectangleById(rect.id)}
               />
             </Group>
           );

@@ -10,9 +10,12 @@ const parseRectsJSON = (rects: Rectangle[]): string => {
   // delete unwanted object properties
   const copiedRects = JSON.parse(JSON.stringify(rects)).map(
     (rect: Rectangle) => {
-      delete rect.id;
-      delete rect.isHovered;
-      return rect;
+      return {
+        x: rect.x,
+        y: rect.y,
+        width: rect.width,
+        height: rect.height,
+      };
     }
   );
 

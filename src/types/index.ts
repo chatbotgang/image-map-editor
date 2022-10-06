@@ -3,10 +3,11 @@ export type Object = {
 };
 
 export type Rectangle = {
-  id?: string;
+  id: string;
   x: number;
   y: number;
   width: number;
   height: number;
-  isHovered?: boolean;
+  isHovered: boolean;
+  isSelected: boolean;
 };
