@@ -1,23 +1,40 @@
-import styled from 'styled-components'
+import { useContext } from "react";
+import styled from "styled-components";
+import { CanvasContext } from "../contexts/CanvasContextProvider";
+import { parseRectsJSON } from "../utils/parseRectsJSON";
 
 type DataPaneProps = {
-  className?: string
-}
+  className?: string;
+};
 
-const DataPaneJSX = ({className}: DataPaneProps) => {
+const DataPaneJSX = ({ className }: DataPaneProps) => {
+  const { rects } = useContext(CanvasContext);
+  const hasRects = !!rects.length;
+  const parsedData = hasRects ? parseRectsJSON(rects) : "";
+
   return (
     <aside className={className}>
-      <code></code>
+      <code
+        dangerouslySetInnerHTML={{
+          __html: `${parsedData}`,
+        }}
+      ></code>
     </aside>
-  )
-}
+  );
+};
 
 const DataPane = styled(DataPaneJSX)`
   width: 548px;
   height: 703px;
   border-radius: 5px;
-  background-color: #2B3948;
-`
+  background-color: #2b3948;
 
-export default DataPane
+  code {
+    color: white;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+  }
+`;
 
+export default DataPane;
