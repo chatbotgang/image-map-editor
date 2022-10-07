@@ -36,6 +36,7 @@ const createRectangleData = ({ downX, downY, upX, upY }: Input): Output => {
     return null;
   }
 
+  // console.trace("create new rectangle");
   return {
     id: Date.now().toString(),
     x: originX,

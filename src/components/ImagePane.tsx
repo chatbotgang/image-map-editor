@@ -43,6 +43,8 @@ const ImagePaneJSX = ({ className }: ImagePaneProps) => {
           htmlFor="file-input"
           className={`label ${isUploaded ? "hidden" : ""}`}
         >
+          <div className="arrow">&uArr;</div>
+          <br />
           Upload image
         </label>
 
@@ -95,6 +97,7 @@ const ImagePane = styled(ImagePaneJSX)`
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     width: 355px;
     height: 156px;
     outline: 2px solid #dcdee7;
@@ -102,6 +105,10 @@ const ImagePane = styled(ImagePaneJSX)`
     color: #cececf;
     background-color: #fff;
     cursor: pointer;
+
+    .arrow {
+      font-size: 2rem;
+    }
   }
 
   .image {

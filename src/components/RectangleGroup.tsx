@@ -1,10 +1,4 @@
-import React, {
-  useContext,
-  useRef,
-  useEffect,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import React, { useContext, useRef, useEffect } from "react";
 import { Group, Star, Rect, Transformer } from "react-konva";
 import Konva from "konva";
 
@@ -13,19 +7,24 @@ import { CanvasContext } from "../contexts/CanvasContextProvider";
 import { Rect as RectClass } from "konva/lib/shapes/Rect";
 import { Transformer as TransformerClass } from "konva/lib/shapes/Transformer";
 import { Rectangle } from "../types";
+import { Group as GroupClass } from "konva/lib/Group";
 
 type RectangleGroupProps = {
   rect: Rectangle;
   hasDragEventHandler: (flag: boolean) => void;
+  hasTransformEventHandler: (flag: boolean) => void;
 };
 
-const RectangleGroup = ({ rect, hasDragEventHandler }: RectangleGroupProps) => {
+const RectangleGroup = ({
+  rect,
+  hasDragEventHandler,
+  hasTransformEventHandler,
+}: RectangleGroupProps) => {
   const transformerRef = useRef<TransformerClass | null>(null);
+  const groupRef = useRef<GroupClass | null>(null);
   const shapeRef = useRef<RectClass | null>(null);
   // const hasDragEventRef = useRef(false);
   const {
-    CANVAS_WIDTH,
-    imageWidth,
     rects,
     deleteRectangleById,
     toggleIsHoveredById,
@@ -34,20 +33,20 @@ const RectangleGroup = ({ rect, hasDragEventHandler }: RectangleGroupProps) => {
     updateRectangleList,
   } = useContext(CanvasContext);
 
-  const scale = CANVAS_WIDTH / imageWidth;
-
   const dragStartHandler = (event: Konva.KonvaEventObject<DragEvent>) => {
-    console.log("drag start");
-    // a drag event begins
-    // hasDragEventRef.current = true;
     hasDragEventHandler(true);
   };
 
   const dragEndHandler =
     (event: Konva.KonvaEventObject<DragEvent>) => (id: string) => {
-      console.log("drag end", event.evt);
       const { clientX, clientY, offsetX, offsetY } = event.evt;
 
+      // console.log("====== drag ends", {
+      //   clientX,
+      //   clientY,
+      //   offsetX,
+      //   offsetY,
+      // });
       const updatedRects = rects.map((rect) => {
         if (rect.id !== id) {
           return rect;
@@ -78,7 +77,10 @@ const RectangleGroup = ({ rect, hasDragEventHandler }: RectangleGroupProps) => {
   return (
     <Group
       key={rect.id}
+      stroke="black"
+      strokeWidth={10}
       draggable
+      ref={groupRef}
       onDragStart={dragStartHandler}
       onDragEnd={(event) => dragEndHandler(event)(rect.id)}
       onMouseEnter={() => toggleIsHoveredById(rect.id)}
@@ -93,21 +95,27 @@ const RectangleGroup = ({ rect, hasDragEventHandler }: RectangleGroupProps) => {
         width={rect.width}
         height={rect.height}
         stroke={rect.isSelected ? "red" : "blue"}
+        onTransformStart={() => hasTransformEventHandler(true)}
+        onTransform={() => hasTransformEventHandler(true)}
         onTransformEnd={(event) => {
           console.log("transformerend");
           const node = shapeRef.current!;
           const scaleX = node.scaleX();
           const scaleY = node.scaleY();
 
-          console.log({ scaleX, scaleY });
+          // console.log({ scaleX, scaleY, width, height });
 
+          node.scaleX(1);
+          node.scaleY(1);
           updateRectangle({
             ...rect,
             x: node.x(),
             y: node.y(),
             width: Math.max(20, node.width() * scaleX),
-            height: Math.max(20, node.height() * scaleY),
+            height: Math.max(node.height() * scaleY),
           });
+
+          hasTransformEventHandler(false);
         }}
       />
       <Star

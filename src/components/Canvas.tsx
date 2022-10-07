@@ -2,7 +2,7 @@
  * @external KonvaEventObject = an object that has an 'evt' event object inside!
  * @see: {@link https://github.com/konvajs/react-konva/issues/369}
  */
-import { useContext, useRef, useState } from "react";
+import { useContext, useState } from "react";
 import { Stage, Layer } from "react-konva";
 import Konva from "konva";
 
@@ -12,8 +12,8 @@ import useMouseCoordinatesRef from "../hooks/useMouseCoordinatesRef";
 import { createRectangleData } from "../utils/createRectangleData";
 
 const Canvas = () => {
-  // const hasDragEventRef = useRef(false);
   const [hasDragEvent, setHasDragEvent] = useState(false);
+  const [hasTransformEvent, setHasTransformEvent] = useState(false);
   const {
     CANVAS_WIDTH,
     imageWidth,
@@ -34,14 +34,22 @@ const Canvas = () => {
   const hasDragEventHandler = (flag: boolean) => {
     setHasDragEvent((prev) => flag);
   };
+
+  const hasTransformEventHandler = (flag: boolean) => {
+    setHasTransformEvent((prev) => flag);
+  };
+
   const { mouseCoordinatesRef, clearMouseCoordinatesRef } =
     useMouseCoordinatesRef();
 
   const mouseDownHandler = (event: Konva.KonvaEventObject<MouseEvent>) => {
     // when a drag event occurs, it won't create a rectangle
-    if (hasDragEvent) {
+    if (hasDragEvent || hasTransformEvent) {
+      clearMouseCoordinatesRef();
       return;
     }
+
+    // console.log("mouse down", event.evt);
 
     const { offsetX, offsetY } = event.evt;
     mouseCoordinatesRef.current.downX = offsetX;
@@ -50,9 +58,11 @@ const Canvas = () => {
 
   const mouseUpHandler = (event: Konva.KonvaEventObject<MouseEvent>) => {
     // when a drag event occurs, it won't create a rectangle
-    if (hasDragEvent) {
+    if (hasDragEvent || hasTransformEvent) {
+      clearMouseCoordinatesRef();
       return;
     }
+    // console.log("mouse up", event.evt);
 
     const { offsetX, offsetY } = event.evt;
     mouseCoordinatesRef.current.upX = offsetX;
@@ -74,10 +84,12 @@ const Canvas = () => {
       onMouseUp={mouseUpHandler}
     >
       <Layer>
-        {rects.map((rect) => (
+        {rects.map((rect, i) => (
           <RectangleGroup
+            key={i}
             rect={rect}
             hasDragEventHandler={hasDragEventHandler}
+            hasTransformEventHandler={hasTransformEventHandler}
           />
         ))}
       </Layer>
