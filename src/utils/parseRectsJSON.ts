@@ -26,7 +26,7 @@ const parseRectsJSON = (rects: Rectangle[]): string => {
   const displayText = JSONizedString.replaceAll(",", ",\n    ")
     .replaceAll("{", "{\n    ")
     .replaceAll("}", "\n  }")
-    .replaceAll(",\n    {", ",\n  {") // modify string overcorrection
+    .replaceAll(",\n    {", ",\n  {") // compensate for overcorrection
     .replaceAll("[", "[\n  ")
     .replaceAll("]", "\n]")
     .replaceAll('"', "");

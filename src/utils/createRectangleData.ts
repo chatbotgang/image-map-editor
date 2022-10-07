@@ -12,6 +12,7 @@ type Output = {
   width: number;
   height: number;
   isHovered: boolean;
+  isSelected: boolean;
 } | null;
 
 const createRectangleData = ({ downX, downY, upX, upY }: Input): Output => {
@@ -42,6 +43,7 @@ const createRectangleData = ({ downX, downY, upX, upY }: Input): Output => {
     width,
     height,
     isHovered: false,
+    isSelected: false,
   };
 };
 

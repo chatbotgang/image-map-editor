@@ -11,6 +11,8 @@ type ContextValue = {
   addRectangle: (rectangle: Rectangle) => void;
   deleteRectangleById: (id: string) => void;
   toggleIsHoveredById: (id: string) => void;
+  toggleIsSelectedById: (id: string) => void;
+  updateRectangle: (rect: Rectangle) => void;
   updateRectangleList: (rects: Rectangle[]) => void;
 };
 
@@ -24,6 +26,8 @@ const CanvasContext = createContext<ContextValue>({
   addRectangle: () => {},
   deleteRectangleById: () => {},
   toggleIsHoveredById: () => {},
+  toggleIsSelectedById: () => {},
+  updateRectangle: () => {},
   updateRectangleList: () => {},
 });
 
@@ -69,6 +73,34 @@ const CanvasContextProvider = ({ children }: CanvasCtxProviderProps) => {
     );
   };
 
+  const toggleIsSelectedById = (id: string) => {
+    setRectangles((prevRects) =>
+      prevRects.map((rectangle) => {
+        if (rectangle.id === id) {
+          return {
+            ...rectangle,
+            isSelected: !rectangle.isSelected,
+          };
+        }
+        return rectangle;
+      })
+    );
+  };
+
+  const updateRectangle = (updatedRect: Rectangle) => {
+    setRectangles((prevRects) =>
+      prevRects.map((rectangle) => {
+        if (rectangle.id === updatedRect.id) {
+          return {
+            ...updatedRect,
+          };
+        }
+        return rectangle;
+      })
+    );
+  };
+
+  // This function replaces the current rects with a new one, so as to trigger rerender
   const updateRectangleList = (updatedRects: Rectangle[]) => {
     setRectangles((prev) => updatedRects);
   };
@@ -85,6 +117,8 @@ const CanvasContextProvider = ({ children }: CanvasCtxProviderProps) => {
         addRectangle,
         deleteRectangleById,
         toggleIsHoveredById,
+        toggleIsSelectedById,
+        updateRectangle,
         updateRectangleList,
       }}
     >
