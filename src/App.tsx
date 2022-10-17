@@ -1,8 +1,14 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 
 import ImagePreviewPane, { Rect } from "./components/ImagePreviewPane";
 import DataPreviewPane from "./components/DataPreviewPane";
+
+const GlobalStyle = createGlobalStyle`
+  div {
+    box-sizing: border-box;
+  }
+`;
 
 const StyledWrapper = styled.div`
     width: 100vw;
@@ -25,6 +31,7 @@ function App() {
     const [selectedRects, setSelectedRects] = useState<Rect[]>([]);
     return (
         <StyledWrapper>
+            <GlobalStyle />
             <StyledItem>
                 <ImagePreviewPane
                     selectedRects={selectedRects}
