@@ -1,12 +1,25 @@
 import React from "react";
+import styled from "styled-components";
 
 import { Rect } from "./ImagePreviewPane";
+
+const StyledWrapper = styled.div`
+    width: 548px;
+    background: #2e3c4a;
+    height: 703px;
+    overflow: scroll;
+    color: white;
+    font-size: 16px;
+    padding: 12px 24px;
+    border-radius: 5px;
+`;
 
 interface DataPreviewPaneProps {
     selectedRects: Rect[];
 }
+
 const DataPreviewPane = (props: DataPreviewPaneProps) => (
-    <div>
+    <StyledWrapper>
         <pre>
             {JSON.stringify(
                 props.selectedRects.map((v) => {
@@ -22,7 +35,7 @@ const DataPreviewPane = (props: DataPreviewPaneProps) => (
                 4
             )}
         </pre>
-    </div>
+    </StyledWrapper>
 );
 
 export default DataPreviewPane;

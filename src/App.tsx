@@ -6,6 +6,7 @@ import DataPreviewPane from "./components/DataPreviewPane";
 
 const StyledWrapper = styled.div`
     width: 100vw;
+    min-width: 1280px;
     height: 100vh;
     display: flex;
     flex-direction: row;
