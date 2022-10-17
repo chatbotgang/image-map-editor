@@ -15,6 +15,7 @@ const HiddenInput = styled.input`
 const ImagePreviewer = styled.div`
     position: relative;
     width: 355px;
+    user-select: none;
 
     > img {
         width: 100%;
