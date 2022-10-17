@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import ImagePreviewPane from "./components/ImagePreviewPane";
+
 const StyledWrapper = styled.div`
     background-color: #282c34;
     display: flex;
@@ -22,7 +24,9 @@ const StyledItem = styled.div`
 function App() {
     return (
         <StyledWrapper>
-            <StyledItem>Image preview pane</StyledItem>
+            <StyledItem>
+                <ImagePreviewPane></ImagePreviewPane>
+            </StyledItem>
             <StyledItem>Data preview pane</StyledItem>
         </StyledWrapper>
     );
