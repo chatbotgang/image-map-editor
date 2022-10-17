@@ -1,16 +1,7 @@
 import React, { useRef, useState, useEffect, MouseEvent } from "react";
 import styled from "styled-components";
 
-const ImageUploader = styled.div`
-    width: 353px;
-    height: 154px;
-
-    border: solid 1px grey;
-`;
-
-const HiddenInput = styled.input`
-    display: none;
-`;
+import ImageUploader from "./ImageUploader";
 
 const ImagePreviewer = styled.div`
     position: relative;
@@ -52,7 +43,6 @@ interface ImagePreviewPaneProps {
 }
 
 const ImagePreviewPane = (props: ImagePreviewPaneProps) => {
-    const inputFieldRef = useRef<HTMLInputElement>(null);
     const imagePreviewerRef = useRef<HTMLDivElement>(null);
     const [imageData, setImageData] = useState("");
     const { selectedRects, setSelectedRects } = props;
@@ -67,25 +57,6 @@ const ImagePreviewPane = (props: ImagePreviewPaneProps) => {
             }
         };
     }, [imageData]);
-
-    const handleImageUpload = () => {
-        if (!inputFieldRef.current) {
-            return alert("image uploader is not ready");
-        }
-        inputFieldRef.current.click();
-    };
-    const handleImageDataChange = () => {
-        if (!inputFieldRef.current) {
-            return alert("image uploader is not ready");
-        }
-        const fileList = inputFieldRef.current.files;
-        if (!fileList || fileList.length < 1) {
-            return console.error("failed to get the fileList");
-        }
-        const file = fileList.item(0);
-
-        setImageData(URL.createObjectURL(file));
-    };
 
     const handleImagePreviewerMouseDown = (e: MouseEvent<HTMLDivElement>) => {
         if (!imagePreviewerRef.current) {
@@ -189,15 +160,7 @@ const ImagePreviewPane = (props: ImagePreviewPaneProps) => {
                         ))}
                     </ImagePreviewer>
                 ) : (
-                    <ImageUploader onClick={handleImageUpload}>
-                        <div>icon</div>
-                        <div>Upload Image</div>
-                        <HiddenInput
-                            type="file"
-                            onChange={handleImageDataChange}
-                            ref={inputFieldRef}
-                        ></HiddenInput>
-                    </ImageUploader>
+                    <ImageUploader setImageData={setImageData}></ImageUploader>
                 )}
             </div>
         </div>
