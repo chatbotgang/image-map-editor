@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 import ImagePreviewPane, { Rect } from "./components/ImagePreviewPane";
+import DataPreviewPane from "./components/DataPreviewPane";
 
 const StyledWrapper = styled.div`
     background-color: #282c34;
@@ -31,7 +32,11 @@ function App() {
                     setSelectedRects={setSelectedRects}
                 ></ImagePreviewPane>
             </StyledItem>
-            <StyledItem>Data preview pane</StyledItem>
+            <StyledItem>
+                <DataPreviewPane
+                    selectedRects={selectedRects.filter((v) => v.isCompleted)}
+                ></DataPreviewPane>
+            </StyledItem>
         </StyledWrapper>
     );
 }
