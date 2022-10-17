@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, MouseEvent } from "react";
 import styled from "styled-components";
 
 const ImageUploader = styled.div`
@@ -23,14 +23,40 @@ const ImagePreviewer = styled.div`
     }
 `;
 
+type Rect = {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    isCompleted: boolean;
+};
+
+const SelectedRect = styled.div.attrs((props: Rect) => ({
+    style: {
+        left: props.x,
+        top: props.y,
+        width: props.width,
+        height: props.height,
+        borderStyle: props.isCompleted ? "solid" : "dashed",
+        borderColor: props.isCompleted ? "navy" : "orange",
+    },
+}))`
+    position: absolute;
+    border-width: 1px;
+`;
+
 const ImagePreviewPane = () => {
     const inputFieldRef = useRef<HTMLInputElement>(null);
+    const imagePreviewerRef = useRef<HTMLDivElement>(null);
     const [imageData, setImageData] = useState("");
+    const [selectedRects, setSelectedRects] = useState<Rect[]>([]);
 
     // revoke the url
     useEffect(() => {
         return () => {
             if (imageData) {
+                console.log("revoke object url");
+                console.log(imageData);
                 URL.revokeObjectURL(imageData);
             }
         };
@@ -55,6 +81,75 @@ const ImagePreviewPane = () => {
         setImageData(URL.createObjectURL(file));
     };
 
+    const handleImagePreviewerMouseDown = (e: MouseEvent<HTMLDivElement>) => {
+        if (!imagePreviewerRef.current) {
+            return alert("image previewer is not ready");
+        }
+
+        const bounding = imagePreviewerRef.current.getBoundingClientRect();
+
+        const relativeX = e.clientX - bounding.x;
+        const relativeY = e.clientY - bounding.y;
+
+        if (
+            !selectedRects.length ||
+            selectedRects[selectedRects.length - 1].isCompleted
+        ) {
+            return setSelectedRects([
+                ...selectedRects,
+                {
+                    x: relativeX,
+                    y: relativeY,
+                    width: 0,
+                    height: 0,
+                    isCompleted: false,
+                },
+            ]);
+        }
+
+        return setSelectedRects(
+            selectedRects.map((v, i, arr) => {
+                if (i !== arr.length - 1) {
+                    return v;
+                }
+                return {
+                    ...v,
+                    width: relativeX - v.x,
+                    height: relativeY - v.y,
+                    isCompleted: true,
+                };
+            })
+        );
+    };
+    const handleImagePreviewerMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+        if (!imagePreviewerRef.current) {
+            return alert("image previewer is not ready");
+        }
+        if (
+            !selectedRects.length ||
+            selectedRects[selectedRects.length - 1].isCompleted
+        ) {
+            return;
+        }
+
+        const bounding = imagePreviewerRef.current.getBoundingClientRect();
+
+        const relativeX = e.clientX - bounding.x;
+        const relativeY = e.clientY - bounding.y;
+
+        return setSelectedRects(
+            selectedRects.map((v, i, arr) => {
+                if (i !== arr.length - 1) {
+                    return v;
+                }
+                return {
+                    ...v,
+                    width: relativeX - v.x,
+                    height: relativeY - v.y,
+                };
+            })
+        );
+    };
     return (
         <div>
             <div>
@@ -62,8 +157,30 @@ const ImagePreviewPane = () => {
             </div>
             <div>
                 {imageData ? (
-                    <ImagePreviewer>
+                    <ImagePreviewer
+                        onMouseDown={handleImagePreviewerMouseDown}
+                        onMouseMove={handleImagePreviewerMouseMove}
+                        ref={imagePreviewerRef}
+                    >
                         <img src={imageData} alt="preview" />
+                        {selectedRects.map((rect, i) => (
+                            <SelectedRect
+                                x={
+                                    rect.width < 0
+                                        ? rect.x + rect.width
+                                        : rect.x
+                                }
+                                y={
+                                    rect.height < 0
+                                        ? rect.y + rect.height
+                                        : rect.y
+                                }
+                                width={Math.abs(rect.width)}
+                                height={Math.abs(rect.height)}
+                                isCompleted={rect.isCompleted}
+                                key={i}
+                            />
+                        ))}
                     </ImagePreviewer>
                 ) : (
                     <ImageUploader onClick={handleImageUpload}>
