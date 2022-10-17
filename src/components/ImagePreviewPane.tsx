@@ -24,7 +24,7 @@ const ImagePreviewer = styled.div`
     }
 `;
 
-type Rect = {
+export type Rect = {
     x: number;
     y: number;
     width: number;
@@ -46,11 +46,16 @@ const SelectedRect = styled.div.attrs((props: Rect) => ({
     border-width: 1px;
 `;
 
-const ImagePreviewPane = () => {
+interface ImagePreviewPaneProps {
+    selectedRects: Rect[];
+    setSelectedRects: (rects: Rect[]) => void;
+}
+
+const ImagePreviewPane = (props: ImagePreviewPaneProps) => {
     const inputFieldRef = useRef<HTMLInputElement>(null);
     const imagePreviewerRef = useRef<HTMLDivElement>(null);
     const [imageData, setImageData] = useState("");
-    const [selectedRects, setSelectedRects] = useState<Rect[]>([]);
+    const { selectedRects, setSelectedRects } = props;
 
     // revoke the url
     useEffect(() => {

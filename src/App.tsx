@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
-import ImagePreviewPane from "./components/ImagePreviewPane";
+import ImagePreviewPane, { Rect } from "./components/ImagePreviewPane";
 
 const StyledWrapper = styled.div`
     background-color: #282c34;
@@ -22,10 +22,14 @@ const StyledItem = styled.div`
 `;
 
 function App() {
+    const [selectedRects, setSelectedRects] = useState<Rect[]>([]);
     return (
         <StyledWrapper>
             <StyledItem>
-                <ImagePreviewPane></ImagePreviewPane>
+                <ImagePreviewPane
+                    selectedRects={selectedRects}
+                    setSelectedRects={setSelectedRects}
+                ></ImagePreviewPane>
             </StyledItem>
             <StyledItem>Data preview pane</StyledItem>
         </StyledWrapper>
