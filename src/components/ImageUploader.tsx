@@ -1,12 +1,29 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
 
-const StyledWrapper = styled.div`
-    width: 353px;
-    height: 154px;
+import imageIcon from "../assets/icons/image.svg";
 
-    border: solid 1px grey;
+const StyledWrapper = styled.div`
+    width: 355px;
+    height: 156px;
+
+    color: #b3b5b7;
+
+    background: #ffffff;
+    border: solid 1px #d7d8da;
+    border-radius: 5px;
     cursor: pointer;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+`;
+
+const ImageIcon = styled.img`
+    width: 36px;
+    height: 36px;
 `;
 
 const HiddenInput = styled.input`
@@ -40,7 +57,9 @@ const ImageUploader = (props: ImageUploaderProps) => {
     };
     return (
         <StyledWrapper onClick={handleImageUpload}>
-            <div>icon</div>
+            <div>
+                <ImageIcon src={imageIcon} />
+            </div>
             <div>Upload Image</div>
             <HiddenInput
                 type="file"
