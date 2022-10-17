@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import styled from "styled-components";
+
+const StyledWrapper = styled.div`
+    background-color: #282c34;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    > * {
+        flex-grow: 1;
+    }
+`;
+
+const StyledItem = styled.div`
+    background-color: white;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: center;
+`;
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <StyledWrapper>
+            <StyledItem>Image preview pane</StyledItem>
+            <StyledItem>Data preview pane</StyledItem>
+        </StyledWrapper>
+    );
 }
 
 export default App;
