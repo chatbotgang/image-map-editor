@@ -5,14 +5,11 @@ import ImagePreviewPane, { Rect } from "./components/ImagePreviewPane";
 import DataPreviewPane from "./components/DataPreviewPane";
 
 const StyledWrapper = styled.div`
-    background-color: #282c34;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-
-    > * {
-        flex-grow: 1;
-    }
+    justify-content: center;
 `;
 
 const StyledItem = styled.div`
@@ -20,6 +17,7 @@ const StyledItem = styled.div`
     padding: 16px 24px;
     display: flex;
     justify-content: center;
+    gap: 135px;
 `;
 
 function App() {
@@ -31,8 +29,6 @@ function App() {
                     selectedRects={selectedRects}
                     setSelectedRects={setSelectedRects}
                 ></ImagePreviewPane>
-            </StyledItem>
-            <StyledItem>
                 <DataPreviewPane
                     selectedRects={selectedRects.filter((v) => v.isCompleted)}
                 ></DataPreviewPane>
