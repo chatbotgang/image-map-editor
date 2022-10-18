@@ -4,9 +4,9 @@ import App from "./App";
 
 test("renders two panes", () => {
     render(<App />);
-    const imagePreviewPaneElement = screen.getByText(/Image preview pane/i);
+    const imagePreviewPaneElement = screen.getByText(/Upload Image/i);
     expect(imagePreviewPaneElement).toBeInTheDocument();
 
-    const dataPreviewPaneElement = screen.getByText(/Data preview pane/i);
+    const dataPreviewPaneElement = screen.getByText(/\[\]/i);
     expect(dataPreviewPaneElement).toBeInTheDocument();
 });
