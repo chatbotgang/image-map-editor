@@ -29,17 +29,17 @@ const StyledItem = styled.div`
 `;
 
 function App() {
-    const [selectedRects, setSelectedRects] = useState<Rect[]>([]);
+    const [ownedRects, setOwnedRects] = useState<Rect[]>([]);
     return (
         <StyledWrapper>
             <GlobalStyle />
             <StyledItem>
                 <ImagePreviewPane
-                    selectedRects={selectedRects}
-                    setSelectedRects={setSelectedRects}
+                    ownedRects={ownedRects}
+                    setOwnedRects={setOwnedRects}
                 ></ImagePreviewPane>
                 <DataPreviewPane
-                    selectedRects={selectedRects.filter((v) => v.isCompleted)}
+                    ownedRects={ownedRects.filter((v) => v.isCompleted)}
                 ></DataPreviewPane>
             </StyledItem>
         </StyledWrapper>

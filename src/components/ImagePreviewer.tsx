@@ -27,14 +27,14 @@ const StyledRectComponent = styled.div`
 `;
 
 interface ImagePreviewerProps {
-    selectedRects: Rect[];
-    setSelectedRects: (rects: Rect[]) => void;
+    ownedRects: Rect[];
+    setOwnedRects: (rects: Rect[]) => void;
     imageData: string;
 }
 
 const ImagePreviewer = (props: ImagePreviewerProps) => {
     const imagePreviewerRef = useRef<HTMLDivElement>(null);
-    const { selectedRects, setSelectedRects, imageData } = props;
+    const { ownedRects, setOwnedRects, imageData } = props;
 
     const handleImagePreviewerMouseDown = (e: MouseEvent<HTMLDivElement>) => {
         if (!imagePreviewerRef.current) {
@@ -47,11 +47,11 @@ const ImagePreviewer = (props: ImagePreviewerProps) => {
         const relativeY = e.clientY - bounding.y;
 
         if (
-            !selectedRects.length ||
-            selectedRects[selectedRects.length - 1].isCompleted
+            !ownedRects.length ||
+            ownedRects[ownedRects.length - 1].isCompleted
         ) {
-            return setSelectedRects([
-                ...selectedRects,
+            return setOwnedRects([
+                ...ownedRects,
                 {
                     x: relativeX,
                     y: relativeY,
@@ -62,8 +62,8 @@ const ImagePreviewer = (props: ImagePreviewerProps) => {
             ]);
         }
 
-        return setSelectedRects(
-            selectedRects.map((v, i, arr) => {
+        return setOwnedRects(
+            ownedRects.map((v, i, arr) => {
                 if (i !== arr.length - 1) {
                     return v;
                 }
@@ -81,8 +81,8 @@ const ImagePreviewer = (props: ImagePreviewerProps) => {
             return alert("image previewer is not ready");
         }
         if (
-            !selectedRects.length ||
-            selectedRects[selectedRects.length - 1].isCompleted
+            !ownedRects.length ||
+            ownedRects[ownedRects.length - 1].isCompleted
         ) {
             return;
         }
@@ -92,8 +92,8 @@ const ImagePreviewer = (props: ImagePreviewerProps) => {
         const relativeX = e.clientX - bounding.x;
         const relativeY = e.clientY - bounding.y;
 
-        return setSelectedRects(
-            selectedRects.map((v, i, arr) => {
+        return setOwnedRects(
+            ownedRects.map((v, i, arr) => {
                 if (i !== arr.length - 1) {
                     return v;
                 }
@@ -112,7 +112,7 @@ const ImagePreviewer = (props: ImagePreviewerProps) => {
             ref={imagePreviewerRef}
         >
             <img src={imageData} alt="preview" />
-            {selectedRects.map((rect, i) => (
+            {ownedRects.map((rect, i) => (
                 <StyledRectComponent
                     style={{
                         left: rect.width < 0 ? rect.x + rect.width : rect.x,

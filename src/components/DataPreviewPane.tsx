@@ -15,14 +15,14 @@ const StyledWrapper = styled.div`
 `;
 
 interface DataPreviewPaneProps {
-    selectedRects: Rect[];
+    ownedRects: Rect[];
 }
 
 const DataPreviewPane = (props: DataPreviewPaneProps) => (
     <StyledWrapper>
         <pre>
             {JSON.stringify(
-                props.selectedRects.map((v) => {
+                props.ownedRects.map((v) => {
                     const { x, y, width, height } = v;
                     return {
                         x,

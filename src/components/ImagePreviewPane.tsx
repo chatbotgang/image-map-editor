@@ -42,13 +42,13 @@ const Content = styled.div`
 `;
 
 interface ImagePreviewPaneProps {
-    selectedRects: Rect[];
-    setSelectedRects: (rects: Rect[]) => void;
+    ownedRects: Rect[];
+    setOwnedRects: (rects: Rect[]) => void;
 }
 
 const ImagePreviewPane = (props: ImagePreviewPaneProps) => {
     const [imageData, setImageData] = useState("");
-    const { selectedRects, setSelectedRects } = props;
+    const { ownedRects, setOwnedRects } = props;
 
     // revoke the url
     useEffect(() => {
@@ -69,9 +69,9 @@ const ImagePreviewPane = (props: ImagePreviewPaneProps) => {
             <Content>
                 {imageData ? (
                     <ImagePreviewer
-                        selectedRects={selectedRects}
+                        ownedRects={ownedRects}
                         imageData={imageData}
-                        setSelectedRects={setSelectedRects}
+                        setOwnedRects={setOwnedRects}
                     ></ImagePreviewer>
                 ) : (
                     <ImageUploader setImageData={setImageData}></ImageUploader>
