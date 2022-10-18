@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 
-import ImagePreviewPane, { Rect } from "./components/ImagePreviewPane";
+import ImagePreviewPane from "./components/ImagePreviewPane";
 import DataPreviewPane from "./components/DataPreviewPane";
+import { Rect } from "./components/ImagePreviewer";
 
 const GlobalStyle = createGlobalStyle`
   div {

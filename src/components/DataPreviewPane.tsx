@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Rect } from "./ImagePreviewPane";
+import { Rect } from "./ImagePreviewer";
 
 const StyledWrapper = styled.div`
     width: 548px;
