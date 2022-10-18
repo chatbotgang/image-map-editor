@@ -91,22 +91,27 @@ const ImagePreviewer = (props: ImagePreviewerProps) => {
         }
 
         let found = false;
-        const nextRects = ownedRects.map((rect) => {
-            if (found) {
+        const nextRects = Array.from(ownedRects)
+            .reverse()
+            .map((rect) => {
+                if (found) {
+                    return rect;
+                }
+                if (
+                    (relativeX - rect.x) * (relativeX - rect.x - rect.width) <
+                        0 &&
+                    (relativeY - rect.y) * (relativeY - rect.y - rect.height) <
+                        0
+                ) {
+                    found = true;
+                    return {
+                        ...rect,
+                        isMoving: true,
+                    };
+                }
                 return rect;
-            }
-            if (
-                (relativeX - rect.x) * (relativeX - rect.x - rect.width) < 0 &&
-                (relativeY - rect.y) * (relativeY - rect.y - rect.height) < 0
-            ) {
-                found = true;
-                return {
-                    ...rect,
-                    isMoving: true,
-                };
-            }
-            return rect;
-        });
+            })
+            .reverse();
 
         if (found) {
             return setOwnedRects(nextRects);
