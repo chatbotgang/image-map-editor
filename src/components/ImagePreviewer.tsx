@@ -205,6 +205,9 @@ const ImagePreviewer = (props: ImagePreviewerProps) => {
                         height: Math.abs(rect.height),
                         borderStyle: rect.isCompleted ? "solid" : "dashed",
                         borderColor: rect.isCompleted ? "navy" : "orange",
+                        backgroundColor: rect.isMoving
+                            ? "rgba(0, 0, 255, 0.3)"
+                            : "transparent",
                     }}
                     key={rect._id}
                 ></StyledRectComponent>
