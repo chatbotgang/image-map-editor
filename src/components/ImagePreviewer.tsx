@@ -28,6 +28,13 @@ const StyledRectComponent = styled.div`
     border-width: 1px;
 `;
 
+const DeleteButton = styled.div`
+    position: absolute;
+    padding: 4px;
+    background: rgba(255, 0, 0, 0.3);
+    cursor: pointer;
+`;
+
 interface ImagePreviewerProps {
     ownedRects: Rect[];
     setOwnedRects: (rects: Rect[]) => void;
@@ -194,6 +201,11 @@ const ImagePreviewer = (props: ImagePreviewerProps) => {
             })
         );
     };
+    const handleDelete = (e: MouseEvent<HTMLDivElement>, _id: string) => {
+        e.stopPropagation();
+        e.preventDefault();
+        return setOwnedRects(ownedRects.filter((rect) => rect._id !== _id));
+    };
     return (
         <StyledWrapper
             onMouseDown={handleImagePreviewerMouseDown}
@@ -216,6 +228,23 @@ const ImagePreviewer = (props: ImagePreviewerProps) => {
                     }}
                     key={rect._id}
                 ></StyledRectComponent>
+            ))}
+            {ownedRects.map((rect) => (
+                <DeleteButton
+                    style={{
+                        left:
+                            rect.width < 0
+                                ? rect.x + 2
+                                : rect.x + rect.width + 2,
+                        top: rect.height < 0 ? rect.y + rect.height : rect.y,
+                    }}
+                    onMouseDown={(e: MouseEvent<HTMLDivElement>) =>
+                        handleDelete(e, rect._id)
+                    }
+                    key={rect._id}
+                >
+                    X
+                </DeleteButton>
             ))}
         </StyledWrapper>
     );
