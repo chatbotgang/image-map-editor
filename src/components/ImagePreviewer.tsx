@@ -97,32 +97,40 @@ const ImagePreviewer = (props: ImagePreviewerProps) => {
             );
         }
 
+        // select the lastest created rectangle if multiple rectangles are overlapping
         let found = false;
-        const nextRects = Array.from(ownedRects)
-            .reverse()
-            .map((rect) => {
-                if (found) {
-                    return rect;
-                }
-                if (
-                    (relativeX - rect.x) * (relativeX - rect.x - rect.width) <
-                        0 &&
-                    (relativeY - rect.y) * (relativeY - rect.y - rect.height) <
-                        0
-                ) {
-                    found = true;
-                    return {
-                        ...rect,
-                        isMoving: true,
-                    };
-                }
-                return rect;
-            })
-            .reverse();
+        const nextRects: Rect[] = [];
 
+        for (let i = ownedRects.length - 1; i > -1; i--) {
+            let rect = ownedRects[i];
+            /**
+             * determine if the point is inside the rectangle
+             *
+             * if a coordinate (x, y) is inside the rectangle with the diagonal (x1, y1) and (x2, y2),
+             * the following two conditions should be satisfied
+             * 1. x is between x1 and x2
+             * 2. y is between y1 and y2
+             *
+             * if v is between a and b, the product of (v - a) and (v - b) should be negative
+             */
+            if (
+                !found &&
+                (relativeX - rect.x) * (relativeX - rect.x - rect.width) < 0 &&
+                (relativeY - rect.y) * (relativeY - rect.y - rect.height) < 0
+            ) {
+                found = true;
+                nextRects[i] = {
+                    ...rect,
+                    isMoving: true,
+                };
+                continue;
+            }
+            nextRects[i] = rect;
+        }
         if (found) {
             return setOwnedRects(nextRects);
         }
+
         return setOwnedRects([
             ...ownedRects,
             {
