@@ -50,6 +50,12 @@ const ImageUploader = (props: ImageUploaderProps) => {
         }
         const file = fileList.item(0);
 
+        const fileType = file?.type;
+
+        if (!fileType?.startsWith("image/")) {
+            return alert("please select an image file");
+        }
+
         props.setImageData(URL.createObjectURL(file));
     };
     return (
