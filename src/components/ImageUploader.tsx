@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, ChangeEvent } from "react";
 import styled from "styled-components";
 
 import imageIcon from "../assets/icons/image.svg";
@@ -43,11 +43,8 @@ const ImageUploader = (props: ImageUploaderProps) => {
         }
         inputFieldRef.current.click();
     };
-    const handleImageDataChange = () => {
-        if (!inputFieldRef.current) {
-            return alert("image uploader is not ready");
-        }
-        const fileList = inputFieldRef.current.files;
+    const handleImageDataChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const fileList = e.target.files;
         if (!fileList || fileList.length < 1) {
             return console.error("failed to get the fileList");
         }
