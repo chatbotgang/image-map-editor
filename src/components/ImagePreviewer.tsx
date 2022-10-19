@@ -19,7 +19,7 @@ export interface Rect {
     width: number;
     height: number;
     isCompleted: boolean;
-    _id: string;
+    id: string;
     isMoving: boolean;
 }
 
@@ -139,7 +139,7 @@ const ImagePreviewer = (props: ImagePreviewerProps) => {
                 width: 0,
                 height: 0,
                 isCompleted: false,
-                _id: genId(),
+                id: genId(),
                 isMoving: false,
             },
         ]);
@@ -209,10 +209,10 @@ const ImagePreviewer = (props: ImagePreviewerProps) => {
             })
         );
     };
-    const handleDelete = (e: MouseEvent<HTMLDivElement>, _id: string) => {
+    const handleDelete = (e: MouseEvent<HTMLDivElement>, id: string) => {
         e.stopPropagation();
         e.preventDefault();
-        return setOwnedRects(ownedRects.filter((rect) => rect._id !== _id));
+        return setOwnedRects(ownedRects.filter((rect) => rect.id !== id));
     };
     return (
         <StyledWrapper
@@ -234,7 +234,7 @@ const ImagePreviewer = (props: ImagePreviewerProps) => {
                             ? "rgba(0, 0, 255, 0.3)"
                             : "transparent",
                     }}
-                    key={rect._id}
+                    key={rect.id}
                 ></StyledRectComponent>
             ))}
             {ownedRects.map((rect) => (
@@ -247,9 +247,9 @@ const ImagePreviewer = (props: ImagePreviewerProps) => {
                         top: rect.height < 0 ? rect.y + rect.height : rect.y,
                     }}
                     onMouseDown={(e: MouseEvent<HTMLDivElement>) =>
-                        handleDelete(e, rect._id)
+                        handleDelete(e, rect.id)
                     }
-                    key={rect._id}
+                    key={rect.id}
                 >
                     X
                 </DeleteButton>
